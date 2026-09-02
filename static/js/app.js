@@ -478,10 +478,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const chunkNav = document.createElement('div');
         chunkNav.className = 'page-chunk-nav';
         chunkNav.innerHTML = `
-            <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma (Maks. 6 Bölüm):</span>
-            <button class="btn-chunk active" type="button" data-filter="all"><i class="fa-solid fa-layer-group"></i> Tümü (1-6)</button>
-            <button class="btn-chunk" type="button" data-filter="p1"><i class="fa-solid fa-1"></i> Sayfa 1 (Bölüm 1 - 3)</button>
-            <button class="btn-chunk" type="button" data-filter="p2"><i class="fa-solid fa-2"></i> Sayfa 2 (Bölüm 4 - 6)</button>
+            <span style="font-size:0.82rem; font-weight:700; color:#475569;"><i class="fa-solid fa-print"></i> A4 Sayfa Düzeni:</span>
+            <button class="btn-chunk active" type="button" data-filter="all"><i class="fa-solid fa-layer-group"></i> Tüm Etkinlikler (01 - 06)</button>
+            <button class="btn-chunk" type="button" data-filter="p1"><i class="fa-solid fa-1"></i> 1. Sayfa (Etkinlik 01 - 03)</button>
+            <button class="btn-chunk" type="button" data-filter="p2"><i class="fa-solid fa-2"></i> 2. Sayfa (Etkinlik 04 - 06)</button>
         `;
 
         chunkNav.querySelectorAll('.btn-chunk').forEach(btn => {
@@ -538,27 +538,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const match = text.match(/^(?:#+\s*)?(\d+)\.\s*([^(:\n]+)(?:\((.*)\))?/i);
+            const match = text.match(/^(?:#+\s*)?(?:0?(\d+))\.\s*([^(:\n]+)(?:\((.*)\))?/i);
 
             if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || (match && match[1]) || !currentCard) {
                 let secNum = ++sectionCount;
-                let titleText = 'BÖLÜM';
-                let subText = 'Öğrenme ve Tefekkür Etkinliği';
-                let iconName = 'fa-sparkles';
-                let tagName = 'Etkinlik';
+                let titleText = '';
 
                 if (match && match[1]) {
                     secNum = parseInt(match[1]);
                     titleText = match[2].trim();
-                    if (match[3]) subText = match[3].trim();
                 } else if (['h1', 'h2', 'h3'].includes(tag)) {
-                    titleText = text.replace(/^#+\s*/, '').replace(/^\d+\.\s*/, '');
+                    titleText = text.replace(/^#+\s*/, '').replace(/^(?:0?\d+)\.\s*/, '');
                 }
 
-                const meta = SECTION_METADATA[secNum] || { icon: 'fa-sparkles', tag: 'Etkinlik', sub: subText };
-                iconName = meta.icon;
-                tagName = meta.tag;
-                if (!match || !match[3]) subText = meta.sub;
+                // Pedagojik etiketleri eylem odaklı modern başlıklara dönüştür
+                const PEDAGOGICAL_REPLACEMENTS = {
+                    'MERAK ET': 'Gözlemle ve Tahmin Et',
+                    'BAĞLAMI İNCELE': 'Durumu İncele ve Keşfet',
+                    'FARK ET VE BİLGİYİ KULLAN': 'Verileri İncele ve Bilgiyi Kullan',
+                    'FARK ET': 'Verileri İncele ve Bilgiyi Kullan',
+                    'BİLGİYİ KULLAN': 'Verileri İncele ve Bilgiyi Kullan',
+                    'DÜŞÜN VE İLİŞKİLENDİR': 'Neden-Sonuç İlişkisi Kur ve Tartış',
+                    'TEFEKKÜR ET – ERDEM VE DEĞER': 'Derinlemesine Düşün ve Anlamlandır',
+                    'TEFEKKÜR ET': 'Derinlemesine Düşün ve Anlamlandır',
+                    'TEFEKKÜR PENCERESİ': 'Derinlemesine Düşün ve Anlamlandır',
+                    'ERDEM VE DEĞER': 'Derinlemesine Düşün ve Anlamlandır',
+                    'EYLEME DÖNÜŞTÜR – KENDİMİ DEĞERLENDİR': 'Günlük Hayatında Uygula ve Değerlendir',
+                    'EYLEME DÖNÜŞTÜR': 'Günlük Hayatında Uygula ve Değerlendir',
+                    'KENDİMİ DEĞERLENDİRİYORUM': 'Öz Değerlendirme'
+                };
+
+                const DEFAULT_ACTION_TITLES = {
+                    1: 'Gözlemle ve Tahmin Et',
+                    2: 'Durumu İncele ve Keşfet',
+                    3: 'Verileri İncele ve Bilgiyi Kullan',
+                    4: 'Neden-Sonuç İlişkisi Kur ve Tartış',
+                    5: 'Derinlemesine Düşün ve Anlamlandır',
+                    6: 'Günlük Hayatında Uygula ve Değerlendir'
+                };
+
+                for (const [key, replacement] of Object.entries(PEDAGOGICAL_REPLACEMENTS)) {
+                    if (titleText.toUpperCase().includes(key)) {
+                        titleText = titleText.replace(new RegExp(key, 'i'), replacement).trim();
+                    }
+                }
+
+                if (!titleText || titleText === 'BÖLÜM' || /^\d+$/.test(titleText)) {
+                    titleText = DEFAULT_ACTION_TITLES[secNum] || `Etkinlik ${String(secNum).padStart(2, '0')}`;
+                }
 
                 currentCard = document.createElement('div');
                 currentCard.className = 'mmr-section-card editable-section-block';
@@ -571,13 +598,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 headerEl.className = 'mmr-card-header';
                 headerEl.innerHTML = `
                     <div class="mmr-header-left">
-                        <div class="mmr-badge">${secNum}</div>
-                        <div class="mmr-title-group">
-                            <h3 class="mmr-title"><i class="fa-solid ${iconName}"></i> ${titleText}</h3>
-                            <span class="mmr-subtitle">${subText}</span>
-                        </div>
+                        <span class="mmr-num-badge">${String(secNum).padStart(2, '0')}</span>
+                        <h3 class="mmr-title">${titleText}</h3>
                     </div>
-                    <span class="mmr-tag">${tagName}</span>
                 `;
                 currentCard.appendChild(headerEl);
 
