@@ -130,16 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTitle = `${grade}_${subject}_${contentType === 'worksheet' ? 'Calisma_Kagidi' : 'Yaprak_Test'}`;
 
         // Set Loading State
-        submitBtn.disabled = true;
-        emptyState.classList.add('hidden');
-        contentArea.classList.add('hidden');
-        resultActions.style.display = 'none';
-        loadingBox.classList.remove('hidden');
+        if (submitBtn) submitBtn.disabled = true;
+        if (emptyState) emptyState.classList.add('hidden');
+        if (contentArea) contentArea.classList.add('hidden');
+        if (resultActions) resultActions.style.display = 'none';
+        if (loadingBox) loadingBox.classList.remove('hidden');
 
         if (contentType === 'worksheet') {
-            loadingTitle.textContent = 'Yapay zekâ çalışma kağıdını hazırlıyor...';
+            if (loadingTitle) loadingTitle.textContent = 'Yapay zekâ çalışma kağıdını hazırlıyor...';
         } else {
-            loadingTitle.textContent = 'Yapay zekâ yaprak testi hazırlıyor...';
+            if (loadingTitle) loadingTitle.textContent = 'Yapay zekâ yaprak testi hazırlıyor...';
         }
 
         try {
@@ -170,22 +170,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             renderModularContent(currentMarkdown);
 
-            loadingBox.classList.add('hidden');
-            contentArea.classList.remove('hidden');
-            resultActions.style.display = 'flex';
-            resetBtn.style.display = 'none';
+            if (loadingBox) loadingBox.classList.add('hidden');
+            if (contentArea) contentArea.classList.remove('hidden');
+            if (resultActions) resultActions.style.display = 'flex';
+            if (resetBtn) resetBtn.style.display = 'none';
 
             // Scroll to preview on mobile
-            if (window.innerWidth <= 1024) {
+            if (window.innerWidth <= 1024 && contentArea) {
                 contentArea.scrollIntoView({ behavior: 'smooth' });
             }
 
         } catch (err) {
-            loadingBox.classList.add('hidden');
-            emptyState.classList.remove('hidden');
+            if (loadingBox) loadingBox.classList.add('hidden');
+            if (emptyState) emptyState.classList.remove('hidden');
             showAlert(err.message || 'İçerik oluşturulurken bir sorun oluştu. Lütfen bilgileri kontrol ederek tekrar deneyiniz.');
         } finally {
-            submitBtn.disabled = false;
+            if (submitBtn) submitBtn.disabled = false;
         }
     });
 
@@ -223,13 +223,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 delBtn.title = 'Bu bölümü tamamen kaldır';
                 delBtn.onclick = (e) => {
                     e.stopPropagation();
-                    currentBlock.style.transition = 'all 0.3s ease';
-                    currentBlock.style.opacity = '0';
-                    currentBlock.style.transform = 'scale(0.96)';
-                    setTimeout(() => {
-                        currentBlock.remove();
-                        resetBtn.style.display = 'inline-flex';
-                    }, 250);
+                    if (currentBlock) {
+                        currentBlock.style.transition = 'all 0.3s ease';
+                        currentBlock.style.opacity = '0';
+                        currentBlock.style.transform = 'scale(0.96)';
+                        setTimeout(() => {
+                            currentBlock.remove();
+                            if (resetBtn) resetBtn.style.display = 'inline-flex';
+                        }, 250);
+                    }
                 };
 
                 toolbar.appendChild(delBtn);
@@ -239,50 +241,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 contentWrap.className = 'block-content';
                 contentWrap.contentEditable = isEditing ? 'true' : 'false';
                 contentWrap.addEventListener('input', () => {
-                    resetBtn.style.display = 'inline-flex';
+                    if (resetBtn) resetBtn.style.display = 'inline-flex';
                 });
                 currentBlock.appendChild(contentWrap);
 
                 renderedMarkdown.appendChild(currentBlock);
             }
 
-            currentBlock.querySelector('.block-content').appendChild(child);
+            const blockContent = currentBlock.querySelector('.block-content');
+            if (blockContent) {
+                blockContent.appendChild(child);
+            }
         });
     }
 
     // 6. Edit Mode Toggle
-    editToggleBtn.addEventListener('click', () => {
-        isEditing = !isEditing;
-        if (isEditing) {
-            renderedMarkdown.classList.add('edit-mode-active');
-            editToggleBtn.classList.add('active');
-            editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Bitti</span>';
-            editHintBanner.classList.remove('hidden');
-            renderedMarkdown.querySelectorAll('.block-content').forEach(el => {
-                el.contentEditable = 'true';
-            });
-            resetBtn.style.display = 'inline-flex';
-        } else {
-            renderedMarkdown.classList.remove('edit-mode-active');
-            editToggleBtn.classList.remove('active');
-            editToggleBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span>Düzenle</span>';
-            editHintBanner.classList.add('hidden');
-            renderedMarkdown.querySelectorAll('.block-content').forEach(el => {
-                el.contentEditable = 'false';
-            });
-        }
-    });
+    if (editToggleBtn) {
+        editToggleBtn.addEventListener('click', () => {
+            isEditing = !isEditing;
+            if (isEditing) {
+                if (renderedMarkdown) renderedMarkdown.classList.add('edit-mode-active');
+                editToggleBtn.classList.add('active');
+                editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Bitti</span>';
+                if (editHintBanner) editHintBanner.classList.remove('hidden');
+                if (renderedMarkdown) {
+                    renderedMarkdown.querySelectorAll('.block-content').forEach(el => {
+                        el.contentEditable = 'true';
+                    });
+                }
+                if (resetBtn) resetBtn.style.display = 'inline-flex';
+            } else {
+                if (renderedMarkdown) renderedMarkdown.classList.remove('edit-mode-active');
+                editToggleBtn.classList.remove('active');
+                editToggleBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span>Düzenle</span>';
+                if (editHintBanner) editHintBanner.classList.add('hidden');
+                if (renderedMarkdown) {
+                    renderedMarkdown.querySelectorAll('.block-content').forEach(el => {
+                        el.contentEditable = 'false';
+                    });
+                }
+            }
+        });
+    }
 
     // 7. Reset to Original
-    resetBtn.addEventListener('click', () => {
-        if (confirm('Tüm değişiklikleri geri alıp içeriği ilk haline döndürmek istiyor musunuz?')) {
-            renderModularContent(originalMarkdown);
-            resetBtn.style.display = 'none';
-            if (isEditing) {
-                editToggleBtn.click();
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            if (confirm('Tüm değişiklikleri geri alıp içeriği ilk haline döndürmek istiyor musunuz?')) {
+                renderModularContent(originalMarkdown);
+                resetBtn.style.display = 'none';
+                if (isEditing && editToggleBtn) {
+                    editToggleBtn.click();
+                }
             }
-        }
-    });
+        });
+    }
 
     // 8. Extract Current Clean Text (Ignoring Deleted Sections)
     function getCurrentCleanText() {

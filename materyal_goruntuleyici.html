@@ -945,12 +945,15 @@
                     btn.onclick = function(e) {
                         e.stopPropagation();
                         if (confirm('Bu bölümü / soruyu tamamen kaldırmak istediğinize emin misiniz?')) {
-                            el.style.transition = 'all 0.3s ease';
-                            el.style.opacity = '0';
-                            el.style.transform = 'scale(0.95)';
+                            if (el && el.style) {
+                                el.style.transition = 'all 0.3s ease';
+                                el.style.opacity = '0';
+                                el.style.transform = 'scale(0.95)';
+                            }
                             setTimeout(() => {
-                                el.remove();
-                                document.getElementById('viewerResetBtn').style.display = 'inline-flex';
+                                if (el) el.remove();
+                                const rBtn = document.getElementById('viewerResetBtn');
+                                if (rBtn && rBtn.style) rBtn.style.display = 'inline-flex';
                             }, 250);
                         }
                     };
@@ -967,19 +970,19 @@
             const resetBtn = document.getElementById('viewerResetBtn');
 
             if (isViewerEditing) {
-                body.classList.add('edit-active');
-                btn.classList.add('active');
-                text.textContent = 'Bitti';
-                resetBtn.style.display = 'inline-flex';
+                if (body) body.classList.add('edit-active');
+                if (btn) btn.classList.add('active');
+                if (text) text.textContent = 'Bitti';
+                if (resetBtn && resetBtn.style) resetBtn.style.display = 'inline-flex';
 
                 // Make texts editable
                 document.querySelectorAll('.prompt-card, .write-area, .q-text, .option-item, .sec-title, table td').forEach(el => {
                     el.contentEditable = 'true';
                 });
             } else {
-                body.classList.remove('edit-active');
-                btn.classList.remove('active');
-                text.textContent = 'Düzenle / Sil';
+                if (body) body.classList.remove('edit-active');
+                if (btn) btn.classList.remove('active');
+                if (text) text.textContent = 'Düzenle / Sil';
 
                 // Remove editable
                 document.querySelectorAll('[contenteditable="true"]').forEach(el => {
@@ -991,9 +994,11 @@
         function resetViewer() {
             if (confirm('Tüm değişiklikleri geri alıp materyalleri ilk haline döndürmek istiyor musunuz?')) {
                 if (originalPageBackup) {
-                    document.querySelector('.container').innerHTML = originalPageBackup;
+                    const container = document.querySelector('.container');
+                    if (container) container.innerHTML = originalPageBackup;
                     attachDeleteButtons();
-                    document.getElementById('viewerResetBtn').style.display = 'none';
+                    const resetBtn = document.getElementById('viewerResetBtn');
+                    if (resetBtn && resetBtn.style) resetBtn.style.display = 'none';
                     if (isViewerEditing) {
                         toggleViewerEdit();
                     }
