@@ -335,16 +335,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const SECTION_METADATA = {
-        1: { icon: 'fa-lightbulb', tag: 'Düşünme', sub: 'Merak ve İkinci Düşünme Kapısı' },
-        2: { icon: 'fa-compass', tag: 'Bağlam', sub: 'Mana Taşıyıcısı Olay (Olay → Bilgi → Anlam)' },
-        3: { icon: 'fa-binoculars', tag: 'Gözlem', sub: 'Kâinatı Okuma Fırsatı ve Hayret' },
-        4: { icon: 'fa-wrench', tag: 'Bilim', sub: 'Bilimsel Gerçekten Manaya Geçiş' },
-        5: { icon: 'fa-scale-balanced', tag: 'Nizam', sub: 'Nizam, Denge ve Ekolojik Sorumluluk' },
-        6: { icon: 'fa-seedling', tag: 'Tefekkür', sub: 'Gözlemden Şuura 4 Aşamalı Kalp Mimarisi' },
-        7: { icon: 'fa-gem', tag: 'Değer', sub: '5 Adımlı Erdem-Değer Zinciri' },
-        8: { icon: 'fa-comments', tag: 'Müzakere', sub: 'Gerekçeli Tartışma & Fikir Alışverişi' },
-        9: { icon: 'fa-bullseye', tag: 'Eylem', sub: 'Farkındalık → Değerim → Somut Davranışım' },
-        10: { icon: 'fa-star', tag: 'Şuur', sub: '3 Düzeyli Şuur Gelişim Çizelgesi' }
+        1: { icon: 'fa-lightbulb', tag: 'Merak & Giriş', sub: 'Merak ve İkinci Düşünme Kapısı' },
+        2: { icon: 'fa-compass', tag: 'Bağlam & Hayat', sub: 'Mana Taşıyıcısı Olay (Olay → Bilgi → Anlam)' },
+        3: { icon: 'fa-wrench', tag: 'Akademik Merkez', sub: 'Fark Et ve Bilgiyi Kullan (Gözlem, Veri, Kavram & Uygulama)' },
+        4: { icon: 'fa-scale-balanced', tag: 'İlişki & Müzakere', sub: 'Bilimsel Gerçek → Düzen → Anlam → İnsan → Sorumluluk' },
+        5: { icon: 'fa-seedling', tag: 'Tefekkür & Değer', sub: '4 Aşamalı Kalp Mimarisi ve Erdem Zinciri' },
+        6: { icon: 'fa-star', tag: 'Eylem & Öz Değerlendirme', sub: 'Somut Davranış Taahhüdü ve 3 Düzeyli Öz Yansıtma' }
     };
 
     function addNewModularSection(afterBlock = null) {
@@ -478,15 +474,14 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         renderedMarkdown.appendChild(examHeader);
 
-        // Add Sayfa Sığdırma Butonları (Page Chunk Nav)
+        // Add Sayfa Sığdırma Butonları (Page Chunk Nav - Maks. 6 Bölüm)
         const chunkNav = document.createElement('div');
         chunkNav.className = 'page-chunk-nav';
         chunkNav.innerHTML = `
-            <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma:</span>
-            <button class="btn-chunk active" type="button" data-filter="all"><i class="fa-solid fa-layer-group"></i> Tümü (1-10)</button>
-            <button class="btn-chunk" type="button" data-filter="p1"><i class="fa-solid fa-1"></i> Sayfa 1 (1-4)</button>
-            <button class="btn-chunk" type="button" data-filter="p2"><i class="fa-solid fa-2"></i> Sayfa 2 (5-7)</button>
-            <button class="btn-chunk" type="button" data-filter="p3"><i class="fa-solid fa-3"></i> Sayfa 3 (8-10)</button>
+            <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma (Maks. 6 Bölüm):</span>
+            <button class="btn-chunk active" type="button" data-filter="all"><i class="fa-solid fa-layer-group"></i> Tümü (1-6)</button>
+            <button class="btn-chunk" type="button" data-filter="p1"><i class="fa-solid fa-1"></i> Sayfa 1 (Bölüm 1 - 3)</button>
+            <button class="btn-chunk" type="button" data-filter="p2"><i class="fa-solid fa-2"></i> Sayfa 2 (Bölüm 4 - 6)</button>
         `;
 
         chunkNav.querySelectorAll('.btn-chunk').forEach(btn => {
@@ -500,11 +495,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (filter === 'all') {
                         card.style.display = 'block';
                     } else if (filter === 'p1') {
-                        card.style.display = (secNum >= 1 && secNum <= 4) ? 'block' : 'none';
+                        card.style.display = (secNum >= 1 && secNum <= 3) ? 'block' : 'none';
                     } else if (filter === 'p2') {
-                        card.style.display = (secNum >= 5 && secNum <= 7) ? 'block' : 'none';
-                    } else if (filter === 'p3') {
-                        card.style.display = (secNum >= 8 && secNum <= 10) ? 'block' : 'none';
+                        card.style.display = (secNum >= 4 && secNum <= 6) ? 'block' : 'none';
                     }
                 });
             };
