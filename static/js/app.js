@@ -559,10 +559,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     'FARK ET': 'Verileri İncele ve Bilgiyi Kullan',
                     'BİLGİYİ KULLAN': 'Verileri İncele ve Bilgiyi Kullan',
                     'DÜŞÜN VE İLİŞKİLENDİR': 'Neden-Sonuç İlişkisi Kur ve Tartış',
-                    'TEFEKKÜR ET – ERDEM VE DEĞER': 'Derinlemesine Düşün ve Anlamlandır',
-                    'TEFEKKÜR ET': 'Derinlemesine Düşün ve Anlamlandır',
-                    'TEFEKKÜR PENCERESİ': 'Derinlemesine Düşün ve Anlamlandır',
-                    'ERDEM VE DEĞER': 'Derinlemesine Düşün ve Anlamlandır',
+                    'TEFEKKÜR ET – ERDEM VE DEĞER': 'Tefekkür Penceresi',
+                    'TEFEKKÜR ET': 'Tefekkür Penceresi',
+                    'TEFEKKÜR PENCERESİ': 'Tefekkür Penceresi',
+                    'ERDEM VE DEĞER': 'Erdem ve Değer',
                     'EYLEME DÖNÜŞTÜR – KENDİMİ DEĞERLENDİR': 'Günlük Hayatında Uygula ve Değerlendir',
                     'EYLEME DÖNÜŞTÜR': 'Günlük Hayatında Uygula ve Değerlendir',
                     'KENDİMİ DEĞERLENDİRİYORUM': 'Öz Değerlendirme'
@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     2: 'Durumu İncele ve Keşfet',
                     3: 'Verileri İncele ve Bilgiyi Kullan',
                     4: 'Neden-Sonuç İlişkisi Kur ve Tartış',
-                    5: 'Derinlemesine Düşün ve Anlamlandır',
+                    5: 'Tefekkür Penceresi',
                     6: 'Günlük Hayatında Uygula ve Değerlendir'
                 };
 
@@ -941,6 +941,82 @@ document.addEventListener('DOMContentLoaded', () => {
         addSectionBtn.addEventListener('click', () => {
             addNewModularSection();
         });
+    }
+
+    // 6.6. Top Add Tefekkür Penceresi Button
+    const addTefekkurBtn = document.getElementById('addTefekkurBtn');
+    if (addTefekkurBtn) {
+        addTefekkurBtn.addEventListener('click', () => {
+            addTefekkurSection();
+        });
+    }
+
+    function addTefekkurSection() {
+        const existingTefekkur = renderedMarkdown.querySelector('.tefekkur-section-card');
+        if (existingTefekkur) {
+            showToast('Zaten bir Tefekkür Penceresi mevcut. İlgili alana kaydırılıyor...', 'info');
+            existingTefekkur.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            existingTefekkur.classList.add('highlight-flash');
+            setTimeout(() => existingTefekkur.classList.remove('highlight-flash'), 1500);
+            return;
+        }
+
+        const cards = renderedMarkdown.querySelectorAll('.mmr-section-card');
+        const secNum = cards.length + 1;
+
+        const newCard = document.createElement('div');
+        newCard.className = 'mmr-section-card tefekkur-section-card editable-section-block';
+        newCard.setAttribute('data-sec-num', secNum);
+
+        const toolbar = createSectionToolbar(newCard);
+        newCard.appendChild(toolbar);
+
+        const headerEl = document.createElement('div');
+        headerEl.className = 'mmr-card-header';
+        headerEl.innerHTML = `
+            <div class="mmr-header-left">
+                <span class="mmr-num-badge" style="background:#0f766e;"><i class="fa-solid fa-seedling"></i></span>
+                <h3 class="mmr-title" style="color:#0f766e;">Tefekkür Penceresi (4 Aşamalı Kalp Mimarisi)</h3>
+            </div>
+            <span style="font-size:0.75rem; font-weight:700; color:#0f766e; background:#f0fdfa; padding:0.2rem 0.6rem; border-radius:12px; border:1px solid #99f6e4;">MMR Zirve Bölümü</span>
+        `;
+        newCard.appendChild(headerEl);
+
+        const contentWrap = document.createElement('div');
+        contentWrap.className = 'mmr-card-body block-content';
+        contentWrap.contentEditable = isEditing ? 'true' : 'false';
+        contentWrap.innerHTML = `
+            <div style="display:flex; flex-direction:column; gap:0.6rem; margin-bottom:0.75rem;">
+                <div><strong>1. Gördüm (Bilimsel Gözlem):</strong> Bu konuda hangi bilimsel gerçeği, ölçüyü ve düzeni fark ettim?<br>
+                <span style="color:#64748b;">[ .................................................................................................................................... ]</span></div>
+                <div><strong>2. Düşündüm (Akıl Yürütme & Hikmet):</strong> Buradaki ölçü, ahenk ve nizam bana ne düşündürüyor?<br>
+                <span style="color:#64748b;">[ .................................................................................................................................... ]</span></div>
+                <div><strong>3. Anlamlandırdım (Mana & Hayat):</strong> Bu olayın insan hayatı ve kâinattaki canlılık açısından anlamı nedir?<br>
+                <span style="color:#64748b;">[ .................................................................................................................................... ]</span></div>
+                <div><strong>4. Değerlendirdim (Erdem & Değer):</strong> Karşılıksız verilen bu intizama karşı hangi değeri (Şükür, Sorumluluk, Emanet vb.) fark ediyorum?<br>
+                <span style="color:#64748b;">[ .................................................................................................................................... ]</span></div>
+            </div>
+        `;
+        newCard.appendChild(contentWrap);
+
+        const footerEl = document.createElement('div');
+        footerEl.className = 'mmr-card-footer';
+        footerEl.innerHTML = `
+            <div class="mmr-footer-label" style="color:#0f766e;"><i class="fa-solid fa-heart"></i> Hayatıma Yansıyan Değer ve Şuur:</div>
+            <div class="mmr-footer-input" contenteditable="${isEditing ? 'true' : 'false'}">Bu intizam bana toplumdaki ve doğadaki sorumluluklarımı şuurla ve adaletle yerine getirmem gerektiğini hatırlatıyor.</div>
+        `;
+        newCard.appendChild(footerEl);
+
+        const auditCard = renderedMarkdown.querySelector('.mmr-audit-card');
+        if (auditCard) {
+            renderedMarkdown.insertBefore(newCard, auditCard);
+        } else {
+            renderedMarkdown.appendChild(newCard);
+        }
+
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('Tefekkür Penceresi başarıyla eklendi!', 'success');
+        if (resetBtn) resetBtn.style.display = 'inline-flex';
     }
 
     // 7. Reset to Original
