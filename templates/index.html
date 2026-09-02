@@ -138,6 +138,12 @@
             <div class="result-header">
                 <h2><i class="fa-solid fa-eye"></i> Materyal Önizleme</h2>
                 <div class="result-actions" id="resultActions" style="display: none;">
+                    <button class="btn-action btn-edit" id="editToggleBtn" title="Metinleri düzenleyin veya bölümleri silin">
+                        <i class="fa-solid fa-pen-to-square"></i> <span id="editBtnText">Düzenle</span>
+                    </button>
+                    <button class="btn-action" id="resetBtn" title="Değişiklikleri geri al ve ilk haline döndür" style="display: none;">
+                        <i class="fa-solid fa-rotate-left"></i> Sıfırla
+                    </button>
                     <button class="btn-action" id="copyBtn" title="Panoya Kopyala">
                         <i class="fa-regular fa-copy"></i> Kopyala
                     </button>
@@ -176,6 +182,11 @@
 
             <!-- İçerik Alanı -->
             <div id="contentArea" class="content-area hidden">
+                <div id="editHintBanner" class="edit-hint-banner hidden">
+                    <i class="fa-solid fa-pen-nib"></i> <strong>Düzenleme Modu Aktif:</strong> 
+                    Metinlerin üzerine tıklayarak doğrudan değiştirebilir, istemediğiniz bölümleri sağ üstteki 
+                    <span class="badge-del-sample"><i class="fa-solid fa-trash-can"></i> Sil</span> butonuna basarak kaldırabilirsiniz.
+                </div>
                 <div id="renderedMarkdown" class="markdown-body"></div>
             </div>
         </section>

@@ -19,13 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentArea = document.getElementById('contentArea');
     const renderedMarkdown = document.getElementById('renderedMarkdown');
     const resultActions = document.getElementById('resultActions');
+    const editHintBanner = document.getElementById('editHintBanner');
 
+    const editToggleBtn = document.getElementById('editToggleBtn');
+    const resetBtn = document.getElementById('resetBtn');
     const copyBtn = document.getElementById('copyBtn');
     const docxBtn = document.getElementById('docxBtn');
     const printBtn = document.getElementById('printBtn');
 
+    let originalMarkdown = '';
     let currentMarkdown = '';
     let currentTitle = 'Materyal';
+    let isEditing = false;
 
     // 1. Health Check
     fetch('/api/health')
@@ -160,18 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(result.error || 'İçerik oluşturulurken bir sorun oluştu. Lütfen bilgileri kontrol ederek tekrar deneyin.');
             }
 
+            originalMarkdown = result.content;
             currentMarkdown = result.content;
 
-            // Render Markdown
-            if (typeof marked !== 'undefined') {
-                renderedMarkdown.innerHTML = marked.parse(currentMarkdown);
-            } else {
-                renderedMarkdown.innerText = currentMarkdown;
-            }
+            renderModularContent(currentMarkdown);
 
             loadingBox.classList.add('hidden');
             contentArea.classList.remove('hidden');
             resultActions.style.display = 'flex';
+            resetBtn.style.display = 'none';
 
             // Scroll to preview on mobile
             if (window.innerWidth <= 1024) {
@@ -187,11 +189,124 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 5. Actions: Copy, Print, Word Export
+    // 5. Modular Content Rendering (Allows section-by-section deletion & editing)
+    function renderModularContent(markdownText) {
+        if (typeof marked === 'undefined') {
+            renderedMarkdown.innerText = markdownText;
+            return;
+        }
+
+        const rawHtml = marked.parse(markdownText);
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = rawHtml;
+
+        const children = Array.from(tempDiv.children);
+        renderedMarkdown.innerHTML = '';
+
+        let currentBlock = null;
+
+        children.forEach(child => {
+            const tag = child.tagName.toLowerCase();
+            // Start a new section block on headings or horizontal rules
+            if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || !currentBlock) {
+                currentBlock = document.createElement('div');
+                currentBlock.className = 'editable-section-block';
+
+                // Action toolbar (Delete button)
+                const toolbar = document.createElement('div');
+                toolbar.className = 'section-action-toolbar';
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn-section-delete';
+                delBtn.type = 'button';
+                delBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Sil';
+                delBtn.title = 'Bu bölümü tamamen kaldır';
+                delBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    currentBlock.style.transition = 'all 0.3s ease';
+                    currentBlock.style.opacity = '0';
+                    currentBlock.style.transform = 'scale(0.96)';
+                    setTimeout(() => {
+                        currentBlock.remove();
+                        resetBtn.style.display = 'inline-flex';
+                    }, 250);
+                };
+
+                toolbar.appendChild(delBtn);
+                currentBlock.appendChild(toolbar);
+
+                const contentWrap = document.createElement('div');
+                contentWrap.className = 'block-content';
+                contentWrap.contentEditable = isEditing ? 'true' : 'false';
+                contentWrap.addEventListener('input', () => {
+                    resetBtn.style.display = 'inline-flex';
+                });
+                currentBlock.appendChild(contentWrap);
+
+                renderedMarkdown.appendChild(currentBlock);
+            }
+
+            currentBlock.querySelector('.block-content').appendChild(child);
+        });
+    }
+
+    // 6. Edit Mode Toggle
+    editToggleBtn.addEventListener('click', () => {
+        isEditing = !isEditing;
+        if (isEditing) {
+            renderedMarkdown.classList.add('edit-mode-active');
+            editToggleBtn.classList.add('active');
+            editToggleBtn.innerHTML = '<i class="fa-solid fa-check"></i> <span>Bitti</span>';
+            editHintBanner.classList.remove('hidden');
+            renderedMarkdown.querySelectorAll('.block-content').forEach(el => {
+                el.contentEditable = 'true';
+            });
+            resetBtn.style.display = 'inline-flex';
+        } else {
+            renderedMarkdown.classList.remove('edit-mode-active');
+            editToggleBtn.classList.remove('active');
+            editToggleBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> <span>Düzenle</span>';
+            editHintBanner.classList.add('hidden');
+            renderedMarkdown.querySelectorAll('.block-content').forEach(el => {
+                el.contentEditable = 'false';
+            });
+        }
+    });
+
+    // 7. Reset to Original
+    resetBtn.addEventListener('click', () => {
+        if (confirm('Tüm değişiklikleri geri alıp içeriği ilk haline döndürmek istiyor musunuz?')) {
+            renderModularContent(originalMarkdown);
+            resetBtn.style.display = 'none';
+            if (isEditing) {
+                editToggleBtn.click();
+            }
+        }
+    });
+
+    // 8. Extract Current Clean Text (Ignoring Deleted Sections)
+    function getCurrentCleanText() {
+        const blocks = renderedMarkdown.querySelectorAll('.editable-section-block');
+        if (blocks.length === 0) return originalMarkdown;
+
+        let outputLines = [];
+        blocks.forEach(block => {
+            const content = block.querySelector('.block-content');
+            if (content) {
+                // Get innerText line by line
+                outputLines.push(content.innerText.trim());
+                outputLines.push('');
+            }
+        });
+        return outputLines.join('\n');
+    }
+
+    // 9. Actions: Copy, Print, Word Export
     copyBtn.addEventListener('click', async () => {
-        if (!currentMarkdown) return;
+        const textToCopy = getCurrentCleanText();
+        if (!textToCopy) return;
         try {
-            await navigator.clipboard.writeText(currentMarkdown);
+            await navigator.clipboard.writeText(textToCopy);
             const orig = copyBtn.innerHTML;
             copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı!';
             setTimeout(() => { copyBtn.innerHTML = orig; }, 2000);
@@ -201,11 +316,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     printBtn.addEventListener('click', () => {
+        // If editing is open, close edit mode before print so no dashed borders show
+        if (isEditing) {
+            editToggleBtn.click();
+        }
         window.print();
     });
 
     docxBtn.addEventListener('click', async () => {
-        if (!currentMarkdown) return;
+        const textToExport = getCurrentCleanText();
+        if (!textToExport) return;
+
         const orig = docxBtn.innerHTML;
         docxBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> İndiriliyor...';
         docxBtn.disabled = true;
@@ -215,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    content: currentMarkdown,
+                    content: textToExport,
                     title: currentTitle
                 })
             });

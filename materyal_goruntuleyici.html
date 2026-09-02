@@ -378,13 +378,76 @@
             gap: 0.4rem;
         }
 
+        /* Düzenleme ve Silme Stilleri */
+        .btn-edit {
+            background: #fffbeb;
+            color: #d97706;
+            border-color: #fde68a;
+        }
+        .btn-edit.active {
+            background: #d97706;
+            color: #ffffff;
+            border-color: #d97706;
+        }
+        .item-del-btn {
+            display: none;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.2s;
+        }
+        .item-del-btn:hover {
+            background: #dc2626;
+            color: #ffffff;
+        }
+        .edit-active .sec-box, 
+        .edit-active .question-card {
+            position: relative;
+            border: 1px dashed #93c5fd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 1.25rem;
+            transition: all 0.2s;
+        }
+        .edit-active .sec-box:hover, 
+        .edit-active .question-card:hover {
+            border-color: #3b82f6;
+            background: rgba(240, 249, 255, 0.5);
+        }
+        .edit-active .sec-box:hover .item-del-btn,
+        .edit-active .question-card:hover .item-del-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .edit-active [contenteditable="true"]:focus {
+            outline: 2px solid #3b82f6 !important;
+            background: #ffffff !important;
+            border-radius: 4px;
+        }
+
         /* Yazdırma / PDF Çıktısı */
         @media print {
             body {
                 background: #ffffff;
             }
-            .top-navbar {
+            .top-navbar, .item-del-btn {
                 display: none !important;
+            }
+            .edit-active .sec-box, 
+            .edit-active .question-card {
+                border: none !important;
+                padding: 0 !important;
+                background: transparent !important;
             }
             .container {
                 max-width: 100% !important;
@@ -431,10 +494,16 @@
         </nav>
 
         <div class="action-btns">
+            <button class="btn btn-edit" id="viewerEditBtn" onclick="toggleViewerEdit()">
+                <i class="fa-solid fa-pen-to-square"></i> <span id="viewerEditText">Düzenle / Sil</span>
+            </button>
+            <button class="btn" id="viewerResetBtn" onclick="resetViewer()" style="display:none;">
+                <i class="fa-solid fa-rotate-left"></i> Sıfırla
+            </button>
             <a href="http://127.0.0.1:5000" target="_blank" class="btn btn-live" title="Canlı Web Uygulamasını Aç">
                 <i class="fa-solid fa-bolt"></i> Yeni Üretici (Canlı)
             </a>
-            <button class="btn btn-print" onclick="window.print()">
+            <button class="btn btn-print" onclick="prepareAndPrint()">
                 <i class="fa-solid fa-print"></i> Yazdır / PDF
             </button>
         </div>
@@ -855,6 +924,90 @@
     </main>
 
     <script>
+        let isViewerEditing = false;
+        let originalPageBackup = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Backup initial HTML
+            originalPageBackup = document.querySelector('.container').innerHTML;
+            attachDeleteButtons();
+        });
+
+        function attachDeleteButtons() {
+            // Add delete buttons to worksheet sections and test question cards
+            document.querySelectorAll('.sec-box, .question-card').forEach(el => {
+                if (!el.querySelector('.item-del-btn')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'item-del-btn';
+                    btn.type = 'button';
+                    btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Sil';
+                    btn.title = 'Bu bölümü / soruyu tamamen kaldır';
+                    btn.onclick = function(e) {
+                        e.stopPropagation();
+                        if (confirm('Bu bölümü / soruyu tamamen kaldırmak istediğinize emin misiniz?')) {
+                            el.style.transition = 'all 0.3s ease';
+                            el.style.opacity = '0';
+                            el.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                el.remove();
+                                document.getElementById('viewerResetBtn').style.display = 'inline-flex';
+                            }, 250);
+                        }
+                    };
+                    el.appendChild(btn);
+                }
+            });
+        }
+
+        function toggleViewerEdit() {
+            isViewerEditing = !isViewerEditing;
+            const body = document.body;
+            const btn = document.getElementById('viewerEditBtn');
+            const text = document.getElementById('viewerEditText');
+            const resetBtn = document.getElementById('viewerResetBtn');
+
+            if (isViewerEditing) {
+                body.classList.add('edit-active');
+                btn.classList.add('active');
+                text.textContent = 'Bitti';
+                resetBtn.style.display = 'inline-flex';
+
+                // Make texts editable
+                document.querySelectorAll('.prompt-card, .write-area, .q-text, .option-item, .sec-title, table td').forEach(el => {
+                    el.contentEditable = 'true';
+                });
+            } else {
+                body.classList.remove('edit-active');
+                btn.classList.remove('active');
+                text.textContent = 'Düzenle / Sil';
+
+                // Remove editable
+                document.querySelectorAll('[contenteditable="true"]').forEach(el => {
+                    el.contentEditable = 'false';
+                });
+            }
+        }
+
+        function resetViewer() {
+            if (confirm('Tüm değişiklikleri geri alıp materyalleri ilk haline döndürmek istiyor musunuz?')) {
+                if (originalPageBackup) {
+                    document.querySelector('.container').innerHTML = originalPageBackup;
+                    attachDeleteButtons();
+                    document.getElementById('viewerResetBtn').style.display = 'none';
+                    if (isViewerEditing) {
+                        toggleViewerEdit();
+                    }
+                }
+            }
+        }
+
+        function prepareAndPrint() {
+            if (isViewerEditing) {
+                toggleViewerEdit();
+            }
+            window.print();
+        }
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));

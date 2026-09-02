@@ -403,6 +403,105 @@ body {
     background: #172e6b;
 }
 
+.btn-action.btn-edit {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-action.btn-edit:hover {
+    background: #fffbeb;
+}
+
+.btn-action.btn-edit.active {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+}
+
+/* EDIT HINT BANNER */
+.edit-hint-banner {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.badge-del-sample {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+/* EDITABLE SECTION BLOCKS */
+.editable-section-block {
+    position: relative;
+    border: 1px dashed transparent;
+    border-radius: 8px;
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.edit-mode-active .editable-section-block {
+    border-color: #e2e8f0;
+}
+
+.edit-mode-active .editable-section-block:hover {
+    border-color: #38bdf8;
+    background-color: rgba(240, 249, 255, 0.4);
+}
+
+.section-action-toolbar {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    z-index: 10;
+}
+
+.edit-mode-active .editable-section-block:hover .section-action-toolbar {
+    display: flex;
+}
+
+.btn-section-delete {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    padding: 0.25rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+}
+
+.btn-section-delete:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+
+.edit-mode-active [contenteditable="true"]:focus {
+    outline: 2px solid #3b82f6 !important;
+    background-color: #ffffff !important;
+    border-radius: 4px;
+}
+
 /* EMPTY STATE */
 .empty-state {
     display: flex;
@@ -624,8 +723,16 @@ body {
     .result-header,
     .footer,
     .result-actions,
-    .quick-fill-box {
+    .quick-fill-box,
+    .section-action-toolbar,
+    .edit-hint-banner {
         display: none !important;
+    }
+
+    .editable-section-block {
+        border: none !important;
+        padding: 0 !important;
+        background: transparent !important;
     }
 
     .main-container {
