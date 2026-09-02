@@ -209,6 +209,30 @@ def build_test_prompt(data: dict) -> tuple[str, str]:
 def index():
     return render_template('index.html')
 
+@app.route('/calisma_kagidi_bankasi.html')
+def bankasi_view():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(base_dir, 'calisma_kagidi_bankasi.html')
+    if os.path.exists(file_path):
+        return send_file(file_path)
+    return "Dosya bulunamadı", 404
+
+@app.route('/materyal_goruntuleyici.html')
+def materyal_view():
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(base_dir, 'materyal_goruntuleyici.html')
+    if os.path.exists(file_path):
+        return send_file(file_path)
+    return "Dosya bulunamadı", 404
+
+@app.route('/calisma_kagidi_bankasi/<path:filename>')
+def download_bank_docx(filename):
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(base_dir, 'calisma_kagidi_bankasi', filename)
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=filename.endswith('.docx'))
+    return "Dosya bulunamadı", 404
+
 @app.route('/api/health')
 def health():
     key = get_api_key()
