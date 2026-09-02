@@ -219,7 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
             originalMarkdown = result.content;
             currentMarkdown = result.content;
 
-            renderModularContent(currentMarkdown);
+            const isTest = (contentType === 'test') || /Soru\s*\d+/i.test(currentMarkdown) || /###\s*\d+\.\s*Soru/i.test(currentMarkdown);
+            if (isTest) {
+                renderTestContent(currentMarkdown);
+            } else {
+                renderModularContent(currentMarkdown);
+            }
 
             if (loadingBox) loadingBox.classList.add('hidden');
             if (contentArea) contentArea.classList.remove('hidden');
@@ -409,6 +414,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 4.8. Modern Sınav & Çalışma Kağıdı Başlık Bloğu
+    function createExamHeader(title, subtitle, badgeText) {
+        const header = document.createElement('div');
+        header.className = 'material-exam-header';
+        header.innerHTML = `
+            <div class="exam-header-top">
+                <div class="exam-brand">
+                    <div class="exam-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="exam-titles">
+                        <h2>T.C. MİLLÎ EĞİTİM BAKANLIĞI • TÜRKİYE YÜZYILI MAARİF MODELİ</h2>
+                        <p>${subtitle || 'Muallimin Manevi Rehberi (MMR) İlkeleriyle Derinleştirilmiş Öğrenci Çalışma Kağıdı'}</p>
+                    </div>
+                </div>
+                <div class="exam-badge-tag"><i class="fa-solid fa-award"></i> ${badgeText || '5. Sınıf Fen Bilimleri'}</div>
+            </div>
+            <div class="exam-student-grid">
+                <div class="exam-student-field"><strong>Adı Soyadı:</strong> <span class="fill-line"></span></div>
+                <div class="exam-student-field"><strong>Sınıf / Şube:</strong> <span class="fill-line"></span></div>
+                <div class="exam-student-field"><strong>Okul No:</strong> <span class="fill-line"></span></div>
+                <div class="exam-student-field"><strong>Tarih / Puan:</strong> <span class="fill-line"></span></div>
+            </div>
+        `;
+        return header;
+    }
+
     // 5. Modular Content Rendering with Unified MMR Cards & Page Fitting
     function renderModularContent(markdownText) {
         const cleanMarkdown = sanitizeEducationalText(markdownText);
@@ -423,6 +453,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const children = Array.from(tempDiv.children);
         renderedMarkdown.innerHTML = '';
+
+        // Add Modern MEB & Maarif Künye Anteti
+        const gradeVal = gradeSelect ? gradeSelect.value : '5. Sınıf';
+        const subVal = subjectSelect ? subjectSelect.value : 'Fen Bilimleri';
+        const topicVal = topicInput ? topicInput.value : '';
+        const examHeader = createExamHeader(
+            `${gradeVal.toUpperCase()} ${subVal.toUpperCase()} ÖĞRENCİ ÇALIŞMA KAĞIDI`,
+            `${topicVal ? topicVal + ' • ' : ''}Muallimin Manevi Rehberi (MMR) İlkeleriyle Derinleştirilmiş Öğrenme Kağıdı`,
+            `${gradeVal} ${subVal}`
+        );
+        renderedMarkdown.appendChild(examHeader);
 
         // Add Sayfa Sığdırma Butonları (Page Chunk Nav)
         const chunkNav = document.createElement('div');
@@ -529,6 +570,288 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 5.5. Çift Sütunlu Yaprak Test Mizanpajı & Optik Form
+    function renderTestContent(markdownText) {
+        const cleanMarkdown = sanitizeEducationalText(markdownText);
+        renderedMarkdown.innerHTML = '';
+
+        // 1. Exam Header
+        const gradeVal = gradeSelect ? gradeSelect.value : '5. Sınıf';
+        const subVal = subjectSelect ? subjectSelect.value : 'Fen Bilimleri';
+        const topicVal = topicInput ? topicInput.value : '';
+        const examHeader = createExamHeader(
+            `${gradeVal.toUpperCase()} ${subVal.toUpperCase()} KAZANIM DEĞERLENDİRME YAPRAK TESTİ`,
+            `${topicVal ? topicVal + ' • ' : ''}Kazanım ve Süreç Değerlendirme Yaprak Testi`,
+            `${gradeVal} ${subVal}`
+        );
+        renderedMarkdown.appendChild(examHeader);
+
+        // 2. Toolbar Strip
+        const toolbar = document.createElement('div');
+        toolbar.className = 'test-toolbar-strip';
+        toolbar.innerHTML = `
+            <div class="left-info">
+                <span><i class="fa-solid fa-table-columns" style="color:#0f766e;"></i> <strong>Mizanpaj:</strong> Çift Sütunlu Sayfa Düzeni</span>
+                <span>•</span>
+                <span><i class="fa-solid fa-circle-check" style="color:#1e3a8a;"></i> 4 Şıklı Çoktan Seçmeli</span>
+            </div>
+            <div class="right-actions">
+                <button class="btn-test-action" id="appBtnToggleAnswers" type="button">
+                    <i class="fa-solid fa-key"></i> Cevapları Göster / Gizle
+                </button>
+                <button class="btn-test-action" id="appBtnOptical" type="button">
+                    <i class="fa-solid fa-circle-dot"></i> Optik Form
+                </button>
+                <button class="btn-test-action" id="appBtnPrint" type="button">
+                    <i class="fa-solid fa-print"></i> Yazdır / PDF
+                </button>
+            </div>
+        `;
+        renderedMarkdown.appendChild(toolbar);
+
+        // 3. Parse Questions
+        const lines = cleanMarkdown.split('\n');
+        const questions = [];
+        let currentQ = null;
+        let inAnswerKey = false;
+        const answerKeyLines = [];
+
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (/^(?:#+\s*)?(?:CEVAP\s*ANAHTARI|Cevap\s*Anahtarı)/i.test(trimmed)) {
+                inAnswerKey = true;
+                if (currentQ) questions.push(currentQ);
+                currentQ = null;
+                return;
+            }
+
+            if (inAnswerKey) {
+                answerKeyLines.push(line);
+                return;
+            }
+
+            const qMatch = trimmed.match(/^(?:#+\s*)?(?:Soru\s*|SORU\s*)?(\d+)[.):]\s*(.*)/i);
+            if (qMatch && !/^[A-D]\)/i.test(trimmed)) {
+                if (currentQ) questions.push(currentQ);
+                currentQ = {
+                    num: qMatch[1],
+                    title: qMatch[2] || '',
+                    meta: '',
+                    body: [],
+                    options: []
+                };
+                return;
+            }
+
+            if (currentQ) {
+                const optMatch = trimmed.match(/^[-*]?\s*([A-D])\s*[).:]\s*(.*)/i);
+                if (optMatch) {
+                    const optLetter = optMatch[1].toUpperCase();
+                    let optText = optMatch[2].trim();
+                    const isCorrect = optText.includes('✔') || optText.includes('[✔]') || optText.includes('*');
+                    optText = optText.replace(/\[?✔\]?/g, '').replace(/^\*|\*$/g, '').trim();
+                    currentQ.options.push({
+                        letter: optLetter,
+                        text: optText,
+                        isCorrect: isCorrect
+                    });
+                } else if (/^\[?(?:Bilişsel|Düzey|Puan)/i.test(trimmed)) {
+                    currentQ.meta = trimmed.replace(/^\[|\]$/g, '').trim();
+                } else if (trimmed) {
+                    currentQ.body.push(trimmed);
+                }
+            }
+        });
+        if (currentQ) questions.push(currentQ);
+
+        // If no questions parsed (fallback)
+        if (questions.length === 0) {
+            const fallbackDiv = document.createElement('div');
+            fallbackDiv.className = 'markdown-body';
+            fallbackDiv.innerHTML = marked.parse(cleanMarkdown);
+            renderedMarkdown.appendChild(fallbackDiv);
+            return;
+        }
+
+        // 4. 2-Column Grid
+        const columnsGrid = document.createElement('div');
+        columnsGrid.className = 'test-columns-grid';
+        columnsGrid.id = 'appTestColumnsGrid';
+
+        const colLeft = document.createElement('div');
+        colLeft.className = 'test-col';
+        const colRight = document.createElement('div');
+        colRight.className = 'test-col';
+
+        const half = Math.ceil(questions.length / 2);
+
+        questions.forEach((q, idx) => {
+            const qCard = document.createElement('div');
+            qCard.className = 'test-q-card editable-section-block';
+            qCard.setAttribute('data-q', q.num);
+
+            // Soru Başlığı
+            const headerWrap = document.createElement('div');
+            headerWrap.className = 'test-q-header';
+            headerWrap.innerHTML = `
+                <div class="test-q-badge-wrap">
+                    <span class="test-q-num">${q.num}</span>
+                    <span class="test-q-level">${q.meta ? q.meta.split('|')[0].trim() : 'Kazanım Değerlendirme'}</span>
+                </div>
+                <span class="test-q-point">${q.meta && q.meta.includes('|') ? q.meta.split('|')[1].trim() : '16.6 Puan'}</span>
+            `;
+            qCard.appendChild(headerWrap);
+
+            // Soru Gövdesi
+            const bodyWrap = document.createElement('div');
+            bodyWrap.className = 'test-q-body block-content';
+            bodyWrap.contentEditable = isEditing ? 'true' : 'false';
+            const bodyHtml = marked.parse(q.body.join('\n\n'));
+            bodyWrap.innerHTML = (q.title ? `<strong>${q.title}</strong><br>` : '') + bodyHtml;
+            qCard.appendChild(bodyWrap);
+
+            // Şıklar
+            const optsWrap = document.createElement('div');
+            optsWrap.className = 'test-options-list';
+            q.options.forEach(opt => {
+                const optEl = document.createElement('div');
+                optEl.className = 'test-opt-item' + (opt.isCorrect ? ' correct-answer' : '');
+                optEl.setAttribute('data-letter', opt.letter);
+                optEl.innerHTML = `
+                    <span class="opt-circle">${opt.letter}</span>
+                    <span class="opt-text">${opt.text}</span>
+                `;
+                optEl.onclick = () => {
+                    optsWrap.querySelectorAll('.test-opt-item').forEach(o => o.classList.remove('selected'));
+                    optEl.classList.add('selected');
+                    const bWrap = renderedMarkdown.querySelector(`.optical-bubbles[data-q="${q.num}"]`);
+                    if (bWrap) {
+                        bWrap.querySelectorAll('.optical-bubble').forEach(b => {
+                            b.classList.toggle('filled', b.getAttribute('data-letter') === opt.letter);
+                        });
+                    }
+                };
+                optsWrap.appendChild(optEl);
+            });
+            qCard.appendChild(optsWrap);
+
+            if (idx < half) {
+                colLeft.appendChild(qCard);
+            } else {
+                colRight.appendChild(qCard);
+            }
+        });
+
+        columnsGrid.appendChild(colLeft);
+        columnsGrid.appendChild(colRight);
+        renderedMarkdown.appendChild(columnsGrid);
+
+        // 5. Mini Optik Form Simülasyonu
+        const opticalBox = document.createElement('div');
+        opticalBox.className = 'optical-form-card';
+        opticalBox.id = 'appOpticalBox';
+        opticalBox.innerHTML = `
+            <div class="optical-header">
+                <div class="optical-title">
+                    <i class="fa-solid fa-circle-dot"></i> ÖĞRENCİ OPTİK CEVAP KODLAMA ALANI
+                </div>
+                <span style="font-size:0.75rem; color:#64748b;">(Cevabınızı işaretlemek için baloncuğa tıklayınız)</span>
+            </div>
+        `;
+
+        const optGrid = document.createElement('div');
+        optGrid.className = 'optical-grid';
+        questions.forEach(q => {
+            const row = document.createElement('div');
+            row.className = 'optical-row';
+            row.innerHTML = `
+                <span class="optical-q-num">${q.num}.</span>
+                <div class="optical-bubbles" data-q="${q.num}">
+                    <span class="optical-bubble" data-letter="A">A</span>
+                    <span class="optical-bubble" data-letter="B">B</span>
+                    <span class="optical-bubble" data-letter="C">C</span>
+                    <span class="optical-bubble" data-letter="D">D</span>
+                </div>
+            `;
+            row.querySelectorAll('.optical-bubble').forEach(bubble => {
+                bubble.onclick = () => {
+                    const bLetter = bubble.getAttribute('data-letter');
+                    row.querySelectorAll('.optical-bubble').forEach(b => b.classList.remove('filled'));
+                    bubble.classList.add('filled');
+                    const card = columnsGrid.querySelector(`.test-q-card[data-q="${q.num}"]`);
+                    if (card) {
+                        card.querySelectorAll('.test-opt-item').forEach(opt => {
+                            opt.classList.toggle('selected', opt.getAttribute('data-letter') === bLetter);
+                        });
+                    }
+                };
+            });
+            optGrid.appendChild(row);
+        });
+        opticalBox.appendChild(optGrid);
+        renderedMarkdown.appendChild(opticalBox);
+
+        // 6. Öğretmen Cevap Anahtarı ve Matris Kutusu
+        const matrixBox = document.createElement('div');
+        matrixBox.className = 'test-matrix-box';
+        matrixBox.id = 'appMatrixBox';
+        matrixBox.style.display = 'none';
+        matrixBox.innerHTML = `
+            <h3><i class="fa-solid fa-key"></i> Öğretmen İçin Cevap Anahtarı & Bilişsel Düzey Matrisi</h3>
+        `;
+        if (answerKeyLines.length > 0) {
+            const akHtml = marked.parse(answerKeyLines.join('\n'));
+            const akDiv = document.createElement('div');
+            akDiv.innerHTML = akHtml;
+            matrixBox.appendChild(akDiv);
+        } else {
+            const table = document.createElement('table');
+            table.className = 'test-matrix-table';
+            let rowsHtml = '<tr><th>Soru</th><th>Doğru Cevap</th><th>Puan</th><th>Bilişsel Düzey</th></tr>';
+            questions.forEach(q => {
+                const correctOpt = q.options.find(o => o.isCorrect);
+                rowsHtml += `<tr>
+                    <td><strong>${q.num}</strong></td>
+                    <td><strong style="color:#10b981;">${correctOpt ? correctOpt.letter : '-'}</strong></td>
+                    <td>16.6</td>
+                    <td>${q.meta || 'Kazanım Değerlendirme'}</td>
+                </tr>`;
+            });
+            table.innerHTML = rowsHtml;
+            matrixBox.appendChild(table);
+        }
+        renderedMarkdown.appendChild(matrixBox);
+
+        // 7. Buton Olayları
+        const toggleBtn = toolbar.querySelector('#appBtnToggleAnswers');
+        if (toggleBtn) {
+            toggleBtn.onclick = () => {
+                columnsGrid.classList.toggle('teacher-mode-active');
+                const isActive = columnsGrid.classList.contains('teacher-mode-active');
+                toggleBtn.classList.toggle('active', isActive);
+                toggleBtn.innerHTML = isActive 
+                    ? '<i class="fa-solid fa-eye-slash"></i> Cevapları Gizle' 
+                    : '<i class="fa-solid fa-key"></i> Cevapları Göster / Gizle';
+                matrixBox.style.display = isActive ? 'block' : 'none';
+                if (isActive) matrixBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+        }
+
+        const optBtn = toolbar.querySelector('#appBtnOptical');
+        if (optBtn) {
+            optBtn.onclick = () => {
+                opticalBox.scrollIntoView({ behavior: 'smooth' });
+            };
+        }
+
+        const printBtn = toolbar.querySelector('#appBtnPrint');
+        if (printBtn) {
+            printBtn.onclick = () => {
+                window.print();
+            };
+        }
+    }
+
     // 6. Edit Mode Toggle
     if (editToggleBtn) {
         editToggleBtn.addEventListener('click', () => {
@@ -570,7 +893,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
             if (confirm('Tüm değişiklikleri geri alıp içeriği ilk haline döndürmek istiyor musunuz?')) {
-                renderModularContent(originalMarkdown);
+                const isTest = (contentTypeSelect && contentTypeSelect.value === 'test') || /Soru\s*\d+/i.test(originalMarkdown);
+                if (isTest) {
+                    renderTestContent(originalMarkdown);
+                } else {
+                    renderModularContent(originalMarkdown);
+                }
                 resetBtn.style.display = 'none';
                 if (isEditing && editToggleBtn) {
                     editToggleBtn.click();

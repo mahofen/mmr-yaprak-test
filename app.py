@@ -204,10 +204,22 @@ def build_test_prompt(data: dict) -> tuple[str, str]:
         f'Öğrenme Alanı, Konu, Öğrenme Çıktısı, hemen altına Manevi Öğrenme Çıktısı, Ad Soyad, Sınıf/No, Tarih, Puan kutusu ekle.\n\n'
         f'Soruları kolaydan zora sırala ve bilişsel basamakları dengeli dağıt.\n'
         f'Her soru için 4 seçenek (A, B, C, D) kullan.\n\n'
+        f'SORU DÜZENİ VE FORMATI:\n'
+        f'Her soruyu şu net yapıda oluştur:\n'
+        f'### Soru 1\n'
+        f'[Bilişsel Düzey: Hatırlama | Puan: 16.6]\n'
+        f'Soru kökü ve varsa öncüller (I, II, III).\n'
+        f'A) Seçenek metni\n'
+        f'B) Seçenek metni [✔]\n'
+        f'C) Seçenek metni\n'
+        f'D) Seçenek metni\n\n'
+        f'En sonda öğretmen için:\n'
+        f'### CEVAP ANAHTARI VE BİLİŞSEL DÜZEY MATRİSİ\n'
+        f'| Soru | Doğru Cevap | Puan | Ölçülen Süreç Bileşeni | Bilişsel Düzey |\n\n'
         f'BİÇİMLENDİRME VE YAZI KARAKTERİ KURALLARI:\n'
         f'- KESİNLİKLE LaTeX veya formül kodları ($\rightarrow$, \\rightarrow, \\to vb.) KULLANMA.\n'
         f'- Ok işaretleri için doğrudan UTF-8 "→" sembolünü kullan.\n'
-        f'Çıktıyı temiz, akademik ve yazdırılabilir Markdown olarak üret.'
+        f'Çıktıyı temiz, akademik ve doğrudan yazdırılabilir Markdown olarak üret.'
     )
 
     return system_instruction, user_prompt
