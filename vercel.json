@@ -1,0 +1,31 @@
+﻿{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/calisma_kagidi_bankasi.html",
+      "dest": "/calisma_kagidi_bankasi.html"
+    },
+    {
+      "src": "/materyal_goruntuleyici.html",
+      "dest": "/materyal_goruntuleyici.html"
+    },
+    {
+      "src": "/calisma_kagidi_bankasi/(.*)",
+      "dest": "/calisma_kagidi_bankasi/$1"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ]
+}

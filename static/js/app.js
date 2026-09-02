@@ -32,26 +32,62 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentTitle = 'Materyal';
     let isEditing = false;
 
-    // 1. Health Check
+    // 1. Health Check and Client API Key Support
+    function updateApiStatusUI(hasKey, custom = false) {
+        if (!apiStatus) return;
+        const dot = apiStatus.querySelector('.status-dot');
+        const text = apiStatus.querySelector('.status-text');
+        if (hasKey) {
+            dot.className = 'status-dot active';
+            text.textContent = custom ? 'Gemini API Bağlı (Kişisel)' : 'Gemini API Bağlı';
+            apiStatus.title = 'API Anahtarı hazır. Değiştirmek veya güncellemek için tıklayınız.';
+        } else {
+            dot.className = 'status-dot error';
+            text.textContent = 'API Anahtarı Eksik (Tıkla & Gir)';
+            apiStatus.title = 'Vercel ortam değişkeni eklemediyseniz buraya tıklayarak Gemini API anahtarınızı yapıştırabilirsiniz.';
+        }
+    }
+
+    const localStoredKey = localStorage.getItem('user_gemini_api_key');
+    if (localStoredKey) {
+        updateApiStatusUI(true, true);
+    }
+
     fetch('/api/health')
         .then(res => res.json())
         .then(data => {
-            const dot = apiStatus.querySelector('.status-dot');
-            const text = apiStatus.querySelector('.status-text');
             if (data.has_api_key) {
-                dot.className = 'status-dot active';
-                text.textContent = 'Gemini API Bağlı';
-            } else {
-                dot.className = 'status-dot error';
-                text.textContent = 'API Anahtarı Eksik (.env)';
+                updateApiStatusUI(true, false);
+            } else if (!localStoredKey) {
+                updateApiStatusUI(false, false);
             }
         })
         .catch(() => {
-            const dot = apiStatus.querySelector('.status-dot');
-            const text = apiStatus.querySelector('.status-text');
-            dot.className = 'status-dot error';
-            text.textContent = 'Sunucu Bağlantı Hatası';
+            if (!localStoredKey) {
+                const dot = apiStatus.querySelector('.status-dot');
+                const text = apiStatus.querySelector('.status-text');
+                dot.className = 'status-dot error';
+                text.textContent = 'Sunucu Bağlantı Hatası';
+            }
         });
+
+    if (apiStatus) {
+        apiStatus.style.cursor = 'pointer';
+        apiStatus.addEventListener('click', () => {
+            const currentKey = localStorage.getItem('user_gemini_api_key') || '';
+            const newKey = prompt('Google AI Studio Gemini API Anahtarınızı giriniz:\n(Vercel ortam değişkeni girmediyseniz buradan doğrudan tarayıcınıza kaydedip kullanabilirsiniz)', currentKey);
+            if (newKey !== null) {
+                if (newKey.trim()) {
+                    localStorage.setItem('user_gemini_api_key', newKey.trim());
+                    updateApiStatusUI(true, true);
+                    showAlert('Gemini API anahtarınız tarayıcınıza başarıyla kaydedildi!', 'success');
+                } else {
+                    localStorage.removeItem('user_gemini_api_key');
+                    location.reload();
+                }
+            }
+        });
+    }
 
     // 2. Load Sample Units
     let sampleUnitsData = [];
@@ -143,9 +179,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
+            const reqHeaders = { 'Content-Type': 'application/json' };
+            const clientKey = localStorage.getItem('user_gemini_api_key');
+            if (clientKey) {
+                reqHeaders['X-Gemini-Key'] = clientKey;
+            }
+
             const response = await fetch('/api/generate', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: reqHeaders,
                 body: JSON.stringify({
                     grade,
                     subject,
@@ -162,6 +204,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (!response.ok || !result.success) {
+                if (result.error && result.error.includes('GEMINI_API_KEY')) {
+                    const promptKey = prompt('Vercel ortam değişkeni henüz eklenmemiş.\nLütfen Gemini API anahtarınızı (AIzaSy...) buraya yapıştırıp Tamam deyin:');
+                    if (promptKey && promptKey.trim()) {
+                        localStorage.setItem('user_gemini_api_key', promptKey.trim());
+                        updateApiStatusUI(true, true);
+                        showAlert('API anahtarı kaydedildi. Şimdi lütfen tekrar "Materyal Üret" butonuna basınız!', 'success');
+                        return;
+                    }
+                }
                 throw new Error(result.error || 'İçerik oluşturulurken bir sorun oluştu. Lütfen bilgileri kontrol ederek tekrar deneyin.');
             }
 

@@ -31,14 +31,16 @@ GEMINI_MODELS = [
     'gemini-3.1-pro-preview'
 ]
 
-def get_api_key():
+def get_api_key(custom_key=None):
+    if custom_key and isinstance(custom_key, str) and custom_key.strip():
+        return custom_key.strip()
     key = os.environ.get('GEMINI_API_KEY') or os.environ.get('GOOGLE_API_KEY') or ''
     return key.strip()
 
-def call_gemini_api(system_instruction: str, user_prompt: str) -> str:
-    api_key = get_api_key()
+def call_gemini_api(system_instruction: str, user_prompt: str, custom_key: str = None) -> str:
+    api_key = get_api_key(custom_key)
     if not api_key:
-        raise ValueError('GEMINI_API_KEY bulunamadı. Lütfen .env dosyasını kontrol ediniz.')
+        raise ValueError('GEMINI_API_KEY bulunamadı. Vercel panelinde (Settings > Environment Variables) GEMINI_API_KEY tanımlayınız veya sağ üstteki API durum rozetine tıklayarak anahtarınızı giriniz.')
 
     payload = {
         'systemInstruction': {
@@ -289,7 +291,8 @@ def generate():
         else:
             sys_inst, user_prompt = build_test_prompt(data)
 
-        content = call_gemini_api(sys_inst, user_prompt)
+        client_key = request.headers.get('X-Gemini-Key') or data.get('api_key')
+        content = call_gemini_api(sys_inst, user_prompt, client_key)
         
         return jsonify({
             'success': True,
