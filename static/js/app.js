@@ -414,6 +414,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 4.7. Form Değerlerini Güvenle Alma Yardımcısı
+    function getFormValues() {
+        const gradeEl = document.getElementById('grade');
+        const subjectEl = document.getElementById('subject');
+        const topicEl = document.getElementById('topic');
+        const typeEl = document.querySelector('input[name="contentType"]:checked');
+
+        return {
+            grade: gradeEl ? gradeEl.value.trim() : '5. Sınıf',
+            subject: subjectEl ? subjectEl.value.trim() : 'Fen Bilimleri',
+            topic: topicEl ? topicEl.value.trim() : '',
+            isTest: typeEl ? typeEl.value === 'test' : false
+        };
+    }
+
     // 4.8. Modern Sınav & Çalışma Kağıdı Başlık Bloğu
     function createExamHeader(title, subtitle, badgeText) {
         const header = document.createElement('div');
@@ -455,13 +470,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderedMarkdown.innerHTML = '';
 
         // Add Modern MEB & Maarif Künye Anteti
-        const gradeVal = gradeSelect ? gradeSelect.value : '5. Sınıf';
-        const subVal = subjectSelect ? subjectSelect.value : 'Fen Bilimleri';
-        const topicVal = topicInput ? topicInput.value : '';
+        const formVals = getFormValues();
         const examHeader = createExamHeader(
-            `${gradeVal.toUpperCase()} ${subVal.toUpperCase()} ÖĞRENCİ ÇALIŞMA KAĞIDI`,
-            `${topicVal ? topicVal + ' • ' : ''}Muallimin Manevi Rehberi (MMR) İlkeleriyle Derinleştirilmiş Öğrenme Kağıdı`,
-            `${gradeVal} ${subVal}`
+            `${formVals.grade.toUpperCase()} ${formVals.subject.toUpperCase()} ÖĞRENCİ ÇALIŞMA KAĞIDI`,
+            `${formVals.topic ? formVals.topic + ' • ' : ''}Muallimin Manevi Rehberi (MMR) İlkeleriyle Derinleştirilmiş Öğrenme Kağıdı`,
+            `${formVals.grade} ${formVals.subject}`
         );
         renderedMarkdown.appendChild(examHeader);
 
@@ -576,13 +589,11 @@ document.addEventListener('DOMContentLoaded', () => {
         renderedMarkdown.innerHTML = '';
 
         // 1. Exam Header
-        const gradeVal = gradeSelect ? gradeSelect.value : '5. Sınıf';
-        const subVal = subjectSelect ? subjectSelect.value : 'Fen Bilimleri';
-        const topicVal = topicInput ? topicInput.value : '';
+        const formVals = getFormValues();
         const examHeader = createExamHeader(
-            `${gradeVal.toUpperCase()} ${subVal.toUpperCase()} KAZANIM DEĞERLENDİRME YAPRAK TESTİ`,
-            `${topicVal ? topicVal + ' • ' : ''}Kazanım ve Süreç Değerlendirme Yaprak Testi`,
-            `${gradeVal} ${subVal}`
+            `${formVals.grade.toUpperCase()} ${formVals.subject.toUpperCase()} KAZANIM DEĞERLENDİRME YAPRAK TESTİ`,
+            `${formVals.topic ? formVals.topic + ' • ' : ''}Kazanım ve Süreç Değerlendirme Yaprak Testi`,
+            `${formVals.grade} ${formVals.subject}`
         );
         renderedMarkdown.appendChild(examHeader);
 
@@ -893,7 +904,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
             if (confirm('Tüm değişiklikleri geri alıp içeriği ilk haline döndürmek istiyor musunuz?')) {
-                const isTest = (contentTypeSelect && contentTypeSelect.value === 'test') || /Soru\s*\d+/i.test(originalMarkdown);
+                const formVals = getFormValues();
+                const isTest = formVals.isTest || /Soru\s*\d+/i.test(originalMarkdown);
                 if (isTest) {
                     renderTestContent(originalMarkdown);
                 } else {
