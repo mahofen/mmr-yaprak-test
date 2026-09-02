@@ -514,10 +514,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let currentCard = null;
         let sectionCount = 0;
+        let inAuditCard = false;
 
         children.forEach(child => {
             const tag = child.tagName.toLowerCase();
             const text = child.textContent.trim();
+
+            // MMR Denetim ve Akreditasyon Raporu Kartı
+            if (/MMR\s*KALİTE\s*DENETİM|AKREDİTASYON|GEMİNİ'NİN\s*SON\s*MMR\s*KARARI/i.test(text) || inAuditCard) {
+                inAuditCard = true;
+                let auditCard = renderedMarkdown.querySelector('.mmr-audit-card');
+                if (!auditCard) {
+                    auditCard = document.createElement('div');
+                    auditCard.className = 'mmr-audit-card';
+                    auditCard.innerHTML = `
+                        <div class="audit-card-header">
+                            <div class="audit-title">
+                                <i class="fa-solid fa-award"></i>
+                                <span>MMR SOMUT DEĞERLENDİRME VE DENETİM MOTORU (20 PUANLIK SİSTEM)</span>
+                            </div>
+                            <span class="audit-score-badge very-strong"><i class="fa-solid fa-shield-check"></i> RESMÎ MMR DENETİMİ</span>
+                        </div>
+                        <div class="audit-body block-content"></div>
+                    `;
+                    renderedMarkdown.appendChild(auditCard);
+                }
+                const aBody = auditCard.querySelector('.audit-body');
+                if (aBody) aBody.appendChild(child);
+                currentCard = null;
+                return;
+            }
+
             const match = text.match(/^(?:#+\s*)?(\d+)\.\s*([^(:\n]+)(?:\((.*)\))?/i);
 
             if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || (match && match[1]) || !currentCard) {
