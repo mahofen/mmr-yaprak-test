@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Materyal Vitrini - 5. Sınıf Fen Bilimleri (MMR & TYMM)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --teal: #0f766e;
+            --teal-light: #14b8a6;
+            --accent: #d97706;
+            --bg-page: #e2e8f0;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Üst Menü ve Kontrol Barı */
+        .top-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #ffffff;
+            border-bottom: 2px solid #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-info i {
+            font-size: 1.8rem;
+            color: var(--teal);
+        }
+
+        .brand-info h1 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .brand-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .tabs-nav {
+            display: flex;
+            background: #f1f5f9;
+            padding: 0.3rem;
+            border-radius: 10px;
+            gap: 0.3rem;
+        }
+
+        .tab-btn {
+            border: none;
+            background: transparent;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background: rgba(255,255,255,0.7);
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: var(--primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-live {
+            background: linear-gradient(135deg, #0f766e, #14b8a6);
+            color: #ffffff;
+            border: none;
+        }
+
+        .btn-live:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .btn-print {
+            background: #ffffff;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-print:hover {
+            background: #eff6ff;
+        }
+
+        /* Ana Gövde & A4 Sayfa Simülasyonu */
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-sheet {
+            background: #ffffff;
+            min-height: 1100px;
+            padding: 3rem;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #cbd5e1;
+            margin-bottom: 3rem;
+        }
+
+        /* Materyal Başlık Tablosu (Antet) */
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.75rem;
+            border: 2px solid #1e293b;
+        }
+
+        .header-table td {
+            padding: 0.6rem 0.8rem;
+            border: 1px solid #1e293b;
+            font-size: 0.85rem;
+        }
+
+        .header-table .title-cell {
+            background: #f8fafc;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.5px;
+        }
+
+        /* Bölüm Başlıkları ve Kutuları */
+        .sec-box {
+            margin-bottom: 1.6rem;
+            page-break-inside: avoid;
+        }
+
+        .sec-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .sec-title i {
+            color: var(--teal);
+        }
+
+        .prompt-card {
+            background: #f8fafc;
+            border-left: 4px solid var(--teal);
+            padding: 0.85rem 1.1rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 0.75rem;
+            font-size: 0.92rem;
+        }
+
+        .prompt-card strong {
+            color: #0f172a;
+        }
+
+        .write-area {
+            border-bottom: 1px dotted #94a3b8;
+            min-height: 24px;
+            margin: 0.4rem 0;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        .write-block {
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            margin: 0.6rem 0;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .checkbox-item input {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Model Şeması (ASCII Kroki) */
+        .model-frame {
+            background: #0f172a;
+            color: #38bdf8;
+            font-family: "Courier New", Courier, monospace;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.3;
+        }
+
+        /* İç Tablolar */
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.85rem 0;
+            font-size: 0.88rem;
+        }
+
+        .content-table th, .content-table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.55rem 0.75rem;
+        }
+
+        .content-table th {
+            background: #f1f5f9;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        /* Test Soruları Stili */
+        .question-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.1rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            page-break-inside: avoid;
+        }
+
+        .q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .q-num {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .q-level {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 12px;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .q-text {
+            font-size: 0.95rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 650px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.5rem 0.65rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: #fafafa;
+            font-size: 0.9rem;
+        }
+
+        .option-badge {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 20px;
+        }
+
+        /* Gizli Tab */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cevap Anahtarı Kutusu */
+        .answer-key-box {
+            background: #f8fafc;
+            border: 2px dashed #94a3b8;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .answer-key-box h3 {
+            color: #0f172a;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Yazdırma / PDF Çıktısı */
+        @media print {
+            body {
+                background: #ffffff;
+            }
+            .top-navbar {
+                display: none !important;
+            }
+            .container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .page-sheet {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                min-height: auto !important;
+            }
+            .tab-content {
+                display: none !important;
+            }
+            .tab-content.active {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Üst Kontrol Çubuğu -->
+    <header class="top-navbar">
+        <div class="brand-info">
+            <i class="fa-solid fa-compass-drafting"></i>
+            <div>
+                <h1>Materyal İnceleme & Vitrin Ekranı</h1>
+                <p>Türkiye Yüzyılı Maarif Modeli & Muallimin Manevi Rehberi (MMR)</p>
+            </div>
+        </div>
+
+        <nav class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab('worksheet')">
+                <i class="fa-solid fa-file-pen"></i> 1. Çalışma Kağıdı
+            </button>
+            <button class="tab-btn" onclick="switchTab('test')">
+                <i class="fa-solid fa-list-check"></i> 2. Yaprak Test
+            </button>
+            <button class="tab-btn" onclick="switchTab('pedagogy')">
+                <i class="fa-solid fa-brain"></i> 3. Pedagojik Rapor
+            </button>
+        </nav>
+
+        <div class="action-btns">
+            <a href="http://127.0.0.1:5000" target="_blank" class="btn btn-live" title="Canlı Web Uygulamasını Aç">
+                <i class="fa-solid fa-bolt"></i> Yeni Üretici (Canlı)
+            </a>
+            <button class="btn btn-print" onclick="window.print()">
+                <i class="fa-solid fa-print"></i> Yazdır / PDF
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- ==================== TAB 1: ÇALIŞMA KAĞIDI ==================== -->
+        <div id="tab-worksheet" class="tab-content active">
+            <div class="page-sheet">
+                
+                <!-- Antet Tablosu -->
+                <table class="header-table">
+                    <tr>
+                        <td colspan="4" class="title-cell">
+                            5. SINIF FEN BİLİMLERİ DERSİ ÖĞRENME ÇALIŞMA KAĞIDI
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%"><strong>Ders:</strong> Fen Bilimleri</td>
+                        <td width="30%"><strong>Öğrenme Alanı:</strong> Dünya ve Evren</td>
+                        <td width="25%"><strong>Adı Soyadı:</strong> ........................................</td>
+                        <td width="25%"><strong>Tarih:</strong> ..... / ..... / 202...</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Sınıf:</strong> 5. Sınıf</td>
+                        <td><strong>Konu:</strong> Güneş’in Yapısı ve Dönme Hareketi</td>
+                        <td><strong>Sınıfı / No:</strong> 5 / ..... - .....</td>
+                        <td><strong>Puan / Değerlendirme:</strong> ⭐⭐⭐⭐⭐</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div><strong>Öğrenme Çıktısı (Kazanım):</strong> <em>F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.</em></div>
+                            <div style="margin-top: 0.35rem; color: #0f766e;"><strong>Manevi Öğrenme Çıktısı:</strong> <em>Güneş'in yapısı ve hareketleri bakımından canlılığın devamına katkısındaki mükemmel yaratılışını fark edebilme.</em></div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- 1. MERAK ET -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-lightbulb"></i> 1. MERAK ET</div>
+                    <div class="prompt-card">
+                        Kışın evimizin tek bir odasını ısıtmak için bile yakıt harcar, fatura öderiz. Faturayı unuttuğumuzda ev hızla soğur.<br>
+                        <strong>Peki; koca dünyayı yaklaşık 5 milyar yıldır hiç sönmeden, yakıtı bitmeden ısıtan ve aydınlatan gökyüzündeki bu dev küre nasıl çalışıyor olabilir?</strong> Güneş uzayda öylece sabit duran bir fener midir, yoksa bir topaç gibi dönmekte midir?
+                    </div>
+                </div>
+
+                <!-- 2. BAĞLAM -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-newspaper"></i> 2. BAĞLAM: Okul Panosundaki Yanılgı</div>
+                    <div class="prompt-card">
+                        5-A sınıfından Zeynep ve Kerem fen panosu hazırlarken internette şu iddiayı okurlar: <em>"Güneş katı bir taştır ve uzayda hareketsiz durur."</em> Kerem şüphelenir; Zeynep ise: <em>"Hemen asamayız! Bilim insanı gibi davranıp doğru araçlarla bilgiyi doğrulamalıyız!"</em> der. Sen de bu araştırmada onlara katılmaya var mısın?
+                    </div>
+                </div>
+
+                <!-- 3. FARK ET -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-magnifying-glass"></i> 3. FARK ET (Gözlem ve Araç Seçimi)</div>
+                    <p style="font-size:0.9rem; font-weight:600;">Etkinlik A: Güvenilir Bilgi Kaynaklarını Seçelim (Doğrulara ✔, Yanlışlara ✖ koy):</p>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox" checked> [ ✔ ] TÜBİTAK Popüler Bilim ve resmî astronomi yayınları</div>
+                        <div class="checkbox-item"><input type="checkbox"> [ ✖ ] Takipçi toplamaya çalışan bir sosyal medya sayfası</div>
+                        <div class="checkbox-item"><input type="checkbox" checked> [ ✔ ] Özel filtreli Güneş teleskoplarıyla çekilmiş gözlem kayıtları</div>
+                        <div class="checkbox-item"><input type="checkbox"> [ ✖ ] Kimin yazdığı belli olmayan internet blog yorumları</div>
+                    </div>
+
+                    <p style="font-size:0.9rem; font-weight:600; margin-top:0.8rem;">Etkinlik B: Güneş Lekelerini Takip Ederek Dönmeyi Keşfet:</p>
+                    <div class="model-frame">
+     1. GÜN                 3. GÜN                 5. GÜN
+   /---------\            /---------\            /---------\
+  | (Leke)    |   --->   |    (Leke) |   --->   |      (Leke)|
+   \---------/            \---------/            \---------/
+     (Batı)                 (Orta)                 (Doğu)</div>
+                    <div class="write-block">
+                        <label style="font-size:0.88rem;">1. Güneş lekesinin batıdan doğuya kayması Güneş'in hangi hareketini kanıtlar?:</label>
+                        <div class="write-area">Cevabım: Güneş'in kendi ekseni etrafında batıdan doğuya (saat yönünün tersine) döndüğünü kanıtlar.</div>
+                    </div>
+                </div>
+
+                <!-- 4. BİLGİYİ KULLAN -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-wrench"></i> 4. BİLGİYİ KULLAN (Kimlik Kartı ve Yanılgı Düzeltme)</div>
+                    <table class="content-table">
+                        <tr>
+                            <th width="40%">Güneş'in Özelliği</th>
+                            <th>Bilimsel Doğrusu</th>
+                        </tr>
+                        <tr>
+                            <td>Geometrik Şekli</td>
+                            <td>Küreseldir</td>
+                        </tr>
+                        <tr>
+                            <td>Maddesel Yapısı (Katı/Sıvı/Gaz)</td>
+                            <td>Sıcak Gazlar (Büyük oranda Hidrojen ve Helyum)</td>
+                        </tr>
+                        <tr>
+                            <td>Dönme Yönü</td>
+                            <td>Saat yönünün tersine (Batıdan Doğuya)</td>
+                        </tr>
+                        <tr>
+                            <td>Yüzeyindeki Soğuk Bölgelerin Adı</td>
+                            <td>Güneş Lekeleri</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- 5. DÜŞÜN VE İLİŞKİLENDİR -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-puzzle-piece"></i> 5. DÜŞÜN VE İLİŞKİLENDİR</div>
+                    <div class="prompt-card">
+                        <strong>Şehir Lambaları ile Gökyüzü Lambası:</strong> Şehirdeki binlerce sokak lambası akşamleyin bir kumanda merkezinin kontrolüyle yanar. Hiçbir lamba kendi aklıyla yanmaz. Güneş ise Dünya'mızın hem sobası hem lambasıdır.
+                    </div>
+                    <div class="write-block">
+                        <label style="font-size:0.88rem;">Güneş Dünya'mıza şimdikinden çok daha yakın veya çok daha uzak olsaydı ne olurdu?</label>
+                        <div class="write-area">Cevabım: Çok yakın olsaydı kavurucu sıcaktan sular buharlaşır ve yanardık; çok uzak olsaydı dünya buz tutar, yaşam tamamen biterdi.</div>
+                    </div>
+                </div>
+
+                <!-- 6. TEFEKKÜR PENCERESİ -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-window-maximize"></i> 6. TEFEKKÜR PENCERESİ</div>
+                    <div class="prompt-card" style="border-left-color: var(--accent); background:#fffbeb;">
+                        Güneş; aklı, şuuru, gözü, kulağı veya canlılığı olmayan devasa bir gaz küresidir. Bizim ne zaman üşüdüğümüzü, ekinlerin ne zaman ışığa muhtaç olduğunu kendiliğinden bilemez.<br><br>
+                        <strong>Peki; milyarlarca yıldır yakıtı tükenmeyen, saatini hiç şaşırmadan doğan bu devasa soba ve lamba kendi kendine mi çalışmaktadır, yoksa sonsuz ilim ve kudret sahibi Yaratıcı'nın emrinde vazifeli bir memur mudur?</strong>
+                    </div>
+                    <div class="write-area" style="min-height:45px;">Düşüncelerim: Cansız bir ateş topu böylesine hassas ve şefkatli bir görevi kendi aklıyla yapamaz. Güneş, her şeyi bilen ve bizi doyuran Yaratıcımızın bizim için çalıştırdığı bir lambası ve sobasıdır.</div>
+                </div>
+
+                <!-- 7. ERDEM VE DEĞER -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-gem"></i> 7. ERDEM – DEĞER ZİNCİRİ</div>
+                    <table class="content-table">
+                        <tr style="background:#f1f5f9;">
+                            <th width="30%">1. Ne Fark Ettim?</th>
+                            <th width="35%">2. Bunun Anlamı Nedir?</th>
+                            <th width="35%">3. Hangi Değeri Fark Ettim?</th>
+                        </tr>
+                        <tr>
+                            <td>Güneş'in hiç şaşmadan her gün dünyamızı ısıtıp aydınlattığını fark ettim.</td>
+                            <td>Bize karşılıksız sunulan hayatın ve enerjinin çok büyük bir nimet olduğunu anladım.</td>
+                            <td><strong>ŞÜKÜR, İNTİZAM VE BİLİMSEL SORUMLULUK</strong></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- 8. MÜZAKERE EDELİM -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-comments"></i> 8. MÜZAKERE EDELİM</div>
+                    <div class="prompt-card">
+                        1. Güneş canlı olsaydı ve <em>"Bugün yoruldum, doğmayacağım"</em> deseydi ne olurdu? Bu düzenin hiç aksamaması size ne düşündürüyor?<br>
+                        2. Gözümüzle görmediğimiz halde bıraktığı düzenli izlerden varlığını anladığımız çevremizde başka neler vardır?
+                    </div>
+                </div>
+
+                <!-- 9. EYLEME DÖNÜŞTÜR -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-bullseye"></i> 9. EYLEME DÖNÜŞTÜR (Haftalık Görev Kartı)</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item"><input type="checkbox"> <strong>1. Görev (Tefekkür):</strong> Sabah pencerene vuran gün ışığını fark et ve 10 saniye durup bu büyük nimet için içinden teşekkür/şükür et.</div>
+                        <div class="checkbox-item"><input type="checkbox"> <strong>2. Görev (Sorumluluk):</strong> Gündüz vakti evde veya sınıfta gereksiz yanan en az 2 lambayı kapatarak Güneş ışığından faydalan.</div>
+                        <div class="checkbox-item"><input type="checkbox"> <strong>3. Görev (Bilgiyi Paylaşma):</strong> Ailene veya arkadaşına Güneş'in bir topaç gibi döndüğünü Güneş lekeleriyle açıkla.</div>
+                    </div>
+                </div>
+
+                <!-- 10. KENDİMİ DEĞERLENDİRİYORUM -->
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-star"></i> 10. KENDİMİ DEĞERLENDİRİYORUM</div>
+                    <p style="font-size:0.88rem;"><strong>Bugün öğrendiğim en şaşırtıcı bilgi:</strong> Güneş'in sabit durmayıp batıdan doğuya dönmesi ve lekelerin bunu ispatlaması.</p>
+                    <p style="font-size:0.88rem; margin-top:0.3rem;"><strong>Güneş'e baktığımda artık ne hissedeceğim:</strong> Saatsiz, masrafsız dünyamızı aydınlatan muazzam bir emanet ve rahmet.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: YAPRAK TEST ==================== -->
+        <div id="tab-test" class="tab-content">
+            <div class="page-sheet">
+                
+                <!-- Antet Tablosu -->
+                <table class="header-table">
+                    <tr>
+                        <td colspan="4" class="title-cell">
+                            FEN BİLİMLERİ – 5. SINIF KAZANIM DEĞERLENDİRME YAPRAK TESTİ
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%"><strong>Öğrenme Alanı:</strong> Dünya ve Evren</td>
+                        <td width="30%"><strong>Konu:</strong> Güneş’in Yapısı ve Dönme Hareketi</td>
+                        <td width="25%"><strong>Adı Soyadı:</strong> ........................................</td>
+                        <td width="25%"><strong>Puan:</strong> ............. / 100</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div><strong>Öğrenme Çıktısı:</strong> F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.</div>
+                            <div style="margin-top: 0.35rem; color: #0f766e;"><strong>Manevi Öğrenme Çıktısı:</strong> Güneş'in yapısı ve hareketleri bakımından canlılığın devamına katkısındaki mükemmel yaratılışını fark edebilme.</div>
+                        </td>
+                        <td><strong>Sınıfı / No:</strong> 5 / ..... - .....</td>
+                        <td><strong>Süre:</strong> 20 Dakika</td>
+                    </tr>
+                </table>
+
+                <!-- Soru 1 -->
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-num">1. Soru</span>
+                        <span class="q-level">Hatırlama | Temel Bilgi</span>
+                    </div>
+                    <div class="q-text">
+                        <strong>Güneş’in genel yapısı ve özellikleri ile ilgili aşağıdaki ifadelerden hangisi <u>doğrudur</u>?</strong>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-item"><span class="option-badge">A)</span> Evrendeki en büyük ve en sıcak dev yıldızdır.</div>
+                        <div class="option-item" style="border-color: #10b981; background:#ecfdf5;"><span class="option-badge">B)</span> Sıcak gazlardan oluşan, küresel şekilli orta büyüklükte bir yıldızdır. ✔</div>
+                        <div class="option-item"><span class="option-badge">C)</span> İç kısmı tamamen sıvı, dış yüzeyi ise katı bir taş tabakasıdır.</div>
+                        <div class="option-item"><span class="option-badge">D)</span> Işığını kendi üretemez, uzaydaki diğer yıldızlardan alır.</div>
+                    </div>
+                </div>
+
+                <!-- Soru 2 -->
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-num">2. Soru</span>
+                        <span class="q-level">Anlama | Bilgi Araçlarını Belirleme</span>
+                    </div>
+                    <div class="q-text">
+                        5. sınıf öğrencisi Zeynep, Güneş hakkında hazırlayacağı bilimsel rapor için şu kaynakları listelemiştir:<br>
+                        <em>I. TÜBİTAK bilimsel yayınları ve ansiklopediler</em><br>
+                        <em>II. Özel filtreli Güneş teleskobu gözlem kayıtları</em><br>
+                        <em>III. Sosyal medyada kaynağı belirsiz video paylaşımları</em><br>
+                        <em>IV. Günlük burç tahmin ve astroloji siteleri</em><br>
+                        <strong>Zeynep'in doğru ve güvenilir bilimsel bilgiye ulaşması için hangilerini seçmesi gerekir?</strong>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-item" style="border-color: #10b981; background:#ecfdf5;"><span class="option-badge">A)</span> I ve II ✔</div>
+                        <div class="option-item"><span class="option-badge">B)</span> I ve IV</div>
+                        <div class="option-item"><span class="option-badge">C)</span> II ve III</div>
+                        <div class="option-item"><span class="option-badge">D)</span> III ve IV</div>
+                    </div>
+                </div>
+
+                <!-- Soru 3 -->
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-num">3. Soru</span>
+                        <span class="q-level">Uygulama & Analiz | Görsel Yorumlama</span>
+                    </div>
+                    <div class="q-text">
+                        Teleskopla çekilen aşağıdaki krokide, Güneş lekesinin gün geçtikçe batıdan doğuya doğru kaydığı görülmektedir:
+                        <div class="model-frame">1. GÜN: [• Leke      ]  --->  4. GÜN: [   • Leke   ]  --->  8. GÜN: [      • Leke]
+       (Batı)                         (Orta)                        (Doğu)</div>
+                        <strong>Güneş lekesinin bu düzenli yer değiştirmesi aşağıdaki sonuçlardan hangisini <u>kesin olarak</u> ispatlar?</strong>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-item"><span class="option-badge">A)</span> Güneş lekelerinin zamanla yok olduğunu</div>
+                        <div class="option-item" style="border-color: #10b981; background:#ecfdf5;"><span class="option-badge">B)</span> Güneş'in kendi ekseni etrafında saat yönünün tersine döndüğünü ✔</div>
+                        <div class="option-item"><span class="option-badge">C)</span> Güneş'in Dünya etrafında dolandığını</div>
+                        <div class="option-item"><span class="option-badge">D)</span> Güneş yüzeyinde sıcaklığın her yerde aynı olduğunu</div>
+                    </div>
+                </div>
+
+                <!-- Soru 4 -->
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-num">4. Soru</span>
+                        <span class="q-level">Analiz | Veri Doğrulama</span>
+                    </div>
+                    <div class="q-text">
+                        Emre fen panosu için hazırladığı bilgi kartında şu maddeleri yazmıştır:<br>
+                        <em>I. Geometrik olarak küreseldir. | II. Sıcak gazlardan oluşur.</em><br>
+                        <em>III. Kendi ekseni etrafında döner. | IV. Yüzeyinin her noktasında sıcaklık tamamen eşittir.</em><br>
+                        <strong>Emre'nin kartı doğrulaması için hangi numaralı bilgiyi düzeltmesi gerekir?</strong>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-item"><span class="option-badge">A)</span> I</div>
+                        <div class="option-item"><span class="option-badge">B)</span> II</div>
+                        <div class="option-item"><span class="option-badge">C)</span> III</div>
+                        <div class="option-item" style="border-color: #10b981; background:#ecfdf5;"><span class="option-badge">D)</span> IV (Lekeler daha soğuktur) ✔</div>
+                    </div>
+                </div>
+
+                <!-- Soru 5 -->
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-num">5. Soru</span>
+                        <span class="q-level">Analiz | Bağlam Temelli Senaryo</span>
+                    </div>
+                    <div class="q-text">
+                        Kışın evimizi ısıtan soba ve kaloriferin yakıtı bittiğinde ev hızla soğur. Yaklaşık 150 milyon km uzağımızdaki Güneş ise 5 milyar yıldır yakıtı bitmeden Dünya'mızı ısıtmakta ve aydınlatmaktadır.<br>
+                        <strong>Güneş'in Dünya'daki yaşama etkisi düşünüldüğünde aşağıdakilerden hangisi <u>söylenemez</u>?</strong>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-item"><span class="option-badge">A)</span> Güneş canlılığın devamı için vazgeçilmez bir kaynaktır.</div>
+                        <div class="option-item"><span class="option-badge">B)</span> Dünya-Güneş mesafesi hassas bir yaşam dengesine sahiptir.</div>
+                        <div class="option-item"><span class="option-badge">C)</span> Güneş olmasaydı Dünya karanlık ve cansız kalırdı.</div>
+                        <div class="option-item" style="border-color: #10b981; background:#ecfdf5;"><span class="option-badge">D)</span> Güneş bedelsiz olduğu için evlerde elektrik tasarrufuna gerek yoktur. ✔</div>
+                    </div>
+                </div>
+
+                <!-- Soru 6 -->
+                <div class="question-card">
+                    <div class="q-header">
+                        <span class="q-num">6. Soru</span>
+                        <span class="q-level">Çıkarım Yapma | Nizam ve Hikmet (MMR)</span>
+                    </div>
+                    <div class="q-text">
+                        Şehirdeki sokak lambaları akşam hava kararınca kumanda merkezinden elektrik verilerek yanar. Hiçbir lamba kendi aklıyla yanmaz. Güneş de aklı ve şuuru olmayan cansız bir gaz küresidir.<br>
+                        <strong>Güneş'in milyarlarca yıldır şaşmadan doğup canlılara hizmet etmesi en iyi nasıl açıklanabilir?</strong>
+                    </div>
+                    <div class="options-grid">
+                        <div class="option-item"><span class="option-badge">A)</span> Cansız maddelerin tesadüfen kendi kendine anlaşmasıyla</div>
+                        <div class="option-item"><span class="option-badge">B)</span> Güneş'in düşünebilen akıllı bir varlık olmasıyla</div>
+                        <div class="option-item" style="border-color: #10b981; background:#ecfdf5;"><span class="option-badge">C)</span> Sonsuz ilim ve nizam sahibi Yaratıcı'nın emrinde görevli bir memur olmasıyla ✔</div>
+                        <div class="option-item"><span class="option-badge">D)</span> Uzayda hiçbir kural olmadan rastgele dönmesiyle</div>
+                    </div>
+                </div>
+
+                <!-- Cevap Anahtarı Tablosu -->
+                <div class="answer-key-box">
+                    <h3><i class="fa-solid fa-key"></i> Öğretmen İçin Cevap Anahtarı & Bilişsel Düzey Matrisi</h3>
+                    <table class="content-table" style="background:#ffffff;">
+                        <tr>
+                            <th>Soru</th>
+                            <th>Doğru Cevap</th>
+                            <th>Puan</th>
+                            <th>Ölçülen Süreç Bileşeni</th>
+                            <th>Bilişsel Düzey</th>
+                        </tr>
+                        <tr><td>1</td><td><strong>B</strong></td><td>16.6</td><td>Bilgileri bulma (Güneş'in yapısı)</td><td>Hatırlama</td></tr>
+                        <tr><td>2</td><td><strong>A</strong></td><td>16.6</td><td>a) Bilgi araçlarını belirleme</td><td>Anlama</td></tr>
+                        <tr><td>3</td><td><strong>B</strong></td><td>16.6</td><td>b) ve ç) Dönme yönünü keşfetme ve kaydetme</td><td>Uygulama / Analiz</td></tr>
+                        <tr><td>4</td><td><strong>D</strong></td><td>16.6</td><td>c) Bilgileri doğrulama</td><td>Analiz</td></tr>
+                        <tr><td>5</td><td><strong>D</strong></td><td>16.6</td><td>Bağlam temelli yaşam dengesi</td><td>Analiz</td></tr>
+                        <tr><td>6</td><td><strong>C</strong></td><td>17.0</td><td>MMR / Nizam, Hikmet ve İntizam</td><td>Çıkarım Yapma</td></tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: PEDAGOJİK RAPOR ==================== -->
+        <div id="tab-pedagogy" class="tab-content">
+            <div class="page-sheet">
+                <h2 style="color:var(--primary); margin-bottom:1rem; border-bottom:2px solid #e2e8f0; padding-bottom:0.5rem;">
+                    <i class="fa-solid fa-graduation-cap"></i> Pedagojik Çerçeve ve Öğretim Tasarımı Özeti
+                </h2>
+
+                <div class="prompt-card" style="margin-bottom:1.5rem;">
+                    <strong>Ders:</strong> 5. Sınıf Fen Bilimleri | <strong>Kazanım:</strong> F.M.5.1.1.1.<br>
+                    <strong>Metodoloji:</strong> Türkiye Yüzyılı Maarif Modeli (TYMM) + Muallimin Manevi Rehberi (MMR) + Erdem-Değer-Eylem (EDE)
+                </div>
+
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-route"></i> Pedagojik Süreç Omurgası</div>
+                    <table class="content-table">
+                        <tr>
+                            <th>Aşama</th>
+                            <th>Pedagojik Anlamı</th>
+                            <th>Materyale Yansıması</th>
+                        </tr>
+                        <tr>
+                            <td><strong>1. Bilgi</strong></td>
+                            <td>Güneş'in gaz yapısı, küresel şekli, dönme hareketi ve lekeleri.</td>
+                            <td>Gözlem çizimleri, kimlik kartı ve teleskop kayıtları.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Düşünme</strong></td>
+                            <td>"Cansız maddeler böylesine intizamlı hareketleri kendi kendine yapabilir mi?"</td>
+                            <td>Sokak lambaları kumanda merkezi ve kışın ev ısıtma analojisi.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Anlamlandırma</strong></td>
+                            <td>Güneş'in rastgele değil, amaca yönelik bir sistemle işletilmesi.</td>
+                            <td>Güneş'in yeryüzüne bir lamba, soba ve nimet kılınması.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Tefekkür</strong></td>
+                            <td>Evrendeki nizam, ölçü, hikmet ve sanatın içselleştirilmesi.</td>
+                            <td>Doğrudan dogma vermeden öğrencinin kendi çıkarımını yazması.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Değer</strong></td>
+                            <td>Şükür, sorumluluk, intizam ve bilimsel dürüstlük erdemleri.</td>
+                            <td>"Ne fark ettim? → Anlamı nedir? → Değer nedir?" tablosu.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6. Eylem</strong></td>
+                            <td>Değerin somut, ölçülebilir davranışa dönüşmesi.</td>
+                            <td>Gereksiz yanan lambayı söndürme ve bilgiyi teyit etme sorumluluğu.</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="sec-box">
+                    <div class="sec-title"><i class="fa-solid fa-scale-balanced"></i> İki Materyal Arasındaki Fark</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                        <div style="border:1px solid #0f766e; border-radius:8px; padding:1rem; background:#f0fdfa;">
+                            <h4 style="color:#0f766e; margin-bottom:0.5rem;"><i class="fa-solid fa-pen-ruler"></i> ÇALIŞMA KAĞIDI</h4>
+                            <ul style="font-size:0.88rem; padding-left:1.2rem; color:#134e4a;">
+                                <li>Öğrencinin öğrenme sürecini bizzat yaşaması içindir.</li>
+                                <li>Keşfetme, analoji kurma, tefekkür ve eyleme geçme odaklıdır.</li>
+                                <li>10 basamaklı pedagojik akışı takip eder.</li>
+                            </ul>
+                        </div>
+                        <div style="border:1px solid #1e3a8a; border-radius:8px; padding:1rem; background:#eff6ff;">
+                            <h4 style="color:#1e3a8a; margin-bottom:0.5rem;"><i class="fa-solid fa-list-check"></i> YAPRAK TEST</h4>
+                            <ul style="font-size:0.88rem; padding-left:1.2rem; color:#1e3a8a;">
+                                <li>Kazanımın edinilme düzeyini ölçmek içindir.</li>
+                                <li>Hatırlama, anlama, analiz ve çıkarım basamaklarını dengeler.</li>
+                                <li>4 seçenekli, bilimsel çeldiricili ve cevap anahtarlıdır.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if (tabId === 'worksheet') {
+                document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+                document.getElementById('tab-worksheet').classList.add('active');
+            } else if (tabId === 'test') {
+                document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+                document.getElementById('tab-test').classList.add('active');
+            } else if (tabId === 'pedagogy') {
+                document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+                document.getElementById('tab-pedagogy').classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

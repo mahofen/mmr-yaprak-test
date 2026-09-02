@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maarif Modeli & MMR - Eğitim Materyali Üreticisi</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <div>
+                    <h1>Maarif & MMR Materyal Üreticisi</h1>
+                    <p class="subtitle">TYMM, Bağlam Temelli Öğrenme, EDE ve Muallimin Manevi Rehberi Destekli</p>
+                </div>
+            </div>
+            <div class="api-status" id="apiStatus">
+                <span class="status-dot"></span>
+                <span class="status-text">Bağlantı kontrol ediliyor...</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Sol Panel: Form -->
+        <section class="form-card">
+            <div class="card-header">
+                <h2><i class="fa-solid fa-sliders"></i> İçerik Parametreleri</h2>
+                <div class="quick-fill-box">
+                    <label for="sampleSelect"><i class="fa-solid fa-wand-magic-sparkles"></i> Hazır Şablon:</label>
+                    <select id="sampleSelect">
+                        <option value="">-- 1. Ünite Planından Seç --</option>
+                    </select>
+                </div>
+            </div>
+
+            <form id="generateForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="grade"><i class="fa-solid fa-school"></i> Sınıf Seviyesi *</label>
+                        <select id="grade" required>
+                            <option value="5. Sınıf" selected>5. Sınıf</option>
+                            <option value="6. Sınıf">6. Sınıf</option>
+                            <option value="7. Sınıf">7. Sınıf</option>
+                            <option value="8. Sınıf">8. Sınıf</option>
+                            <option value="4. Sınıf">4. Sınıf</option>
+                            <option value="3. Sınıf">3. Sınıf</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject"><i class="fa-solid fa-book"></i> Ders *</label>
+                        <input type="text" id="subject" value="Fen Bilimleri" required placeholder="Örn: Fen Bilimleri">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="learningArea"><i class="fa-solid fa-compass"></i> Öğrenme Alanı *</label>
+                    <input type="text" id="learningArea" value="Dünya ve Evren" required placeholder="Örn: Dünya ve Evren">
+                </div>
+
+                <div class="form-group">
+                    <label for="topic"><i class="fa-solid fa-lightbulb"></i> Konu *</label>
+                    <input type="text" id="topic" value="Güneş'in Yapısı ve Dönme Hareketi" required placeholder="Örn: Güneş'in Yapısı ve Dönme Hareketi">
+                </div>
+
+                <div class="form-group">
+                    <label for="learningOutcome"><i class="fa-solid fa-bullseye"></i> Öğrenme Çıktısı (Kazanım) *</label>
+                    <textarea id="learningOutcome" rows="2" required placeholder="Örn: F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.">F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="maneviOutcome"><i class="fa-solid fa-heart"></i> Manevi Öğrenme Çıktısı (Muallimin Manevi Rehberi)</label>
+                    <textarea id="maneviOutcome" rows="2" placeholder="Örn: Güneş'in yapısı ve hareketleri bakımından canlılığın devamına katkısındaki mükemmel yaratılışını fark edebilme.">Güneş'in yapısı ve hareketleri bakımından canlılığın devamına katkısındaki mükemmel yaratılışını fark edebilme.</textarea>
+                </div>
+
+                <!-- İçerik Türü Seçimi -->
+                <div class="form-group">
+                    <label class="section-label"><i class="fa-solid fa-file-lines"></i> Üretilecek İçerik Türü *</label>
+                    <div class="type-toggle-group">
+                        <label class="type-toggle-label active" id="typeWorksheetLabel">
+                            <input type="radio" name="contentType" value="worksheet" checked>
+                            <div class="toggle-content">
+                                <i class="fa-solid fa-pen-ruler"></i>
+                                <strong>ÇALIŞMA KAĞIDI</strong>
+                                <span>Keşfetme, düşünme, tefekkür ve eylem</span>
+                            </div>
+                        </label>
+                        <label class="type-toggle-label" id="typeTestLabel">
+                            <input type="radio" name="contentType" value="test">
+                            <div class="toggle-content">
+                                <i class="fa-solid fa-list-check"></i>
+                                <strong>YAPRAK TEST</strong>
+                                <span>Ölçme-değerlendirme ve bilişsel düzeyler</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Yaprak Test Ek Parametreleri (Dinamik Gösterim) -->
+                <div id="testExtraParams" class="test-extra-params hidden">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="questionCount"><i class="fa-solid fa-arrow-down-1-9"></i> Soru Sayısı</label>
+                            <select id="questionCount">
+                                <option value="5">5 Soru</option>
+                                <option value="8" selected>8 Soru (Önerilen)</option>
+                                <option value="10">10 Soru</option>
+                                <option value="12">12 Soru</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="difficulty"><i class="fa-solid fa-gauge-high"></i> Zorluk Seviyesi</label>
+                            <select id="difficulty">
+                                <option value="Kolay">Kolay</option>
+                                <option value="Orta" selected>Orta</option>
+                                <option value="Zor">Zor</option>
+                                <option value="Karma">Karma (Dengeli Dağılım)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="formAlert" class="alert-box hidden"></div>
+
+                <button type="submit" id="submitBtn" class="btn-generate btn-worksheet">
+                    <i class="fa-solid fa-sparkles"></i> <span id="btnText">ÇALIŞMA KAĞIDI OLUŞTUR</span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Sağ Panel: Önizleme & Çıktı -->
+        <section class="result-card">
+            <div class="result-header">
+                <h2><i class="fa-solid fa-eye"></i> Materyal Önizleme</h2>
+                <div class="result-actions" id="resultActions" style="display: none;">
+                    <button class="btn-action" id="copyBtn" title="Panoya Kopyala">
+                        <i class="fa-regular fa-copy"></i> Kopyala
+                    </button>
+                    <button class="btn-action" id="docxBtn" title="Word (.docx) İndir">
+                        <i class="fa-solid fa-file-word"></i> Word İndir
+                    </button>
+                    <button class="btn-action btn-primary" id="printBtn" title="Yazdır / PDF Kaydet">
+                        <i class="fa-solid fa-print"></i> Yazdır / PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Yükleniyor Göstergesi -->
+            <div id="loadingBox" class="loading-box hidden">
+                <div class="spinner"></div>
+                <h3 id="loadingTitle">Yapay zekâ materyali hazırlıyor...</h3>
+                <p class="loading-sub">Pedagojik omurga işletiliyor: Öğrenme Çıktısı → Bilgi → Düşünme → Tefekkür → Değer → Eylem</p>
+                <div class="loading-steps">
+                    <span class="step-badge active"><i class="fa-solid fa-circle-check"></i> Kazanım Çözümleniyor</span>
+                    <span class="step-badge active"><i class="fa-solid fa-circle-check"></i> Bağlam Kuruluyor</span>
+                    <span class="step-badge active"><i class="fa-solid fa-circle-check"></i> Tefekkür & EDE Tasarlanıyor</span>
+                </div>
+            </div>
+
+            <!-- Boş Durum -->
+            <div id="emptyState" class="empty-state">
+                <i class="fa-solid fa-file-circle-question"></i>
+                <h3>Henüz Materyal Üretilmedi</h3>
+                <p>Sol taraftaki bilgileri doldurarak <strong>Çalışma Kağıdı</strong> veya <strong>Yaprak Test</strong> oluşturabilirsiniz.</p>
+                <div class="empty-tips">
+                    <span><i class="fa-solid fa-check"></i> TYMM Maarif Modeli uyumlu</span>
+                    <span><i class="fa-solid fa-check"></i> Doğal Muallimin Manevi Rehberi</span>
+                    <span><i class="fa-solid fa-check"></i> Erdem-Değer-Eylem odaklı</span>
+                </div>
+            </div>
+
+            <!-- İçerik Alanı -->
+            <div id="contentArea" class="content-area hidden">
+                <div id="renderedMarkdown" class="markdown-body"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Muallimin Manevi Rehberi (MMR) & Türkiye Yüzyılı Maarif Modeli Öğretim Tasarım Platformu &copy; 2026</p>
+    </footer>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
