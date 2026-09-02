@@ -19,9 +19,13 @@
                     <p class="subtitle">TYMM, Bağlam Temelli Öğrenme, EDE ve Muallimin Manevi Rehberi Destekli</p>
                 </div>
             </div>
-            <div class="api-status" id="apiStatus" style="display: none;">
-                <span class="status-dot"></span>
-                <span class="status-text">Bağlantı kontrol ediliyor...</span>
+            <div class="nav-right-actions">
+                <a href="/materyal_goruntuleyici.html" class="btn-nav-link" target="_blank" title="5. Sınıf Örnek Vitrin Materyalleri">
+                    <i class="fa-solid fa-chalkboard-user"></i> Vitrini Gör
+                </a>
+                <button class="btn-nav-saved" id="openSavedModalBtn" type="button" title="Kayıtlı Çalışma Kağıtları ve Yaprak Testler">
+                    <i class="fa-solid fa-folder-open"></i> Kayıtlı Materyallerim <span class="saved-badge" id="savedCountBadge">0</span>
+                </button>
             </div>
         </div>
     </header>
@@ -138,6 +142,9 @@
             <div class="result-header">
                 <h2><i class="fa-solid fa-eye"></i> Materyal Önizleme</h2>
                 <div class="result-actions" id="resultActions" style="display: none;">
+                    <button class="btn-action btn-save" id="saveMaterialBtn" title="Bu materyali kütüphaneme kaydet">
+                        <i class="fa-solid fa-bookmark"></i> <span id="saveBtnText">Kaydet</span>
+                    </button>
                     <button class="btn-action btn-add" id="addSectionBtn" title="Yeni bir etkinlik/bölüm ekle">
                         <i class="fa-solid fa-plus"></i> Bölüm Ekle
                     </button>
@@ -195,10 +202,50 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <p>Muallimin Manevi Rehberi (MMR) & Türkiye Yüzyılı Maarif Modeli Öğretim Tasarım Platformu &copy; 2026</p>
-    </footer>
+    <!-- Kayıtlı Materyallerim Modalı -->
+    <div id="savedMaterialsModal" class="modal-overlay hidden">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <h3>Kayıtlı Çalışma Kağıtları ve Yaprak Testlerim</h3>
+                </div>
+                <button type="button" class="btn-modal-close" id="closeSavedModalBtn" title="Kapat">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-toolbar">
+                    <div class="modal-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="savedSearchInput" placeholder="Kayıtlı materyallerde ara (Ders, Konu, Sınıf)...">
+                    </div>
+                    <div class="modal-filter-tabs">
+                        <button type="button" class="modal-tab-btn active" data-filter="all">Tümü (<span id="countAll">0</span>)</button>
+                        <button type="button" class="modal-tab-btn" data-filter="worksheet"><i class="fa-solid fa-pen-ruler"></i> Çalışma Kağıdı (<span id="countWorksheet">0</span>)</button>
+                        <button type="button" class="modal-tab-btn" data-filter="test"><i class="fa-solid fa-list-check"></i> Yaprak Test (<span id="countTest">0</span>)</button>
+                    </div>
+                    <div class="modal-storage-actions">
+                        <button type="button" class="btn-tool-sm" id="exportSavedBtn" title="Tüm kayıtları JSON dosyası olarak indirip yedekleyin"><i class="fa-solid fa-download"></i> Yedekle</button>
+                        <button type="button" class="btn-tool-sm" id="importSavedBtn" title="Daha önce yedeklenen JSON dosyasını geri yükleyin"><i class="fa-solid fa-upload"></i> İçe Aktar</button>
+                        <input type="file" id="importSavedInput" accept=".json" style="display:none;">
+                    </div>
+                </div>
 
-    <script src="/static/js/app.js?v=1.1"></script>
+                <div id="savedMaterialsList" class="saved-materials-grid">
+                    <!-- Dinamik olarak kartlar buraya eklenecektir -->
+                </div>
+
+                <div id="savedEmptyState" class="saved-empty-box hidden">
+                    <i class="fa-solid fa-box-open"></i>
+                    <h4>Henüz Kayıtlı Bir Materyaliniz Yok</h4>
+                    <p>Materyal ürettikten sonra sağ üstteki <strong>"Kaydet"</strong> butonuna basarak kütüphanenize ekleyebilir ve dilediğiniz zaman tekrar yükleyebilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bildirim Balonu (Toast) -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="/static/js/app.js?v=1.2"></script>
 </body>
 </html>

@@ -1025,4 +1025,385 @@ document.addEventListener('DOMContentLoaded', () => {
         formAlert.classList.add('hidden');
         formAlert.textContent = '';
     }
+
+    // =========================================================================
+    // 9. MATERYAL KAYDETME VE KÜTÜPHANE YÖNETİMİ (localStorage Destekli)
+    // =========================================================================
+    const STORAGE_KEY = 'mmr_saved_materials_v1';
+    const saveMaterialBtn = document.getElementById('saveMaterialBtn');
+    const saveBtnText = document.getElementById('saveBtnText');
+    const openSavedModalBtn = document.getElementById('openSavedModalBtn');
+    const closeSavedModalBtn = document.getElementById('closeSavedModalBtn');
+    const savedMaterialsModal = document.getElementById('savedMaterialsModal');
+    const savedMaterialsList = document.getElementById('savedMaterialsList');
+    const savedEmptyState = document.getElementById('savedEmptyState');
+    const savedCountBadge = document.getElementById('savedCountBadge');
+    const savedSearchInput = document.getElementById('savedSearchInput');
+    const exportSavedBtn = document.getElementById('exportSavedBtn');
+    const importSavedBtn = document.getElementById('importSavedBtn');
+    const importSavedInput = document.getElementById('importSavedInput');
+    const toastContainer = document.getElementById('toastContainer');
+
+    let currentFilterType = 'all';
+
+    function showToast(message, type = 'success') {
+        if (!toastContainer) return;
+        const toast = document.createElement('div');
+        toast.className = `toast-msg ${type}`;
+        const icon = type === 'success' ? 'fa-circle-check' : (type === 'danger' ? 'fa-triangle-exclamation' : 'fa-circle-info');
+        toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(10px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 3200);
+    }
+
+    function getSavedMaterials() {
+        try {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        } catch (e) {
+            console.error('Kayıtlı materyaller okunamadı:', e);
+            return [];
+        }
+    }
+
+    function saveMaterialsToStorage(materials) {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(materials));
+            updateSavedCountBadge();
+        } catch (e) {
+            console.error('Kayıt kaydedilemedi:', e);
+            showToast('Tarayıcı hafızası dolu veya erişilemiyor.', 'danger');
+        }
+    }
+
+    function updateSavedCountBadge() {
+        const materials = getSavedMaterials();
+        const total = materials.length;
+        if (savedCountBadge) savedCountBadge.textContent = total;
+
+        const countAll = document.getElementById('countAll');
+        const countWorksheet = document.getElementById('countWorksheet');
+        const countTest = document.getElementById('countTest');
+
+        if (countAll) countAll.textContent = total;
+        if (countWorksheet) countWorksheet.textContent = materials.filter(m => m.contentType === 'worksheet').length;
+        if (countTest) countTest.textContent = materials.filter(m => m.contentType === 'test').length;
+    }
+
+    // İlk açılışta rozeti güncelle
+    updateSavedCountBadge();
+
+    // Kaydet Butonu Tıklanması
+    if (saveMaterialBtn) {
+        saveMaterialBtn.addEventListener('click', () => {
+            const content = getCurrentCleanText();
+            if (!content || content.trim().length === 0) {
+                showToast('Kaydedilecek geçerli bir materyal bulunamadı.', 'info');
+                return;
+            }
+
+            const formVals = getFormValues();
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' +
+                            now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+
+            const newId = 'mmr_' + Date.now();
+            const topicName = formVals.topic || 'Genel Konu';
+            const item = {
+                id: newId,
+                title: `${formVals.grade} ${formVals.subject} - ${topicName}`,
+                grade: formVals.grade,
+                subject: formVals.subject,
+                topic: topicName,
+                contentType: formVals.isTest ? 'test' : 'worksheet',
+                date: dateStr,
+                timestamp: now.getTime(),
+                markdown: content
+            };
+
+            const materials = getSavedMaterials();
+            materials.unshift(item);
+            saveMaterialsToStorage(materials);
+
+            saveMaterialBtn.classList.add('saved-active');
+            if (saveBtnText) saveBtnText.textContent = 'Kaydedildi!';
+            const icon = saveMaterialBtn.querySelector('i');
+            if (icon) icon.className = 'fa-solid fa-check';
+
+            showToast(`"${topicName}" kütüphanenize başarıyla kaydedildi!`, 'success');
+
+            setTimeout(() => {
+                saveMaterialBtn.classList.remove('saved-active');
+                if (saveBtnText) saveBtnText.textContent = 'Kaydet';
+                if (icon) icon.className = 'fa-solid fa-bookmark';
+            }, 3000);
+        });
+    }
+
+    // Modal Açma / Kapatma
+    function openSavedModal() {
+        renderSavedMaterialsList(currentFilterType, savedSearchInput ? savedSearchInput.value : '');
+        if (savedMaterialsModal) savedMaterialsModal.classList.remove('hidden');
+    }
+
+    function closeSavedModal() {
+        if (savedMaterialsModal) savedMaterialsModal.classList.add('hidden');
+    }
+
+    if (openSavedModalBtn) openSavedModalBtn.addEventListener('click', openSavedModal);
+    if (closeSavedModalBtn) closeSavedModalBtn.addEventListener('click', closeSavedModal);
+
+    if (savedMaterialsModal) {
+        savedMaterialsModal.addEventListener('click', (e) => {
+            if (e.target === savedMaterialsModal) closeSavedModal();
+        });
+    }
+
+    // Filtre Tabları
+    document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilterType = btn.getAttribute('data-filter');
+            renderSavedMaterialsList(currentFilterType, savedSearchInput ? savedSearchInput.value : '');
+        });
+    });
+
+    // Arama Çubuğu
+    if (savedSearchInput) {
+        savedSearchInput.addEventListener('input', () => {
+            renderSavedMaterialsList(currentFilterType, savedSearchInput.value);
+        });
+    }
+
+    // Kayıtlı Materyalleri Listeleme
+    function renderSavedMaterialsList(filter = 'all', searchQuery = '') {
+        if (!savedMaterialsList) return;
+        savedMaterialsList.innerHTML = '';
+
+        let materials = getSavedMaterials();
+        updateSavedCountBadge();
+
+        if (filter !== 'all') {
+            materials = materials.filter(m => m.contentType === filter);
+        }
+
+        if (searchQuery.trim()) {
+            const q = searchQuery.toLowerCase();
+            materials = materials.filter(m => 
+                (m.title && m.title.toLowerCase().includes(q)) ||
+                (m.topic && m.topic.toLowerCase().includes(q)) ||
+                (m.subject && m.subject.toLowerCase().includes(q)) ||
+                (m.grade && m.grade.toLowerCase().includes(q))
+            );
+        }
+
+        if (materials.length === 0) {
+            if (savedEmptyState) savedEmptyState.classList.remove('hidden');
+            return;
+        }
+
+        if (savedEmptyState) savedEmptyState.classList.add('hidden');
+
+        materials.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'saved-card';
+
+            const isTest = item.contentType === 'test';
+            const badgeClass = isTest ? 'badge-test' : 'badge-worksheet';
+            const typeLabel = isTest ? '<i class="fa-solid fa-list-check"></i> Yaprak Test' : '<i class="fa-solid fa-pen-ruler"></i> Çalışma Kağıdı';
+
+            card.innerHTML = `
+                <div>
+                    <div class="saved-card-top">
+                        <span class="saved-card-badge ${badgeClass}">${typeLabel}</span>
+                        <span class="saved-card-date"><i class="fa-regular fa-clock"></i> ${item.date}</span>
+                    </div>
+                    <h4 class="saved-card-title" style="margin-top:0.6rem;">${item.topic || item.title}</h4>
+                    <div class="saved-card-meta" style="margin-top:0.35rem;">
+                        <span><i class="fa-solid fa-graduation-cap"></i> ${item.grade} • ${item.subject}</span>
+                    </div>
+                </div>
+                <div class="saved-card-actions">
+                    <button type="button" class="btn-card-load" title="Bu materyali ekrana yükle">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Yükle & Aç
+                    </button>
+                    <button type="button" class="btn-card-icon btn-card-word" title="Word (.docx) Olarak İndir">
+                        <i class="fa-solid fa-file-word"></i>
+                    </button>
+                    <button type="button" class="btn-card-icon btn-card-print" title="Yazdır / PDF">
+                        <i class="fa-solid fa-print"></i>
+                    </button>
+                    <button type="button" class="btn-card-icon btn-card-delete" title="Bu kaydı sil">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </div>
+            `;
+
+            // Yükle & Aç
+            card.querySelector('.btn-card-load').onclick = () => {
+                loadMaterialToWorkspace(item);
+            };
+
+            // Word İndir
+            card.querySelector('.btn-card-word').onclick = () => {
+                downloadItemAsDocx(item);
+            };
+
+            // Yazdır
+            card.querySelector('.btn-card-print').onclick = () => {
+                loadMaterialToWorkspace(item);
+                setTimeout(() => window.print(), 350);
+            };
+
+            // Sil
+            card.querySelector('.btn-card-delete').onclick = () => {
+                if (confirm(`"${item.topic}" başlıklı materyali kütüphanenizden silmek istediğinize emin misiniz?`)) {
+                    deleteMaterialItem(item.id);
+                }
+            };
+
+            savedMaterialsList.appendChild(card);
+        });
+    }
+
+    // Materyali Çalışma Alanına Yükleme
+    function loadMaterialToWorkspace(item) {
+        originalMarkdown = item.markdown;
+        currentMarkdown = item.markdown;
+        currentTitle = `${item.grade}_${item.subject}_${item.contentType === 'test' ? 'Yaprak_Test' : 'Calisma_Kagidi'}`;
+
+        const gradeEl = document.getElementById('grade');
+        const subjectEl = document.getElementById('subject');
+        const topicEl = document.getElementById('topic');
+        if (gradeEl && item.grade) gradeEl.value = item.grade;
+        if (subjectEl && item.subject) subjectEl.value = item.subject;
+        if (topicEl && item.topic) topicEl.value = item.topic;
+
+        const targetRadio = document.querySelector(`input[name="contentType"][value="${item.contentType}"]`);
+        if (targetRadio) {
+            targetRadio.checked = true;
+            targetRadio.dispatchEvent(new Event('change'));
+        }
+
+        if (item.contentType === 'test') {
+            renderTestContent(item.markdown);
+        } else {
+            renderModularContent(item.markdown);
+        }
+
+        if (emptyState) emptyState.classList.add('hidden');
+        if (loadingBox) loadingBox.classList.add('hidden');
+        if (contentArea) contentArea.classList.remove('hidden');
+        if (resultActions) resultActions.style.display = 'flex';
+
+        closeSavedModal();
+        showToast(`"${item.topic}" çalışma alanına başarıyla yüklendi!`, 'success');
+
+        if (contentArea) {
+            contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Materyal Silme
+    function deleteMaterialItem(id) {
+        let materials = getSavedMaterials();
+        materials = materials.filter(m => m.id !== id);
+        saveMaterialsToStorage(materials);
+        renderSavedMaterialsList(currentFilterType, savedSearchInput ? savedSearchInput.value : '');
+        showToast('Materyal kütüphanenizden silindi.', 'info');
+    }
+
+    // Word İndirme Yardımcısı
+    async function downloadItemAsDocx(item) {
+        try {
+            showToast('Word dosyası hazırlanıyor...', 'info');
+            const res = await fetch('/api/export-docx', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content: item.markdown,
+                    title: `${item.grade}_${item.subject}_${item.topic}`
+                })
+            });
+            if (!res.ok) throw new Error('İndirme başarısız.');
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${item.grade}_${item.subject}_${item.topic}.docx`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            showToast('Word dosyası indirildi.', 'success');
+        } catch (e) {
+            showToast('Word dosyası oluşturulamadı.', 'danger');
+        }
+    }
+
+    // Dışa Aktar (Backup JSON)
+    if (exportSavedBtn) {
+        exportSavedBtn.addEventListener('click', () => {
+            const materials = getSavedMaterials();
+            if (materials.length === 0) {
+                showToast('Yedeklenecek kayıtlı materyal bulunmuyor.', 'info');
+                return;
+            }
+            const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(materials, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute('href', dataStr);
+            downloadAnchor.setAttribute('download', `mmr_materyal_yedegi_${new Date().toISOString().slice(0, 10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast('Tüm materyalleriniz JSON olarak yedeklendi.', 'success');
+        });
+    }
+
+    // İçe Aktar (Restore JSON)
+    if (importSavedBtn && importSavedInput) {
+        importSavedBtn.addEventListener('click', () => {
+            importSavedInput.click();
+        });
+
+        importSavedInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const imported = JSON.parse(event.target.result);
+                    if (!Array.isArray(imported)) {
+                        throw new Error('Geçersiz dosya formatı.');
+                    }
+                    const current = getSavedMaterials();
+                    const currentIds = new Set(current.map(c => c.id));
+                    let addedCount = 0;
+
+                    imported.forEach(item => {
+                        if (!currentIds.has(item.id)) {
+                            current.push(item);
+                            currentIds.add(item.id);
+                            addedCount++;
+                        }
+                    });
+
+                    saveMaterialsToStorage(current);
+                    renderSavedMaterialsList(currentFilterType, savedSearchInput ? savedSearchInput.value : '');
+                    showToast(`${addedCount} adet yeni materyal başarıyla içe aktarıldı!`, 'success');
+                } catch (err) {
+                    showToast('Yedek dosyası okunamadı. Lütfen geçerli bir MMR yedek dosyası seçiniz.', 'danger');
+                }
+                importSavedInput.value = '';
+            };
+            reader.readAsText(file);
+        });
+    }
 });
