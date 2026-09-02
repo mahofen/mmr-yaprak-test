@@ -146,19 +146,19 @@
 
         /* Ana Gövde & A4 Sayfa Simülasyonu */
         .container {
-            max-width: 960px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            max-width: 900px;
+            margin: 1rem auto;
+            padding: 0 0.75rem;
         }
 
         .page-sheet {
             background: #ffffff;
-            min-height: 1100px;
-            padding: 3rem;
-            border-radius: 4px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            min-height: auto;
+            padding: 1.6rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
             border: 1px solid #cbd5e1;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         /* Materyal Başlık Tablosu (Antet) */
@@ -378,7 +378,7 @@
             gap: 0.4rem;
         }
 
-        /* Düzenleme ve Silme Stilleri */
+        /* Düzenleme, Ekleme ve Silme Menüsü Stilleri */
         .btn-edit {
             background: #fffbeb;
             color: #d97706;
@@ -389,45 +389,92 @@
             color: #ffffff;
             border-color: #d97706;
         }
-        .item-del-btn {
+
+        .btn-add-global {
+            background: #f0fdfa;
+            color: #0f766e;
+            border-color: #99f6e4;
+        }
+        .btn-add-global:hover {
+            background: #0f766e;
+            color: #ffffff;
+        }
+
+        .item-action-toolbar {
             display: none;
             position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #fee2e2;
-            color: #b91c1c;
-            border: 1px solid #fca5a5;
+            top: 6px;
+            right: 6px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
             border-radius: 6px;
-            padding: 3px 8px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            z-index: 20;
-            transition: all 0.2s;
+            padding: 2px 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            align-items: center;
+            gap: 3px;
+            z-index: 30;
         }
-        .item-del-btn:hover {
+
+        .sec-box:hover .item-action-toolbar,
+        .question-card:hover .item-action-toolbar,
+        .edit-active .sec-box .item-action-toolbar,
+        .edit-active .question-card .item-action-toolbar {
+            display: inline-flex;
+        }
+
+        .btn-bar-action {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 3px 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            transition: all 0.15s;
+        }
+        .btn-bar-action:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+        .btn-bar-add {
+            color: #0f766e;
+            background: #f0fdfa;
+            border-color: #99f6e4;
+        }
+        .btn-bar-add:hover {
+            background: #0f766e;
+            color: #ffffff;
+        }
+        .btn-bar-del {
+            color: #dc2626;
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+        .btn-bar-del:hover {
             background: #dc2626;
             color: #ffffff;
         }
+
+        .sec-box, .question-card {
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
         .edit-active .sec-box, 
         .edit-active .question-card {
-            position: relative;
             border: 1px dashed #93c5fd;
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 1.25rem;
-            transition: all 0.2s;
         }
         .edit-active .sec-box:hover, 
         .edit-active .question-card:hover {
             border-color: #3b82f6;
-            background: rgba(240, 249, 255, 0.5);
-        }
-        .edit-active .sec-box:hover .item-del-btn,
-        .edit-active .question-card:hover .item-del-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            background: rgba(240, 249, 255, 0.4);
         }
         .edit-active [contenteditable="true"]:focus {
             outline: 2px solid #3b82f6 !important;
@@ -435,12 +482,61 @@
             border-radius: 4px;
         }
 
+        /* Model Eşleştirme Kartı Stili */
+        .model-matching-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .model-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.45rem 0.6rem;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.88rem;
+        }
+        .model-item {
+            font-weight: 700;
+            color: #1e293b;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 260px;
+        }
+        .model-arrow {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--teal);
+            margin: 0 0.5rem;
+        }
+        .model-options {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            color: #334155;
+            font-weight: 600;
+        }
+        .model-options label {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
         /* Yazdırma / PDF Çıktısı */
         @media print {
             body {
                 background: #ffffff;
             }
-            .top-navbar, .item-del-btn {
+            .top-navbar, .item-del-btn, .item-action-toolbar, .btn-add-global {
                 display: none !important;
             }
             .edit-active .sec-box, 
@@ -494,8 +590,11 @@
         </nav>
 
         <div class="action-btns">
+            <button class="btn btn-add-global" onclick="addNewSection()" title="Yeni bir etkinlik/bölüm ekle">
+                <i class="fa-solid fa-plus"></i> Bölüm Ekle
+            </button>
             <button class="btn btn-edit" id="viewerEditBtn" onclick="toggleViewerEdit()">
-                <i class="fa-solid fa-pen-to-square"></i> <span id="viewerEditText">Düzenle / Sil</span>
+                <i class="fa-solid fa-pen-to-square"></i> <span id="viewerEditText">Düzenleme Menüsü</span>
             </button>
             <button class="btn" id="viewerResetBtn" onclick="resetViewer()" style="display:none;">
                 <i class="fa-solid fa-rotate-left"></i> Sıfırla
@@ -629,6 +728,38 @@
                             <td>Yüzeyinde kara delik veya delikler yoktur.</td>
                         </tr>
                     </table>
+
+                    <p style="font-size:0.88rem; font-weight:700; margin-top:0.8rem; color:#1e293b;"><i class="fa-solid fa-shapes"></i> Büyüklük Karşılaştırma Modeli (Hangi nesne kimi temsil eder? Doğru kutuyu [✔] işaretleyiniz):</p>
+                    <div class="model-matching-card">
+                        <div class="model-row">
+                            <span class="model-item"><i class="fa-solid fa-circle-dot" style="color:#854d0e;"></i> Filtre Kahve Çekirdeği / Bilye</span>
+                            <span class="model-arrow">→</span>
+                            <div class="model-options">
+                                <label><input type="checkbox"> Güneş</label>
+                                <label><input type="checkbox"> Dünya</label>
+                                <label><input type="checkbox" checked> [✔] Ay</label>
+                            </div>
+                        </div>
+                        <div class="model-row">
+                            <span class="model-item"><i class="fa-solid fa-circle" style="color:#0284c7;"></i> Nohut / Leblebi</span>
+                            <span class="model-arrow">→</span>
+                            <div class="model-options">
+                                <label><input type="checkbox"> Güneş</label>
+                                <label><input type="checkbox" checked> [✔] Dünya</label>
+                                <label><input type="checkbox"> Ay</label>
+                            </div>
+                        </div>
+                        <div class="model-row">
+                            <span class="model-item"><i class="fa-solid fa-futbol" style="color:#ea580c;"></i> Pilates Topu / Basketbol Topu</span>
+                            <span class="model-arrow">→</span>
+                            <div class="model-options">
+                                <label><input type="checkbox" checked> [✔] Güneş</label>
+                                <label><input type="checkbox"> Dünya</label>
+                                <label><input type="checkbox"> Ay</label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="write-block" style="margin-top:0.6rem;">
                         <label style="font-size:0.88rem; color:#0f766e; font-weight:700;"><i class="fa-solid fa-arrow-trend-up"></i> Bilgiden Manaya: Bu bilimsel gerçekleri öğrendiğinde olaylara ve gökyüzüne bakışında ne değişti?:</label>
                         <div class="write-area">Güneş'i sadece gökyüzünde parlayan sarı bir yuvarlak sanıyordum; artık onun gazlardan oluşan, dönen ve canlılığı ayakta tutan muhteşem bir enerji santrali olduğunu fark ettim.</div>
@@ -654,13 +785,13 @@
                 <!-- 6. TEFEKKÜR PENCERESİ -->
                 <div class="sec-box">
                     <div class="sec-title"><i class="fa-solid fa-window-maximize"></i> 6. TEFEKKÜR PENCERESİ (Gözlemden Şuura 4 Aşamalı Tefekkür)</div>
-                    <div class="prompt-card" style="border-left-color: var(--accent); background:#fffbeb;">
+                    <div class="prompt-card">
                         <em>"Kâinat; aklı olanların hikmetle okuyacağı, hayretle tefekkür edeceği açık bir kitaptır."</em><br>
                         Bu bölümde kendi zihninde ve kalbinde oluşturduğun düşünce adımlarını yaz:
                     </div>
 
                     <table class="content-table" style="margin-top:0.5rem;">
-                        <tr style="background:#fef3c7;">
+                        <tr style="background:#f8fafc;">
                             <th width="22%">Aşama</th>
                             <th width="35%">Rehber Soru</th>
                             <th width="43%">Öğrencinin Tefekkür Çıkarımı</th>
@@ -1075,36 +1206,137 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Backup initial HTML
             originalPageBackup = document.querySelector('.container').innerHTML;
-            attachDeleteButtons();
+            attachSectionToolbars();
         });
 
-        function attachDeleteButtons() {
-            // Add delete buttons to worksheet sections and test question cards
+        function attachSectionToolbars() {
             document.querySelectorAll('.sec-box, .question-card').forEach(el => {
-                if (!el.querySelector('.item-del-btn')) {
-                    const btn = document.createElement('button');
-                    btn.className = 'item-del-btn';
-                    btn.type = 'button';
-                    btn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Sil';
-                    btn.title = 'Bu bölümü / soruyu tamamen kaldır';
-                    btn.onclick = function(e) {
+                if (!el.querySelector('.item-action-toolbar')) {
+                    const toolbar = document.createElement('div');
+                    toolbar.className = 'item-action-toolbar';
+
+                    // 1. Edit button
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'btn-bar-action';
+                    editBtn.type = 'button';
+                    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Düzenle';
+                    editBtn.title = 'Bu bölümü düzenle';
+                    editBtn.onclick = function(e) {
                         e.stopPropagation();
-                        if (confirm('Bu bölümü / soruyu tamamen kaldırmak istediğinize emin misiniz?')) {
-                            if (el && el.style) {
-                                el.style.transition = 'all 0.3s ease';
-                                el.style.opacity = '0';
-                                el.style.transform = 'scale(0.95)';
-                            }
+                        if (!isViewerEditing) toggleViewerEdit();
+                        const editable = el.querySelector('[contenteditable="true"]') || el;
+                        editable.focus();
+                    };
+                    toolbar.appendChild(editBtn);
+
+                    // 2. Add button (Insert below)
+                    const addBtn = document.createElement('button');
+                    addBtn.className = 'btn-bar-action btn-bar-add';
+                    addBtn.type = 'button';
+                    addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Ekle';
+                    addBtn.title = 'Bu bölümün hemen altına yeni etkinlik/bölüm ekle';
+                    addBtn.onclick = function(e) {
+                        e.stopPropagation();
+                        addNewSection(el);
+                    };
+                    toolbar.appendChild(addBtn);
+
+                    // 3. Move Up button
+                    const upBtn = document.createElement('button');
+                    upBtn.className = 'btn-bar-action';
+                    upBtn.type = 'button';
+                    upBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+                    upBtn.title = 'Yukarı Taşı';
+                    upBtn.onclick = function(e) {
+                        e.stopPropagation();
+                        moveSection(el, 'up');
+                    };
+                    toolbar.appendChild(upBtn);
+
+                    // 4. Move Down button
+                    const downBtn = document.createElement('button');
+                    downBtn.className = 'btn-bar-action';
+                    downBtn.type = 'button';
+                    downBtn.innerHTML = '<i class="fa-solid fa-arrow-down"></i>';
+                    downBtn.title = 'Aşağı Taşı';
+                    downBtn.onclick = function(e) {
+                        e.stopPropagation();
+                        moveSection(el, 'down');
+                    };
+                    toolbar.appendChild(downBtn);
+
+                    // 5. Delete button
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'btn-bar-action btn-bar-del';
+                    delBtn.type = 'button';
+                    delBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Sil';
+                    delBtn.title = 'Bu bölümü tamamen kaldır';
+                    delBtn.onclick = function(e) {
+                        e.stopPropagation();
+                        if (confirm('Bu bölümü tamamen silmek istediğinize emin misiniz?')) {
+                            el.style.transition = 'all 0.3s ease';
+                            el.style.opacity = '0';
+                            el.style.transform = 'scale(0.95)';
                             setTimeout(() => {
-                                if (el) el.remove();
+                                el.remove();
                                 const rBtn = document.getElementById('viewerResetBtn');
                                 if (rBtn && rBtn.style) rBtn.style.display = 'inline-flex';
                             }, 250);
                         }
                     };
-                    el.appendChild(btn);
+                    toolbar.appendChild(delBtn);
+
+                    el.appendChild(toolbar);
                 }
             });
+        }
+
+        function addNewSection(afterEl = null) {
+            const title = prompt('Eklenecek yeni bölüm başlığını yazınız:', 'YENİ ETKİNLİK / BÖLÜM');
+            if (!title) return;
+
+            const newSec = document.createElement('div');
+            newSec.className = 'sec-box';
+            newSec.innerHTML = `
+                <div class="sec-title"><i class="fa-solid fa-sparkles"></i> ${title}</div>
+                <div class="prompt-card" contenteditable="${isViewerEditing ? 'true' : 'false'}">
+                    Buraya etkinliğin açıklamasını, senaryosunu veya yönergesini yazabilirsiniz.
+                </div>
+                <div class="write-block">
+                    <label style="font-size:0.88rem;">Öğrenci Yazma / Çözüm Alanı:</label>
+                    <div class="write-area" contenteditable="${isViewerEditing ? 'true' : 'false'}">[ Öğrenci cevabı buraya yazılacaktır .......... ]</div>
+                </div>
+            `;
+
+            if (afterEl && afterEl.parentNode) {
+                afterEl.after(newSec);
+            } else {
+                const activeSheet = document.querySelector('.tab-content.active .page-sheet');
+                if (activeSheet) activeSheet.appendChild(newSec);
+            }
+
+            attachSectionToolbars();
+            const rBtn = document.getElementById('viewerResetBtn');
+            if (rBtn && rBtn.style) rBtn.style.display = 'inline-flex';
+            newSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function moveSection(el, direction) {
+            if (direction === 'up') {
+                const prev = el.previousElementSibling;
+                if (prev && (prev.classList.contains('sec-box') || prev.classList.contains('question-card'))) {
+                    prev.before(el);
+                    const rBtn = document.getElementById('viewerResetBtn');
+                    if (rBtn && rBtn.style) rBtn.style.display = 'inline-flex';
+                }
+            } else if (direction === 'down') {
+                const next = el.nextElementSibling;
+                if (next && (next.classList.contains('sec-box') || next.classList.contains('question-card'))) {
+                    next.after(el);
+                    const rBtn = document.getElementById('viewerResetBtn');
+                    if (rBtn && rBtn.style) rBtn.style.display = 'inline-flex';
+                }
+            }
         }
 
         function toggleViewerEdit() {
@@ -1117,19 +1349,17 @@
             if (isViewerEditing) {
                 if (body) body.classList.add('edit-active');
                 if (btn) btn.classList.add('active');
-                if (text) text.textContent = 'Bitti';
+                if (text) text.textContent = 'Bitti (Kaydet)';
                 if (resetBtn && resetBtn.style) resetBtn.style.display = 'inline-flex';
 
-                // Make texts editable
-                document.querySelectorAll('.prompt-card, .write-area, .q-text, .option-item, .sec-title, table td').forEach(el => {
+                document.querySelectorAll('.prompt-card, .write-area, .q-text, .option-item, .sec-title, table td, .model-row').forEach(el => {
                     el.contentEditable = 'true';
                 });
             } else {
                 if (body) body.classList.remove('edit-active');
                 if (btn) btn.classList.remove('active');
-                if (text) text.textContent = 'Düzenle / Sil';
+                if (text) text.textContent = 'Düzenleme Menüsü';
 
-                // Remove editable
                 document.querySelectorAll('[contenteditable="true"]').forEach(el => {
                     el.contentEditable = 'false';
                 });
@@ -1141,7 +1371,7 @@
                 if (originalPageBackup) {
                     const container = document.querySelector('.container');
                     if (container) container.innerHTML = originalPageBackup;
-                    attachDeleteButtons();
+                    attachSectionToolbars();
                     const resetBtn = document.getElementById('viewerResetBtn');
                     if (resetBtn && resetBtn.style) resetBtn.style.display = 'none';
                     if (isViewerEditing) {

@@ -189,14 +189,149 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 4.5. Text Sanitizer (Fixes LaTeX \rightarrow, \to and character bugs)
+    function sanitizeEducationalText(text) {
+        if (!text) return '';
+        return text
+            .replace(/\\rightarrow/g, '→')
+            .replace(/\$\\rightarrow\$/g, '→')
+            .replace(/\\to/g, '→')
+            .replace(/\$\\to\$/g, '→')
+            .replace(/\$([^\$]+)\$/g, '$1');
+    }
+
+    // Create Action Menu for each Section Block
+    function createSectionToolbar(block) {
+        const toolbar = document.createElement('div');
+        toolbar.className = 'section-action-toolbar';
+
+        // 1. Edit Button
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn-toolbar-action';
+        editBtn.type = 'button';
+        editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Düzenle';
+        editBtn.title = 'Bu bölümü düzenle';
+        editBtn.onclick = (e) => {
+            e.stopPropagation();
+            if (!isEditing && editToggleBtn) editToggleBtn.click();
+            const content = block.querySelector('.block-content');
+            if (content) content.focus();
+        };
+        toolbar.appendChild(editBtn);
+
+        // 2. Add Section Below Button
+        const addBtn = document.createElement('button');
+        addBtn.className = 'btn-toolbar-action btn-toolbar-add';
+        addBtn.type = 'button';
+        addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Ekle';
+        addBtn.title = 'Bu bölümün altına yeni etkinlik/bölüm ekle';
+        addBtn.onclick = (e) => {
+            e.stopPropagation();
+            addNewModularSection(block);
+        };
+        toolbar.appendChild(addBtn);
+
+        // 3. Move Up Button
+        const upBtn = document.createElement('button');
+        upBtn.className = 'btn-toolbar-action';
+        upBtn.type = 'button';
+        upBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+        upBtn.title = 'Yukarı Taşı';
+        upBtn.onclick = (e) => {
+            e.stopPropagation();
+            moveModularBlock(block, 'up');
+        };
+        toolbar.appendChild(upBtn);
+
+        // 4. Move Down Button
+        const downBtn = document.createElement('button');
+        downBtn.className = 'btn-toolbar-action';
+        downBtn.type = 'button';
+        downBtn.innerHTML = '<i class="fa-solid fa-arrow-down"></i>';
+        downBtn.title = 'Aşağı Taşı';
+        downBtn.onclick = (e) => {
+            e.stopPropagation();
+            moveModularBlock(block, 'down');
+        };
+        toolbar.appendChild(downBtn);
+
+        // 5. Delete Button
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn-toolbar-action btn-toolbar-del';
+        delBtn.type = 'button';
+        delBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Sil';
+        delBtn.title = 'Bu bölümü tamamen kaldır';
+        delBtn.onclick = (e) => {
+            e.stopPropagation();
+            if (confirm('Bu bölümü tamamen kaldırmak istediğinize emin misiniz?')) {
+                block.style.transition = 'all 0.3s ease';
+                block.style.opacity = '0';
+                block.style.transform = 'scale(0.96)';
+                setTimeout(() => {
+                    block.remove();
+                    if (resetBtn) resetBtn.style.display = 'inline-flex';
+                }, 250);
+            }
+        };
+        toolbar.appendChild(delBtn);
+
+        return toolbar;
+    }
+
+    function addNewModularSection(afterBlock = null) {
+        const title = prompt('Eklenecek yeni bölüm başlığını yazınız:', 'YENİ ETKİNLİK / BÖLÜM');
+        if (!title) return;
+
+        const newBlock = document.createElement('div');
+        newBlock.className = 'editable-section-block';
+
+        const toolbar = createSectionToolbar(newBlock);
+        newBlock.appendChild(toolbar);
+
+        const contentWrap = document.createElement('div');
+        contentWrap.className = 'block-content';
+        contentWrap.contentEditable = isEditing ? 'true' : 'false';
+        contentWrap.innerHTML = `<h3><i class="fa-solid fa-sparkles"></i> ${title}</h3><p>Buraya yeni etkinlik, açıklama veya soru metnini yazabilirsiniz.</p>`;
+        contentWrap.addEventListener('input', () => {
+            if (resetBtn) resetBtn.style.display = 'inline-flex';
+        });
+        newBlock.appendChild(contentWrap);
+
+        if (afterBlock && afterBlock.parentNode) {
+            afterBlock.after(newBlock);
+        } else {
+            renderedMarkdown.appendChild(newBlock);
+        }
+
+        if (resetBtn) resetBtn.style.display = 'inline-flex';
+        newBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function moveModularBlock(block, dir) {
+        if (dir === 'up') {
+            const prev = block.previousElementSibling;
+            if (prev && prev.classList.contains('editable-section-block')) {
+                prev.before(block);
+                if (resetBtn) resetBtn.style.display = 'inline-flex';
+            }
+        } else if (dir === 'down') {
+            const next = block.nextElementSibling;
+            if (next && next.classList.contains('editable-section-block')) {
+                next.after(block);
+                if (resetBtn) resetBtn.style.display = 'inline-flex';
+            }
+        }
+    }
+
     // 5. Modular Content Rendering (Allows section-by-section deletion & editing)
     function renderModularContent(markdownText) {
+        const cleanMarkdown = sanitizeEducationalText(markdownText);
         if (typeof marked === 'undefined') {
-            renderedMarkdown.innerText = markdownText;
+            renderedMarkdown.innerText = cleanMarkdown;
             return;
         }
 
-        const rawHtml = marked.parse(markdownText);
+        const rawHtml = marked.parse(cleanMarkdown);
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = rawHtml;
 
@@ -212,29 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentBlock = document.createElement('div');
                 currentBlock.className = 'editable-section-block';
 
-                // Action toolbar (Delete button)
-                const toolbar = document.createElement('div');
-                toolbar.className = 'section-action-toolbar';
-
-                const delBtn = document.createElement('button');
-                delBtn.className = 'btn-section-delete';
-                delBtn.type = 'button';
-                delBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Sil';
-                delBtn.title = 'Bu bölümü tamamen kaldır';
-                delBtn.onclick = (e) => {
-                    e.stopPropagation();
-                    if (currentBlock) {
-                        currentBlock.style.transition = 'all 0.3s ease';
-                        currentBlock.style.opacity = '0';
-                        currentBlock.style.transform = 'scale(0.96)';
-                        setTimeout(() => {
-                            currentBlock.remove();
-                            if (resetBtn) resetBtn.style.display = 'inline-flex';
-                        }, 250);
-                    }
-                };
-
-                toolbar.appendChild(delBtn);
+                const toolbar = createSectionToolbar(currentBlock);
                 currentBlock.appendChild(toolbar);
 
                 const contentWrap = document.createElement('div');
@@ -281,6 +394,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             }
+        });
+    }
+
+    // 6.5. Top Add Section Button
+    const addSectionBtn = document.getElementById('addSectionBtn');
+    if (addSectionBtn) {
+        addSectionBtn.addEventListener('click', () => {
+            addNewModularSection();
         });
     }
 

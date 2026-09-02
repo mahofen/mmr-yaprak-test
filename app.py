@@ -144,6 +144,11 @@ def build_worksheet_prompt(data: dict) -> tuple[str, str]:
         f'   - BİLGİ: Bugün ne öğrendim?\n'
         f'   - ANLAM: Bugün hangi konuda farklı düşünmeye başladım?\n'
         f'   - DEĞER / EYLEM: Öğrendiğim ve fark ettiğim şey davranışlarımı nasıl etkileyecek?\n\n'
+        f'BİÇİMLENDİRME VE YAZI KARAKTERİ KURALLARI:\n'
+        f'- KESİNLİKLE LaTeX veya formül kodları ($\rightarrow$, \\rightarrow, \\to vb.) KULLANMA.\n'
+        f'- Ok işaretleri için doğrudan UTF-8 "→" sembolünü kullan.\n'
+        f'- İşaretleme kutuları için temiz [ ] veya [✔] kullan.\n'
+        f'- Tefekkür Penceresi dahil tüm bölümleri aynı başlık hiyerarşisi ve tasarım bütünlüğünde sun.\n'
         f'Çıktıyı temiz, doğrudan yazdırılabilir ve öğrencinin doldurabileceği formatta üret.'
     )
 
@@ -189,7 +194,9 @@ def build_test_prompt(data: dict) -> tuple[str, str]:
         f'Öğrenme Alanı, Konu, Öğrenme Çıktısı, hemen altına Manevi Öğrenme Çıktısı, Ad Soyad, Sınıf/No, Tarih, Puan kutusu ekle.\n\n'
         f'Soruları kolaydan zora sırala ve bilişsel basamakları dengeli dağıt.\n'
         f'Her soru için 4 seçenek (A, B, C, D) kullan.\n\n'
-        f'Testin en sonuna CEVAP ANAHTARI VE BİLİŞSEL DÜZEY MATRİSİ tablosunu ekle.\n'
+        f'BİÇİMLENDİRME VE YAZI KARAKTERİ KURALLARI:\n'
+        f'- KESİNLİKLE LaTeX veya formül kodları ($\rightarrow$, \\rightarrow, \\to vb.) KULLANMA.\n'
+        f'- Ok işaretleri için doğrudan UTF-8 "→" sembolünü kullan.\n'
         f'Çıktıyı temiz, akademik ve yazdırılabilir Markdown olarak üret.'
     )
 
