@@ -592,6 +592,174 @@ body {
     border-radius: 4px;
 }
 
+/* MMR BİÇİMSEL VE TASARIM STANDARDI (TÜM BÖLÜMLER İÇİN TEK İLKE) */
+.page-chunk-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    background: #f8fafc;
+    padding: 0.6rem;
+    border-radius: 30px;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-chunk {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 0.4rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.2s;
+}
+
+.btn-chunk:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+    background: #f0fdfa;
+}
+
+.btn-chunk.active {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+}
+
+.mmr-section-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    padding: 1.15rem 1.35rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+    page-break-inside: avoid;
+    transition: all 0.2s ease;
+}
+
+.mmr-section-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.mmr-section-card:hover .section-action-toolbar,
+.edit-mode-active .mmr-section-card:hover .section-action-toolbar {
+    display: flex;
+}
+
+.mmr-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.85rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.mmr-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.mmr-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 5px rgba(15, 118, 110, 0.25);
+    flex-shrink: 0;
+}
+
+.mmr-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.mmr-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.mmr-title i {
+    color: var(--teal);
+    font-size: 0.95rem;
+}
+
+.mmr-subtitle {
+    font-size: 0.78rem;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.mmr-tag {
+    background: #f1f5f9;
+    color: #334155;
+    padding: 0.2rem 0.65rem;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid #e2e8f0;
+}
+
+.mmr-card-body {
+    font-size: 0.91rem;
+    line-height: 1.55;
+    color: #334155;
+}
+
+.mmr-card-footer {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+    padding: 0.65rem 0.85rem;
+    margin-top: 0.8rem;
+}
+
+.mmr-footer-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--teal);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.mmr-footer-input {
+    color: #475569;
+    font-size: 0.88rem;
+    font-style: italic;
+    border-bottom: 1px dotted #94a3b8;
+    min-height: 22px;
+    line-height: 1.4;
+}
+
 /* EMPTY STATE */
 .empty-state {
     display: flex;

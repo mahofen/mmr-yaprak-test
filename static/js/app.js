@@ -278,24 +278,59 @@ document.addEventListener('DOMContentLoaded', () => {
         return toolbar;
     }
 
+    const SECTION_METADATA = {
+        1: { icon: 'fa-lightbulb', tag: 'Düşünme', sub: 'Merak ve İkinci Düşünme Kapısı' },
+        2: { icon: 'fa-compass', tag: 'Bağlam', sub: 'Mana Taşıyıcısı Olay (Olay → Bilgi → Anlam)' },
+        3: { icon: 'fa-binoculars', tag: 'Gözlem', sub: 'Kâinatı Okuma Fırsatı ve Hayret' },
+        4: { icon: 'fa-wrench', tag: 'Bilim', sub: 'Bilimsel Gerçekten Manaya Geçiş' },
+        5: { icon: 'fa-scale-balanced', tag: 'Nizam', sub: 'Nizam, Denge ve Ekolojik Sorumluluk' },
+        6: { icon: 'fa-seedling', tag: 'Tefekkür', sub: 'Gözlemden Şuura 4 Aşamalı Kalp Mimarisi' },
+        7: { icon: 'fa-gem', tag: 'Değer', sub: '5 Adımlı Erdem-Değer Zinciri' },
+        8: { icon: 'fa-comments', tag: 'Müzakere', sub: 'Gerekçeli Tartışma & Fikir Alışverişi' },
+        9: { icon: 'fa-bullseye', tag: 'Eylem', sub: 'Farkındalık → Değerim → Somut Davranışım' },
+        10: { icon: 'fa-star', tag: 'Şuur', sub: '3 Düzeyli Şuur Gelişim Çizelgesi' }
+    };
+
     function addNewModularSection(afterBlock = null) {
         const title = prompt('Eklenecek yeni bölüm başlığını yazınız:', 'YENİ ETKİNLİK / BÖLÜM');
         if (!title) return;
 
         const newBlock = document.createElement('div');
-        newBlock.className = 'editable-section-block';
+        newBlock.className = 'mmr-section-card editable-section-block';
 
         const toolbar = createSectionToolbar(newBlock);
         newBlock.appendChild(toolbar);
 
+        const headerEl = document.createElement('div');
+        headerEl.className = 'mmr-card-header';
+        headerEl.innerHTML = `
+            <div class="mmr-header-left">
+                <div class="mmr-badge"><i class="fa-solid fa-plus"></i></div>
+                <div class="mmr-title-group">
+                    <h3 class="mmr-title"><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                    <span class="mmr-subtitle">Öğretmen Tarafından Eklenen Etkinlik</span>
+                </div>
+            </div>
+            <span class="mmr-tag">Ek Bölüm</span>
+        `;
+        newBlock.appendChild(headerEl);
+
         const contentWrap = document.createElement('div');
-        contentWrap.className = 'block-content';
+        contentWrap.className = 'mmr-card-body block-content';
         contentWrap.contentEditable = isEditing ? 'true' : 'false';
-        contentWrap.innerHTML = `<h3><i class="fa-solid fa-sparkles"></i> ${title}</h3><p>Buraya yeni etkinlik, açıklama veya soru metnini yazabilirsiniz.</p>`;
+        contentWrap.innerHTML = `<p>Buraya yeni etkinlik, açıklama veya soru metnini yazabilirsiniz.</p>`;
         contentWrap.addEventListener('input', () => {
             if (resetBtn) resetBtn.style.display = 'inline-flex';
         });
         newBlock.appendChild(contentWrap);
+
+        const footerEl = document.createElement('div');
+        footerEl.className = 'mmr-card-footer';
+        footerEl.innerHTML = `
+            <div class="mmr-footer-label"><i class="fa-solid fa-pen"></i> Öğrenci Cevap Alanı:</div>
+            <div class="mmr-footer-input" contenteditable="${isEditing ? 'true' : 'false'}">[ Öğrenci cevabı buraya yazılacaktır .......... ]</div>
+        `;
+        newBlock.appendChild(footerEl);
 
         if (afterBlock && afterBlock.parentNode) {
             afterBlock.after(newBlock);
@@ -310,20 +345,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveModularBlock(block, dir) {
         if (dir === 'up') {
             const prev = block.previousElementSibling;
-            if (prev && prev.classList.contains('editable-section-block')) {
+            if (prev && (prev.classList.contains('editable-section-block') || prev.classList.contains('mmr-section-card'))) {
                 prev.before(block);
                 if (resetBtn) resetBtn.style.display = 'inline-flex';
             }
         } else if (dir === 'down') {
             const next = block.nextElementSibling;
-            if (next && next.classList.contains('editable-section-block')) {
+            if (next && (next.classList.contains('editable-section-block') || next.classList.contains('mmr-section-card'))) {
                 next.after(block);
                 if (resetBtn) resetBtn.style.display = 'inline-flex';
             }
         }
     }
 
-    // 5. Modular Content Rendering (Allows section-by-section deletion & editing)
+    // 5. Modular Content Rendering with Unified MMR Cards & Page Fitting
     function renderModularContent(markdownText) {
         const cleanMarkdown = sanitizeEducationalText(markdownText);
         if (typeof marked === 'undefined') {
@@ -338,30 +373,105 @@ document.addEventListener('DOMContentLoaded', () => {
         const children = Array.from(tempDiv.children);
         renderedMarkdown.innerHTML = '';
 
-        let currentBlock = null;
+        // Add Sayfa Sığdırma Butonları (Page Chunk Nav)
+        const chunkNav = document.createElement('div');
+        chunkNav.className = 'page-chunk-nav';
+        chunkNav.innerHTML = `
+            <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma:</span>
+            <button class="btn-chunk active" type="button" data-filter="all"><i class="fa-solid fa-layer-group"></i> Tümü (1-10)</button>
+            <button class="btn-chunk" type="button" data-filter="p1"><i class="fa-solid fa-1"></i> Sayfa 1 (1-4)</button>
+            <button class="btn-chunk" type="button" data-filter="p2"><i class="fa-solid fa-2"></i> Sayfa 2 (5-7)</button>
+            <button class="btn-chunk" type="button" data-filter="p3"><i class="fa-solid fa-3"></i> Sayfa 3 (8-10)</button>
+        `;
+
+        chunkNav.querySelectorAll('.btn-chunk').forEach(btn => {
+            btn.onclick = () => {
+                chunkNav.querySelectorAll('.btn-chunk').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                const cards = renderedMarkdown.querySelectorAll('.mmr-section-card');
+                cards.forEach((card, idx) => {
+                    const secNum = parseInt(card.getAttribute('data-sec-num')) || (idx + 1);
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else if (filter === 'p1') {
+                        card.style.display = (secNum >= 1 && secNum <= 4) ? 'block' : 'none';
+                    } else if (filter === 'p2') {
+                        card.style.display = (secNum >= 5 && secNum <= 7) ? 'block' : 'none';
+                    } else if (filter === 'p3') {
+                        card.style.display = (secNum >= 8 && secNum <= 10) ? 'block' : 'none';
+                    }
+                });
+            };
+        });
+
+        renderedMarkdown.appendChild(chunkNav);
+
+        let currentCard = null;
+        let sectionCount = 0;
 
         children.forEach(child => {
             const tag = child.tagName.toLowerCase();
-            // Start a new section block on headings or horizontal rules
-            if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || !currentBlock) {
-                currentBlock = document.createElement('div');
-                currentBlock.className = 'editable-section-block';
+            const text = child.textContent.trim();
+            const match = text.match(/^(?:#+\s*)?(\d+)\.\s*([^(:\n]+)(?:\((.*)\))?/i);
 
-                const toolbar = createSectionToolbar(currentBlock);
-                currentBlock.appendChild(toolbar);
+            if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || (match && match[1]) || !currentCard) {
+                let secNum = ++sectionCount;
+                let titleText = 'BÖLÜM';
+                let subText = 'Öğrenme ve Tefekkür Etkinliği';
+                let iconName = 'fa-sparkles';
+                let tagName = 'Etkinlik';
+
+                if (match && match[1]) {
+                    secNum = parseInt(match[1]);
+                    titleText = match[2].trim();
+                    if (match[3]) subText = match[3].trim();
+                } else if (['h1', 'h2', 'h3'].includes(tag)) {
+                    titleText = text.replace(/^#+\s*/, '').replace(/^\d+\.\s*/, '');
+                }
+
+                const meta = SECTION_METADATA[secNum] || { icon: 'fa-sparkles', tag: 'Etkinlik', sub: subText };
+                iconName = meta.icon;
+                tagName = meta.tag;
+                if (!match || !match[3]) subText = meta.sub;
+
+                currentCard = document.createElement('div');
+                currentCard.className = 'mmr-section-card editable-section-block';
+                currentCard.setAttribute('data-sec-num', secNum);
+
+                const toolbar = createSectionToolbar(currentCard);
+                currentCard.appendChild(toolbar);
+
+                const headerEl = document.createElement('div');
+                headerEl.className = 'mmr-card-header';
+                headerEl.innerHTML = `
+                    <div class="mmr-header-left">
+                        <div class="mmr-badge">${secNum}</div>
+                        <div class="mmr-title-group">
+                            <h3 class="mmr-title"><i class="fa-solid ${iconName}"></i> ${titleText}</h3>
+                            <span class="mmr-subtitle">${subText}</span>
+                        </div>
+                    </div>
+                    <span class="mmr-tag">${tagName}</span>
+                `;
+                currentCard.appendChild(headerEl);
 
                 const contentWrap = document.createElement('div');
-                contentWrap.className = 'block-content';
+                contentWrap.className = 'mmr-card-body block-content';
                 contentWrap.contentEditable = isEditing ? 'true' : 'false';
                 contentWrap.addEventListener('input', () => {
                     if (resetBtn) resetBtn.style.display = 'inline-flex';
                 });
-                currentBlock.appendChild(contentWrap);
+                currentCard.appendChild(contentWrap);
 
-                renderedMarkdown.appendChild(currentBlock);
+                renderedMarkdown.appendChild(currentCard);
+
+                if (['h1', 'h2', 'h3'].includes(tag) || (match && match[1])) {
+                    return;
+                }
             }
 
-            const blockContent = currentBlock.querySelector('.block-content');
+            const blockContent = currentCard.querySelector('.block-content');
             if (blockContent) {
                 blockContent.appendChild(child);
             }

@@ -316,37 +316,216 @@
             color: #334155;
         }
 
-        /* Section Actions on Blocks */
-        .editable-section-block {
+        /* SAYFA SIĞDIRMA DÜZENİ */
+        .page-chunk-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.35rem;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 0.5rem 0.8rem;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-chunk {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.2s;
+        }
+
+        .btn-chunk:hover {
+            border-color: #0f766e;
+            color: #0f766e;
+            background: #f0fdfa;
+        }
+
+        .btn-chunk.active {
+            background: #0f766e;
+            border-color: #0f766e;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+        }
+
+        /* MMR TEK VE MODERN KART TASARIMI */
+        .mmr-section-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            padding: 1.15rem 1.35rem;
+            margin-bottom: 1.2rem;
             position: relative;
-            border: 1px dashed transparent;
-            border-radius: 6px;
-            padding: 0.4rem;
-            margin-bottom: 0.6rem;
+            page-break-inside: avoid;
             transition: all 0.2s ease;
         }
 
-        .editable-section-block:hover {
+        .mmr-section-card:hover {
             border-color: #cbd5e1;
-            background: rgba(240, 249, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         }
 
+        .mmr-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 0.6rem;
+            margin-bottom: 0.85rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .mmr-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .mmr-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 5px rgba(15, 118, 110, 0.25);
+            flex-shrink: 0;
+        }
+
+        .mmr-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mmr-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .mmr-title i {
+            color: var(--teal);
+            font-size: 0.95rem;
+        }
+
+        .mmr-subtitle {
+            font-size: 0.78rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .mmr-tag {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 0.2rem 0.65rem;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .mmr-card-body {
+            font-size: 0.91rem;
+            line-height: 1.55;
+            color: #334155;
+        }
+
+        .mmr-card-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+            font-size: 0.88rem;
+        }
+
+        .mmr-card-body table th,
+        .mmr-card-body table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem 0.7rem;
+        }
+
+        .mmr-card-body table th {
+            background: #f8fafc;
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+        .mmr-card-body blockquote {
+            border-left: 4px solid var(--teal);
+            background: #f8fafc;
+            padding: 0.6rem 0.9rem;
+            margin: 0.6rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.88rem;
+            color: #334155;
+        }
+
+        .mmr-card-footer {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+            padding: 0.65rem 0.85rem;
+            margin-top: 0.8rem;
+        }
+
+        .mmr-footer-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .mmr-footer-input {
+            color: #475569;
+            font-size: 0.88rem;
+            font-style: italic;
+            border-bottom: 1px dotted #94a3b8;
+            min-height: 22px;
+            line-height: 1.4;
+        }
+
+        /* Section Actions on Hover */
         .section-action-toolbar {
             position: absolute;
-            top: 4px;
-            right: 4px;
+            top: 6px;
+            right: 6px;
             display: none;
             align-items: center;
             gap: 3px;
             background: rgba(255,255,255,0.95);
             border: 1px solid #cbd5e1;
-            border-radius: 5px;
+            border-radius: 6px;
             padding: 2px 4px;
             z-index: 20;
             box-shadow: 0 2px 5px rgba(0,0,0,0.08);
         }
 
-        .editable-section-block:hover .section-action-toolbar {
+        .mmr-section-card:hover .section-action-toolbar {
             display: flex;
         }
 
@@ -388,7 +567,7 @@
 
         /* Print Media */
         @media print {
-            .bank-header, .bank-nav, .sheet-top-actions, .section-action-toolbar {
+            .bank-header, .bank-nav, .sheet-top-actions, .section-action-toolbar, .page-chunk-nav {
                 display: none !important;
             }
             body {
@@ -408,6 +587,11 @@
             }
             .sheet-card:not(.active-print) {
                 display: none !important;
+            }
+            .mmr-section-card {
+                display: block !important;
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
             }
         }
     </style>
@@ -467,6 +651,16 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Sayfa Sığdırma Butonları -->
+            <div class="page-chunk-nav" id="chunk-nav-week-1">
+                <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma:</span>
+                <button class="btn-chunk active" onclick="filterWeekChunks(1, 'all', this)"><i class="fa-solid fa-layer-group"></i> Tümü (1-10)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(1, 'p1', this)"><i class="fa-solid fa-1"></i> Sayfa 1 (1-4)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(1, 'p2', this)"><i class="fa-solid fa-2"></i> Sayfa 2 (5-7)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(1, 'p3', this)"><i class="fa-solid fa-3"></i> Sayfa 3 (8-10)</button>
+            </div>
+
             <div class="markdown-rendered" id="content-week-1"></div>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
@@ -492,6 +686,16 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Sayfa Sığdırma Butonları -->
+            <div class="page-chunk-nav" id="chunk-nav-week-2">
+                <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma:</span>
+                <button class="btn-chunk active" onclick="filterWeekChunks(2, 'all', this)"><i class="fa-solid fa-layer-group"></i> Tümü (1-10)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(2, 'p1', this)"><i class="fa-solid fa-1"></i> Sayfa 1 (1-4)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(2, 'p2', this)"><i class="fa-solid fa-2"></i> Sayfa 2 (5-7)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(2, 'p3', this)"><i class="fa-solid fa-3"></i> Sayfa 3 (8-10)</button>
+            </div>
+
             <div class="markdown-rendered" id="content-week-2"></div>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
@@ -517,6 +721,16 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Sayfa Sığdırma Butonları -->
+            <div class="page-chunk-nav" id="chunk-nav-week-3">
+                <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma:</span>
+                <button class="btn-chunk active" onclick="filterWeekChunks(3, 'all', this)"><i class="fa-solid fa-layer-group"></i> Tümü (1-10)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(3, 'p1', this)"><i class="fa-solid fa-1"></i> Sayfa 1 (1-4)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(3, 'p2', this)"><i class="fa-solid fa-2"></i> Sayfa 2 (5-7)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(3, 'p3', this)"><i class="fa-solid fa-3"></i> Sayfa 3 (8-10)</button>
+            </div>
+
             <div class="markdown-rendered" id="content-week-3"></div>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
@@ -542,6 +756,16 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Sayfa Sığdırma Butonları -->
+            <div class="page-chunk-nav" id="chunk-nav-week-4">
+                <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma:</span>
+                <button class="btn-chunk active" onclick="filterWeekChunks(4, 'all', this)"><i class="fa-solid fa-layer-group"></i> Tümü (1-10)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(4, 'p1', this)"><i class="fa-solid fa-1"></i> Sayfa 1 (1-4)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(4, 'p2', this)"><i class="fa-solid fa-2"></i> Sayfa 2 (5-7)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(4, 'p3', this)"><i class="fa-solid fa-3"></i> Sayfa 3 (8-10)</button>
+            </div>
+
             <div class="markdown-rendered" id="content-week-4"></div>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
@@ -567,6 +791,16 @@
                     </button>
                 </div>
             </div>
+
+            <!-- Sayfa Sığdırma Butonları -->
+            <div class="page-chunk-nav" id="chunk-nav-week-5">
+                <span style="font-size:0.8rem; font-weight:700; color:#64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma:</span>
+                <button class="btn-chunk active" onclick="filterWeekChunks(5, 'all', this)"><i class="fa-solid fa-layer-group"></i> Tümü (1-10)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(5, 'p1', this)"><i class="fa-solid fa-1"></i> Sayfa 1 (1-4)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(5, 'p2', this)"><i class="fa-solid fa-2"></i> Sayfa 2 (5-7)</button>
+                <button class="btn-chunk" onclick="filterWeekChunks(5, 'p3', this)"><i class="fa-solid fa-3"></i> Sayfa 3 (8-10)</button>
+            </div>
+
             <div class="markdown-rendered" id="content-week-5"></div>
             <script>
                 document.addEventListener('DOMContentLoaded', () => {
@@ -580,6 +814,19 @@
     <script>
         let currentActiveWeek = 1;
 
+        const SECTION_METADATA = {
+            1: { icon: 'fa-lightbulb', tag: 'Düşünme', sub: 'Merak ve İkinci Düşünme Kapısı' },
+            2: { icon: 'fa-compass', tag: 'Bağlam', sub: 'Mana Taşıyıcısı Olay (Olay → Bilgi → Anlam)' },
+            3: { icon: 'fa-binoculars', tag: 'Gözlem', sub: 'Kâinatı Okuma Fırsatı ve Hayret' },
+            4: { icon: 'fa-wrench', tag: 'Bilim', sub: 'Bilimsel Gerçekten Manaya Geçiş' },
+            5: { icon: 'fa-scale-balanced', tag: 'Nizam', sub: 'Nizam, Denge ve Ekolojik Sorumluluk' },
+            6: { icon: 'fa-seedling', tag: 'Tefekkür', sub: 'Gözlemden Şuura 4 Aşamalı Kalp Mimarisi' },
+            7: { icon: 'fa-gem', tag: 'Değer', sub: '5 Adımlı Erdem-Değer Zinciri' },
+            8: { icon: 'fa-comments', tag: 'Müzakere', sub: 'Gerekçeli Tartışma & Fikir Alışverişi' },
+            9: { icon: 'fa-bullseye', tag: 'Eylem', sub: 'Farkındalık → Değerim → Somut Davranışım' },
+            10: { icon: 'fa-star', tag: 'Şuur', sub: '3 Düzeyli Şuur Gelişim Çizelgesi' }
+        };
+
         function renderSheetContent(weekNum, markdownText) {
             const container = document.getElementById('content-week-' + weekNum);
             if (!container) return;
@@ -590,14 +837,40 @@
 
             const children = Array.from(tempDiv.children);
             container.innerHTML = '';
-            let currentBlock = null;
+            let currentCard = null;
+            let sectionCount = 0;
 
             children.forEach(child => {
                 const tag = child.tagName.toLowerCase();
-                if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || !currentBlock) {
-                    currentBlock = document.createElement('div');
-                    currentBlock.className = 'editable-section-block';
+                const text = child.textContent.trim();
+                const match = text.match(/^(?:#+\s*)?(\d+)\.\s*([^(:
+]+)(?:\((.*)\))?/i);
 
+                if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || (match && match[1]) || !currentCard) {
+                    let secNum = ++sectionCount;
+                    let titleText = 'BÖLÜM';
+                    let subText = 'Öğrenme ve Tefekkür Etkinliği';
+                    let iconName = 'fa-sparkles';
+                    let tagName = 'Etkinlik';
+
+                    if (match && match[1]) {
+                        secNum = parseInt(match[1]);
+                        titleText = match[2].trim();
+                        if (match[3]) subText = match[3].trim();
+                    } else if (['h1', 'h2', 'h3'].includes(tag)) {
+                        titleText = text.replace(/^#+\s*/, '').replace(/^\d+\.\s*/, '');
+                    }
+
+                    const meta = SECTION_METADATA[secNum] || { icon: 'fa-sparkles', tag: 'Etkinlik', sub: subText };
+                    iconName = meta.icon;
+                    tagName = meta.tag;
+                    if (!match || !match[3]) subText = meta.sub;
+
+                    currentCard = document.createElement('div');
+                    currentCard.className = 'mmr-section-card';
+                    currentCard.setAttribute('data-sec-num', secNum);
+
+                    // Toolbar
                     const toolbar = document.createElement('div');
                     toolbar.className = 'section-action-toolbar';
 
@@ -607,10 +880,10 @@
                     editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Düzenle';
                     editBtn.onclick = (e) => {
                         e.stopPropagation();
-                        const contentWrap = currentBlock.querySelector('.block-inner');
-                        if (contentWrap) {
-                            contentWrap.contentEditable = 'true';
-                            contentWrap.focus();
+                        const bodyEl = currentCard.querySelector('.mmr-card-body');
+                        if (bodyEl) {
+                            bodyEl.contentEditable = 'true';
+                            bodyEl.focus();
                         }
                     };
                     toolbar.appendChild(editBtn);
@@ -621,7 +894,7 @@
                     addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Ekle';
                     addBtn.onclick = (e) => {
                         e.stopPropagation();
-                        addSectionBelow(currentBlock);
+                        addSectionBelow(currentCard);
                     };
                     toolbar.appendChild(addBtn);
 
@@ -631,8 +904,8 @@
                     upBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
                     upBtn.onclick = (e) => {
                         e.stopPropagation();
-                        const prev = currentBlock.previousElementSibling;
-                        if (prev && prev.classList.contains('editable-section-block')) prev.before(currentBlock);
+                        const prev = currentCard.previousElementSibling;
+                        if (prev && prev.classList.contains('mmr-section-card')) prev.before(currentCard);
                     };
                     toolbar.appendChild(upBtn);
 
@@ -642,8 +915,8 @@
                     downBtn.innerHTML = '<i class="fa-solid fa-arrow-down"></i>';
                     downBtn.onclick = (e) => {
                         e.stopPropagation();
-                        const next = currentBlock.nextElementSibling;
-                        if (next && next.classList.contains('editable-section-block')) next.after(currentBlock);
+                        const next = currentCard.nextElementSibling;
+                        if (next && next.classList.contains('mmr-section-card')) next.after(currentCard);
                     };
                     toolbar.appendChild(downBtn);
 
@@ -654,24 +927,71 @@
                     delBtn.onclick = (e) => {
                         e.stopPropagation();
                         if (confirm('Bu bölümü silmek istediğinize emin misiniz?')) {
-                            currentBlock.style.transition = 'all 0.25s ease';
-                            currentBlock.style.opacity = '0';
-                            setTimeout(() => currentBlock.remove(), 250);
+                            currentCard.style.transition = 'all 0.25s ease';
+                            currentCard.style.opacity = '0';
+                            setTimeout(() => currentCard.remove(), 250);
                         }
                     };
                     toolbar.appendChild(delBtn);
 
-                    currentBlock.appendChild(toolbar);
+                    currentCard.appendChild(toolbar);
 
-                    const blockInner = document.createElement('div');
-                    blockInner.className = 'block-inner';
-                    currentBlock.appendChild(blockInner);
+                    // Header
+                    const headerEl = document.createElement('div');
+                    headerEl.className = 'mmr-card-header';
+                    headerEl.innerHTML = `
+                        <div class="mmr-header-left">
+                            <div class="mmr-badge">${secNum}</div>
+                            <div class="mmr-title-group">
+                                <h3 class="mmr-title"><i class="fa-solid ${iconName}"></i> ${titleText}</h3>
+                                <span class="mmr-subtitle">${subText}</span>
+                            </div>
+                        </div>
+                        <span class="mmr-tag">${tagName}</span>
+                    `;
+                    currentCard.appendChild(headerEl);
 
-                    container.appendChild(currentBlock);
+                    // Body
+                    const bodyEl = document.createElement('div');
+                    bodyEl.className = 'mmr-card-body';
+                    currentCard.appendChild(bodyEl);
+
+                    container.appendChild(currentCard);
+
+                    if (['h1', 'h2', 'h3'].includes(tag) || (match && match[1])) {
+                        return;
+                    }
                 }
 
-                const inner = currentBlock.querySelector('.block-inner');
-                if (inner) inner.appendChild(child);
+                const body = currentCard.querySelector('.mmr-card-body');
+                if (body) {
+                    body.appendChild(child);
+                }
+            });
+        }
+
+        function filterWeekChunks(weekNum, chunkType, btn) {
+            const nav = document.getElementById('chunk-nav-week-' + weekNum);
+            if (nav) {
+                nav.querySelectorAll('.btn-chunk').forEach(b => b.classList.remove('active'));
+            }
+            if (btn) btn.classList.add('active');
+
+            const content = document.getElementById('content-week-' + weekNum);
+            if (!content) return;
+
+            const cards = content.querySelectorAll('.mmr-section-card');
+            cards.forEach((card, index) => {
+                const secNum = parseInt(card.getAttribute('data-sec-num')) || (index + 1);
+                if (chunkType === 'all') {
+                    card.style.display = 'block';
+                } else if (chunkType === 'p1') {
+                    card.style.display = (secNum >= 1 && secNum <= 4) ? 'block' : 'none';
+                } else if (chunkType === 'p2') {
+                    card.style.display = (secNum >= 5 && secNum <= 7) ? 'block' : 'none';
+                } else if (chunkType === 'p3') {
+                    card.style.display = (secNum >= 8 && secNum <= 10) ? 'block' : 'none';
+                }
             });
         }
 
@@ -707,12 +1027,24 @@
             const title = prompt('Yeni bölüm başlığını giriniz:', 'YENİ ETKİNLİK / BÖLÜM');
             if (!title) return;
             const newBlock = document.createElement('div');
-            newBlock.className = 'editable-section-block';
+            newBlock.className = 'mmr-section-card';
             newBlock.innerHTML = `
-                <div class="block-inner" contenteditable="true">
-                    <h3><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                <div class="mmr-card-header">
+                    <div class="mmr-header-left">
+                        <div class="mmr-badge"><i class="fa-solid fa-plus"></i></div>
+                        <div class="mmr-title-group">
+                            <h3 class="mmr-title"><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                            <span class="mmr-subtitle">Öğretmen Tarafından Eklenen Etkinlik</span>
+                        </div>
+                    </div>
+                    <span class="mmr-tag">Ek Bölüm</span>
+                </div>
+                <div class="mmr-card-body" contenteditable="true">
                     <p>Etkinlik açıklaması ve yönergesi buraya yazılacaktır.</p>
-                    <p>[ Öğrenci Cevap Alanı: ............................................................ ]</p>
+                </div>
+                <div class="mmr-card-footer">
+                    <div class="mmr-footer-label"><i class="fa-solid fa-pen"></i> Öğrenci Cevap Alanı:</div>
+                    <div class="mmr-footer-input" contenteditable="true">[ Öğrenci cevabı buraya yazılacaktır .......... ]</div>
                 </div>
             `;
             block.after(newBlock);
@@ -725,12 +1057,24 @@
             const title = prompt('Yeni bölüm başlığını giriniz:', 'YENİ ETKİNLİK / BÖLÜM');
             if (!title) return;
             const newBlock = document.createElement('div');
-            newBlock.className = 'editable-section-block';
+            newBlock.className = 'mmr-section-card';
             newBlock.innerHTML = `
-                <div class="block-inner" contenteditable="true">
-                    <h3><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                <div class="mmr-card-header">
+                    <div class="mmr-header-left">
+                        <div class="mmr-badge"><i class="fa-solid fa-plus"></i></div>
+                        <div class="mmr-title-group">
+                            <h3 class="mmr-title"><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                            <span class="mmr-subtitle">Öğretmen Tarafından Eklenen Etkinlik</span>
+                        </div>
+                    </div>
+                    <span class="mmr-tag">Ek Bölüm</span>
+                </div>
+                <div class="mmr-card-body" contenteditable="true">
                     <p>Etkinlik açıklaması ve yönergesi buraya yazılacaktır.</p>
-                    <p>[ Öğrenci Cevap Alanı: ............................................................ ]</p>
+                </div>
+                <div class="mmr-card-footer">
+                    <div class="mmr-footer-label"><i class="fa-solid fa-pen"></i> Öğrenci Cevap Alanı:</div>
+                    <div class="mmr-footer-input" contenteditable="true">[ Öğrenci cevabı buraya yazılacaktır .......... ]</div>
                 </div>
             `;
             container.appendChild(newBlock);

@@ -416,8 +416,10 @@
         }
 
         .sec-box:hover .item-action-toolbar,
+        .mmr-section-card:hover .item-action-toolbar,
         .question-card:hover .item-action-toolbar,
         .edit-active .sec-box .item-action-toolbar,
+        .edit-active .mmr-section-card .item-action-toolbar,
         .edit-active .question-card .item-action-toolbar {
             display: inline-flex;
         }
@@ -459,12 +461,174 @@
             color: #ffffff;
         }
 
-        .sec-box, .question-card {
+        .sec-box, .question-card, .mmr-section-card {
             position: relative;
             transition: all 0.2s ease;
         }
 
+        /* MMR BİÇİMSEL VE TASARIM STANDARDI (TÜM BÖLÜMLER İÇİN TEK İLKE) */
+        .page-chunk-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 0.6rem;
+            border-radius: 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-chunk {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: all 0.2s;
+        }
+
+        .btn-chunk:hover {
+            border-color: #0f766e;
+            color: #0f766e;
+            background: #f0fdfa;
+        }
+
+        .btn-chunk.active {
+            background: #0f766e;
+            border-color: #0f766e;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+        }
+
+        .mmr-section-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            padding: 1.15rem 1.35rem;
+            margin-bottom: 1.25rem;
+            page-break-inside: avoid;
+        }
+
+        .mmr-section-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .mmr-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 0.6rem;
+            margin-bottom: 0.85rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .mmr-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .mmr-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 5px rgba(15, 118, 110, 0.25);
+            flex-shrink: 0;
+        }
+
+        .mmr-title-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mmr-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .mmr-title i {
+            color: var(--teal);
+            font-size: 0.95rem;
+        }
+
+        .mmr-subtitle {
+            font-size: 0.78rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .mmr-tag {
+            background: #f1f5f9;
+            color: #334155;
+            padding: 0.2rem 0.65rem;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .mmr-card-body {
+            font-size: 0.91rem;
+            line-height: 1.55;
+            color: #334155;
+        }
+
+        .mmr-card-footer {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+            padding: 0.65rem 0.85rem;
+            margin-top: 0.8rem;
+        }
+
+        .mmr-footer-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .mmr-footer-input {
+            color: #475569;
+            font-size: 0.88rem;
+            font-style: italic;
+            border-bottom: 1px dotted #94a3b8;
+            min-height: 22px;
+            line-height: 1.4;
+        }
+
         .edit-active .sec-box, 
+        .edit-active .mmr-section-card,
         .edit-active .question-card {
             border: 1px dashed #93c5fd;
             border-radius: 8px;
@@ -472,6 +636,7 @@
             margin-bottom: 1.25rem;
         }
         .edit-active .sec-box:hover, 
+        .edit-active .mmr-section-card:hover,
         .edit-active .question-card:hover {
             border-color: #3b82f6;
             background: rgba(240, 249, 255, 0.4);
@@ -536,13 +701,17 @@
             body {
                 background: #ffffff;
             }
-            .top-navbar, .item-del-btn, .item-action-toolbar, .btn-add-global {
+            .top-navbar, .item-del-btn, .item-action-toolbar, .btn-add-global, .page-chunk-nav {
                 display: none !important;
             }
+            .chunk-page {
+                display: block !important;
+            }
             .edit-active .sec-box, 
+            .edit-active .mmr-section-card,
             .edit-active .question-card {
-                border: none !important;
-                padding: 0 !important;
+                border: 1px solid #e2e8f0 !important;
+                padding: 0.8rem !important;
                 background: transparent !important;
             }
             .container {
@@ -641,265 +810,384 @@
                     </tr>
                 </table>
 
-                <!-- 1. MERAK ET -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-lightbulb"></i> 1. MERAK ET (Merak & İkinci Düşünme Kapısı)</div>
-                    <div class="prompt-card">
-                        Kışın evimizin tek bir odasını ısıtmak için bile yakıt harcar, fatura öderiz. Faturayı unuttuğumuzda evimiz hızla soğur.<br>
-                        <strong>Peki; koca dünyayı yaklaşık 5 milyar yıldır hiç sönmeden, yakıtı bitmeden ısıtan ve aydınlatan gökyüzündeki bu dev küre nasıl çalışıyor olabilir?</strong><br><br>
-                        <span style="color:#0f766e; font-weight:700;"><i class="fa-solid fa-key"></i> İkinci Düşünme Kapısı:</span><br>
-                        Güneş uzayda öylece sabit duran bir fener midir, yoksa bir topaç gibi dönmekte midir? Milyarlarca yıldır hiç aksamadan süregelen bu sistemde seni en çok düşündüren şey nedir?
-                    </div>
-                    <div class="write-block">
-                        <label style="font-size:0.88rem;">Seni en çok düşündüren soru veya merak ettiğin nokta:</label>
-                        <div class="write-area">Düşüncem: Cansız bir ateş topunun milyarlarca yıl yakıtı bitmeden tam gereken ısı ve ışığı sağlaması ve bir düzen içinde dönmesi beni çok düşündürüyor.</div>
-                    </div>
+                <!-- Sayfa Sığdırma & Bölüm Navigasyon Menüsü -->
+                <div class="page-chunk-nav">
+                    <span style="font-size: 0.82rem; font-weight: 700; color: #64748b;"><i class="fa-solid fa-file-lines"></i> Sayfa Sığdırma Düzeni:</span>
+                    <button class="btn-chunk active" onclick="switchChunk('all', this)"><i class="fa-solid fa-layer-group"></i> Tüm Bölümler (1-10)</button>
+                    <button class="btn-chunk" onclick="switchChunk('page-1', this)"><i class="fa-solid fa-1"></i> Sayfa 1: Keşif & Bilgi (1-4)</button>
+                    <button class="btn-chunk" onclick="switchChunk('page-2', this)"><i class="fa-solid fa-2"></i> Sayfa 2: Anlam & Tefekkür (5-7)</button>
+                    <button class="btn-chunk" onclick="switchChunk('page-3', this)"><i class="fa-solid fa-3"></i> Sayfa 3: Eylem & Şuur (8-10)</button>
                 </div>
 
-                <!-- 2. BAĞLAM -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-newspaper"></i> 2. BAĞLAMI İNCELE (Mana Taşıyıcısı Olay: Olay → Bilgi → Gözlem → Sebep-Sonuç → Anlam)</div>
-                    <div class="prompt-card">
-                        5-A sınıfından Zeynep ve Kerem fen panosu hazırlarken internette şu iddiayı okurlar: <em>"Güneş uzay boşluğunda katı, taş bir kütledir ve tamamen hareketsiz durur."</em><br>
-                        Kerem şüphelenir; Zeynep ise: <em>"Bilim insanları bir iddiayı kulaktan dolma kabul etmez. Gözlem yapar, ölçüm araçlarını inceler ve veriyi doğrular!"</em> der.<br>
-                        İki arkadaş, gökyüzündeki bu dev sistemin bir nizamı ve hareketi olup olmadığını keşfetmek için bilimsel bir araştırmaya girişirler.
-                    </div>
-                    <div class="write-block">
-                        <label style="font-size:0.88rem;">Zeynep ve Kerem'in araştırmasında aradıkları temel bilimsel soru nedir?:</label>
-                        <div class="write-area">Güneş'in maddesel yapısı katı mıdır ve uzayda gerçekten hareketsiz midir, yoksa belirli bir yönde dönmekte midir?</div>
-                    </div>
-                </div>
+                <!-- SAYFA 1: KEŞİF VE BİLGİ (Bölüm 1 - 4) -->
+                <div class="chunk-page" id="chunk-page-1">
 
-                <!-- 3. FARK ET -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-magnifying-glass"></i> 3. FARK ET (Kainatı Okuma Fırsatı ve Hayret)</div>
-                    <p style="font-size:0.9rem; font-weight:600;">Etkinlik A: Güvenilir Bilgi ve Gözlem Kaynaklarını Seçelim (Doğrulara ✔, Yanlışlara ✖ koy):</p>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item"><input type="checkbox" checked> [ ✔ ] TÜBİTAK ve resmî astronomi gözlemevi teleskop kayıtları</div>
-                        <div class="checkbox-item"><input type="checkbox"> [ ✖ ] Kaynağı belirsiz, sansasyonel sosyal medya paylaşımları</div>
-                        <div class="checkbox-item"><input type="checkbox" checked> [ ✔ ] Özel filtreli Güneş teleskoplarıyla çekilmiş leke takip fotoğrafları</div>
-                        <div class="checkbox-item"><input type="checkbox"> [ ✖ ] Bilimsel inceleme yapılmamış kişisel blog yorumları</div>
+                    <!-- 1. MERAK ET -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">1</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-lightbulb"></i> MERAK ET</h3>
+                                    <span class="mmr-subtitle">Merak ve İkinci Düşünme Kapısı</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Düşünme</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            Kışın evimizin tek bir odasını ısıtmak için bile yakıt harcar, fatura öderiz. Faturayı unuttuğumuzda ev hızla soğur.<br>
+                            <strong>Peki; koca dünyayı yaklaşık 5 milyar yıldır hiç sönmeden, yakıtı bitmeden ısıtan ve aydınlatan gökyüzündeki bu dev küre nasıl çalışıyor olabilir?</strong><br>
+                            <em>Güneş uzayda öylece sabit duran bir fener midir, yoksa bir topaç gibi dönmekte midir? Milyarlarca yıldır hiç aksamayan bu intizamda seni en çok düşündüren şey nedir?</em>
+                        </div>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-pen-fancy"></i> Düşünce ve Merak Noktam:</div>
+                            <div class="mmr-footer-input">Düşüncem: Cansız bir ateş topunun milyarlarca yıl yakıtı bitmeden tam gereken ısı ve ışığı sağlaması ve bir düzen içinde dönmesi beni çok düşündürüyor.</div>
+                        </div>
                     </div>
 
-                    <p style="font-size:0.9rem; font-weight:600; margin-top:0.8rem;">Etkinlik B: Güneş Lekelerini Takip Ederek Dönmeyi Keşfet (Kainat Kitabını Oku):</p>
-                    <div class="model-frame">
-     1. GÜN                 3. GÜN                 5. GÜN
-   /---------\            /---------\            /---------\
-  | (Leke)    |   --->   |    (Leke) |   --->   |      (Leke)|
-   \---------/            \---------/            \---------/
-     (Batı)                 (Orta)                 (Doğu)</div>
-                    <div class="write-block">
-                        <label style="font-size:0.88rem;">1. Güneş lekesinin batıdan doğuya düzenli kayması bize neyi kanıtlar?:</label>
-                        <div class="write-area">Güneş'in sabit durmadığını, kendi ekseni etrafında batıdan doğuya (saat yönünün tersine) döndüğünü kanıtlar.</div>
+                    <!-- 2. BAĞLAMI İNCELE -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">2</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-compass"></i> BAĞLAMI İNCELE</h3>
+                                    <span class="mmr-subtitle">Mana Taşıyıcısı Olay (Olay → Bilgi → Gözlem → Anlam)</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Bağlam</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            5-A sınıfından Zeynep ve Kerem fen panosu hazırlarken internette şu iddiayı okurlar: <em>"Güneş uzay boşluğunda katı, taş bir kütledir ve tamamen hareketsiz durur."</em><br>
+                            Kerem şüphelenir; Zeynep ise: <em>"Bilim insanları bir iddiayı kulaktan dolma kabul etmez. Gözlem yapar, ölçüm araçlarını inceler ve veriyi doğrular!"</em> diyerek araştırmaya girişirler.
+                        </div>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-magnifying-glass"></i> Temel Araştırma Sorusu:</div>
+                            <div class="mmr-footer-input">Güneş'in maddesel yapısı katı mıdır ve uzayda gerçekten hareketsiz midir, yoksa belirli bir yönde dönmekte midir?</div>
+                        </div>
                     </div>
-                    <div class="write-block">
-                        <label style="font-size:0.88rem; color:#0f766e; font-weight:700;"><i class="fa-solid fa-compass"></i> Kainatı Okuma Sorusu: Bu düzen ve ölçülü hareket sana ne düşündürüyor? Seni hayran bırakan özellik nedir?:</label>
-                        <div class="write-area">Güneş gibi devasa bir gaz kütlesinin bile başıboş olmayıp dakik bir intizamla dönmesi, kâinattaki mükemmel nizam ve ölçüyü fark ettiriyor.</div>
-                    </div>
-                </div>
 
-                <!-- 4. BİLGİYİ KULLAN -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-wrench"></i> 4. BİLGİYİ KULLAN (Bilimsel Gerçekten Manaya Geçiş)</div>
-                    <table class="content-table">
-                        <tr>
-                            <th width="35%">Güneş'in Özelliği</th>
-                            <th width="35%">Bilimsel Doğrusu</th>
-                            <th width="30%">Kavram Yanılgısı Düzeltmesi</th>
-                        </tr>
-                        <tr>
-                            <td>Geometrik Şekli</td>
-                            <td>Küreseldir</td>
-                            <td>Düz daire veya disk değildir.</td>
-                        </tr>
-                        <tr>
-                            <td>Maddesel Yapısı</td>
-                            <td>Sıcak Gazlar (Büyük oranda Hidrojen & Helyum)</td>
-                            <td>Katı taş veya lavdan ibaret değildir.</td>
-                        </tr>
-                        <tr>
-                            <td>Dönme Hareketi</td>
-                            <td>Saat yönünün tersine (Batıdan Doğuya)</td>
-                            <td>Uzayda hareketsiz/sabit değildir.</td>
-                        </tr>
-                        <tr>
-                            <td>Yüzey Sıcaklık Farkı</td>
-                            <td>Güneş Lekeleri (Çevresine göre daha soğuk)</td>
-                            <td>Yüzeyinde kara delik veya delikler yoktur.</td>
-                        </tr>
-                    </table>
-
-                    <p style="font-size:0.88rem; font-weight:700; margin-top:0.8rem; color:#1e293b;"><i class="fa-solid fa-shapes"></i> Büyüklük Karşılaştırma Modeli (Hangi nesne kimi temsil eder? Doğru kutuyu [✔] işaretleyiniz):</p>
-                    <div class="model-matching-card">
-                        <div class="model-row">
-                            <span class="model-item"><i class="fa-solid fa-circle-dot" style="color:#854d0e;"></i> Filtre Kahve Çekirdeği / Bilye</span>
-                            <span class="model-arrow">→</span>
-                            <div class="model-options">
-                                <label><input type="checkbox"> Güneş</label>
-                                <label><input type="checkbox"> Dünya</label>
-                                <label><input type="checkbox" checked> [✔] Ay</label>
+                    <!-- 3. FARK ET -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">3</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-binoculars"></i> FARK ET</h3>
+                                    <span class="mmr-subtitle">Kâinatı Okuma Fırsatı ve Gözlem</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Gözlem</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                <div>
+                                    <strong>A. Güvenilir Bilgi Kaynakları (Doğrula):</strong>
+                                    <div class="checkbox-group" style="margin-top:0.4rem;">
+                                        <div class="checkbox-item"><input type="checkbox" checked> [ ✔ ] TÜBİTAK teleskop kayıtları</div>
+                                        <div class="checkbox-item"><input type="checkbox"> [ ✖ ] Kaynağı belirsiz paylaşımlar</div>
+                                        <div class="checkbox-item"><input type="checkbox" checked> [ ✔ ] Filtreli Güneş teleskobu leke takibi</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong>B. Güneş Lekelerinin Takibi (Dönüş Kanıtı):</strong>
+                                    <div class="model-frame" style="padding:0.5rem; margin:0.4rem 0; font-size:0.75rem;">
+1. GÜN: [Batı] (•)    ---> 3. GÜN: ( • ) Orta
+5. GÜN:       (•) [Doğu]  ===> Saat yönünün tersine dönüş</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="model-row">
-                            <span class="model-item"><i class="fa-solid fa-circle" style="color:#0284c7;"></i> Nohut / Leblebi</span>
-                            <span class="model-arrow">→</span>
-                            <div class="model-options">
-                                <label><input type="checkbox"> Güneş</label>
-                                <label><input type="checkbox" checked> [✔] Dünya</label>
-                                <label><input type="checkbox"> Ay</label>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-eye"></i> Kâinatı Okuma Çıkarımı:</div>
+                            <div class="mmr-footer-input">Lekenin batıdan doğuya düzenli kayması Güneş'in kendi ekseni etrafında batıdan doğuya (saat yönünün tersine) döndüğünü kanıtlar. Devasa bir ateş topunun böylesine dakik bir intizamla dönmesi hayranlık uyandırıyor.</div>
+                        </div>
+                    </div>
+
+                    <!-- 4. BİLGİYİ KULLAN -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">4</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-wrench"></i> BİLGİYİ KULLAN</h3>
+                                    <span class="mmr-subtitle">Bilimsel Gerçekten Manaya Geçiş</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Bilim</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            <table class="content-table" style="margin:0.4rem 0;">
+                                <tr>
+                                    <th width="35%">Güneş'in Özelliği</th>
+                                    <th width="35%">Bilimsel Doğrusu</th>
+                                    <th width="30%">Kavram Yanılgısı Düzeltmesi</th>
+                                </tr>
+                                <tr>
+                                    <td>Geometrik Şekli</td>
+                                    <td>Küreseldir</td>
+                                    <td>Düz daire veya disk değildir.</td>
+                                </tr>
+                                <tr>
+                                    <td>Maddesel Yapısı</td>
+                                    <td>Sıcak Gazlar (Hidrojen & Helyum)</td>
+                                    <td>Katı taş veya lavdan ibaret değildir.</td>
+                                </tr>
+                                <tr>
+                                    <td>Dönme Hareketi</td>
+                                    <td>Saat yönünün tersine (Batıdan Doğuya)</td>
+                                    <td>Uzayda hareketsiz/sabit değildir.</td>
+                                </tr>
+                            </table>
+
+                            <div class="model-matching-card" style="margin-top:0.6rem;">
+                                <div class="model-row">
+                                    <span class="model-item"><i class="fa-solid fa-futbol" style="color:#ea580c;"></i> Pilates Topu / Basketbol Topu</span>
+                                    <span class="model-arrow">→</span>
+                                    <div class="model-options">
+                                        <label><input type="checkbox" checked> [✔] Güneş</label>
+                                        <label><input type="checkbox"> Dünya</label>
+                                        <label><input type="checkbox"> Ay</label>
+                                    </div>
+                                </div>
+                                <div class="model-row">
+                                    <span class="model-item"><i class="fa-solid fa-circle" style="color:#0284c7;"></i> Nohut / Leblebi</span>
+                                    <span class="model-arrow">→</span>
+                                    <div class="model-options">
+                                        <label><input type="checkbox"> Güneş</label>
+                                        <label><input type="checkbox" checked> [✔] Dünya</label>
+                                        <label><input type="checkbox"> Ay</label>
+                                    </div>
+                                </div>
+                                <div class="model-row">
+                                    <span class="model-item"><i class="fa-solid fa-circle-dot" style="color:#854d0e;"></i> Filtre Kahve Çekirdeği / Bilye</span>
+                                    <span class="model-arrow">→</span>
+                                    <div class="model-options">
+                                        <label><input type="checkbox"> Güneş</label>
+                                        <label><input type="checkbox"> Dünya</label>
+                                        <label><input type="checkbox" checked> [✔] Ay</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="model-row">
-                            <span class="model-item"><i class="fa-solid fa-futbol" style="color:#ea580c;"></i> Pilates Topu / Basketbol Topu</span>
-                            <span class="model-arrow">→</span>
-                            <div class="model-options">
-                                <label><input type="checkbox" checked> [✔] Güneş</label>
-                                <label><input type="checkbox"> Dünya</label>
-                                <label><input type="checkbox"> Ay</label>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-arrow-trend-up"></i> Bilgiden Manaya Dönüşüm:</div>
+                            <div class="mmr-footer-input">Güneş'i sadece gökyüzünde parlayan sarı bir yuvarlak sanıyordum; artık onun dönen ve canlılığı ayakta tutan muazzam bir enerji santrali ve nimet olduğunu fark ettim.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SAYFA 2: ANLAM VE TEFEKKÜR (Bölüm 5 - 7) -->
+                <div class="chunk-page" id="chunk-page-2">
+
+                    <!-- 5. DÜŞÜN VE İLİŞKİLENDİR -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">5</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-scale-balanced"></i> DÜŞÜN VE İLİŞKİLENDİR</h3>
+                                    <span class="mmr-subtitle">Nizam, Denge ve Ekolojik Sorumluluk</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Nizam</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            Güneş ile Dünya'mız arasındaki yaklaşık 150 milyon kilometrelik mesafe ve Güneş'in yaydığı enerji miktarı öyle hassas bir dengededir ki; dünya biraz daha yakın olsa sular buharlaşır ve kavrulurduk, biraz daha uzak olsa tüm gezegen buz tutardı.
+                        </div>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-link"></i> Denge ve İnsanın Sorumluluğu:</div>
+                            <div class="mmr-footer-input">1. Kâinatta hiçbir şeyin rastlantı olmadığını, canlılığın devamı için her santimetrenin özel bir hesapla tayin edildiğini anladım. 2. Güneş enerjisini israf etmeden kullanmalı ve bu muazzam dengeyi korumak için doğaya sahip çıkmalıyız.</div>
+                        </div>
+                    </div>
+
+                    <!-- 6. TEFEKKÜR PENCERESİ -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">6</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-seedling"></i> TEFEKKÜR PENCERESİ</h3>
+                                    <span class="mmr-subtitle">Gözlemden Şuura 4 Aşamalı Kalp Mimarisi</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Tefekkür</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            <em>"Kâinat; aklı olanların hikmetle okuyacağı, hayretle tefekkür edeceği açık bir kitaptır."</em>
+                            <table class="content-table" style="margin-top:0.5rem;">
+                                <tr style="background:#f8fafc;">
+                                    <th width="22%">Aşama</th>
+                                    <th width="34%">Rehber Soru</th>
+                                    <th width="44%">Öğrencinin Tefekkür Çıkarımı</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>1. GÖRDÜM</strong><br><small style="color:#64748b;">(Bilimsel Gözlem)</small></td>
+                                    <td>Bu derste bilimsel olarak neyi fark ettim?</td>
+                                    <td>Güneş'in gazlardan oluşan, kendi ekseni etrafında dönen ve yüzeyinde lekeler barındıran dev bir küre olduğunu gördüm.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. DÜŞÜNDÜM</strong><br><small style="color:#64748b;">(Akıl Yürütme)</small></td>
+                                    <td>Bu düzen, ölçü ve denge bana ne düşündürdü?</td>
+                                    <td>Aklı, iradesi veya gözü olmayan bir gaz kütlesinin milyarlarca yıl yakıtı bitmeden tam ihtiyacımız kadar ısı vermesini düşündüm.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. ANLAMLANDIRDIM</strong><br><small style="color:#64748b;">(Mana ve Hikmet)</small></td>
+                                    <td>Bu olayın hayat açısından anlamı nedir?</td>
+                                    <td>Bu kusursuz saatin kendi kendine olamayacağını; her şeyi bilen ve koruyan Yaratıcı'nın emrinde vazife gördüğünü anlamlandırdım.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. DEĞERLENDİRDİM</strong><br><small style="color:#64748b;">(Şuur ve Davranış)</small></td>
+                                    <td>Bu farkındalık davranışlarımı nasıl etkiler?</td>
+                                    <td>Bana karşılıksız verilen bu hayat ve enerji nimetine karşı hürmet ve şükür duymam; kaynaklara karşı sorumlu davranmam gerektiğini değerlendirdim.</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-heart"></i> Şuurlu Öz Çıkarımım:</div>
+                            <div class="mmr-footer-input">Kâinatta hiçbir şey tesadüf ve başıboş değildir; Güneş bir lamba, yeryüzü bir sofra, insan ise bu nimetlerin emanetçisidir.</div>
+                        </div>
+                    </div>
+
+                    <!-- 7. ERDEM VE DEĞER -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">7</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-gem"></i> ERDEM VE DEĞER</h3>
+                                    <span class="mmr-subtitle">5 Adımlı Erdem-Değer Zinciri</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Değer</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            <table class="content-table" style="margin:0.4rem 0;">
+                                <tr style="background:#f1f5f9;">
+                                    <th width="20%">1. Ne Fark Ettim?</th>
+                                    <th width="20%">2. Bu Bana Ne Düşündürdü?</th>
+                                    <th width="20%">3. İnsan Hayatındaki Önemi?</th>
+                                    <th width="20%">4. Hangi Değeri Görüyorum?</th>
+                                    <th width="20%">5. Davranışımda Nasıl Görünür?</th>
+                                </tr>
+                                <tr>
+                                    <td>Güneş'in hiç aksamayan bir düzenle dünyamızı ısıtıp aydınlattığını fark ettim.</td>
+                                    <td>Kâinatta hiçbir şeyin başıboş olmadığını, her varlığın bir görevi olduğunu düşündürdü.</td>
+                                    <td>Yaşamımızın devamı bu hassas dengeye bağlıdır; düzen bozulsa hayat biter.</td>
+                                    <td><strong>İNTİZAM (DÜZEN), EMANET BİLİNCİ VE ŞÜKÜR</strong></td>
+                                    <td>Doğayı kirletmemek, enerjiyi israf etmemek ve günlük hayatımda planlı olmak olarak görünür.</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-medal"></i> Hayatıma Yansıyan Değer:</div>
+                            <div class="mmr-footer-input">Düzen ve intizam kâinatın esasıdır; ben de zamanımı, derslerimi ve doğayı bu intizam bilinciyle koruyacağım.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SAYFA 3: EYLEM VE ŞUUR (Bölüm 8 - 10) -->
+                <div class="chunk-page" id="chunk-page-3">
+
+                    <!-- 8. MÜZAKERE EDELİM -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">8</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-comments"></i> MÜZAKERE EDELİM</h3>
+                                    <span class="mmr-subtitle">Gerekçeli Tartışma & Fikir Alışverişi</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Müzakere</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            <strong>1. Soru:</strong> Bir arkadaşınız sınıfta şöyle bir fikir öne sürse: <em>"Güneş sadece uzayda duran sıradan bir gaz topudur, üzerinde düşünmeye gerek yoktur."</em> Bilimsel gözlemler ve ölçüler ışığında ona nasıl bir karşılık verirsiniz?<br><br>
+                            <strong>2. Soru:</strong> Kâinatta Güneş ile Dünya arasındaki bu mükemmel uyum ve intizam, insanların toplumda birbirleriyle kuracağı ilişkilerde ve sorumluluklarında bize nasıl ilham verir?
+                        </div>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-bullhorn"></i> Müzakere Savım ve Gerekçem:</div>
+                            <div class="mmr-footer-input">Cansız bir ateş topunun milyarlarca yıl canlıların ihtiyacını tam vaktinde karşılaması tesadüf olamaz. Bu nizam bize toplumda görevlerimizi eksiksiz ve adaletle yapmamız gerektiğini öğretir.</div>
+                        </div>
+                    </div>
+
+                    <!-- 9. EYLEME DÖNÜŞTÜR -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">9</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-bullseye"></i> EYLEME DÖNÜŞTÜR</h3>
+                                    <span class="mmr-subtitle">Farkındalık → Değerim → Somut Davranışım (Haftalık Görev Kartı)</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Eylem</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox"> 
+                                    <strong>1. Görev (Tefekkür & Şuur):</strong> Sabah gün ışığı pencerene ulaştığında 15 saniye dur; dünyayı ısıtan ve hayat veren bu muazzam intizamı düşünerek içinden şükret. (Zaman: Sabah [ ..... ])
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox"> 
+                                    <strong>2. Görev (Ekolojik Sorumluluk & Tasarruf):</strong> Güneş ışığının aydınlattığı gündüz saatlerinde evde veya sınıfta gereksiz yanan en az 2 lambayı kapat; enerjiyi bir emanet gibi koru.
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox"> 
+                                    <strong>3. Görev (Bilgiyi ve Hikmeti Paylaşma):</strong> Güneş'in bir topaç gibi döndüğünü ve üzerindeki lekelerin bunu nasıl ispatladığını ailenden birine veya arkadaşına anlat.
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="write-block" style="margin-top:0.6rem;">
-                        <label style="font-size:0.88rem; color:#0f766e; font-weight:700;"><i class="fa-solid fa-arrow-trend-up"></i> Bilgiden Manaya: Bu bilimsel gerçekleri öğrendiğinde olaylara ve gökyüzüne bakışında ne değişti?:</label>
-                        <div class="write-area">Güneş'i sadece gökyüzünde parlayan sarı bir yuvarlak sanıyordum; artık onun gazlardan oluşan, dönen ve canlılığı ayakta tutan muhteşem bir enerji santrali olduğunu fark ettim.</div>
-                    </div>
-                </div>
-
-                <!-- 5. DÜŞÜN VE İLİŞKİLENDİR -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-puzzle-piece"></i> 5. DÜŞÜN VE İLİŞKİLENDİR (Nizam, Denge ve Sorumluluk)</div>
-                    <div class="prompt-card">
-                        Güneş ile Dünya'mız arasındaki yaklaşık 150 milyon kilometrelik mesafe ve Güneş'in yaydığı enerji miktarı öyle hassas bir dengededir ki; dünya biraz daha yakın olsa sular buharlaşır ve kavrulurduk, biraz daha uzak olsa tüm gezegen buz tutardı.
-                    </div>
-                    <div class="write-block">
-                        <label style="font-size:0.88rem;">1. Bu sistemdeki hassas ölçü ve denge bize kâinatın işleyişi hakkında ne anlatabilir?:</label>
-                        <div class="write-area">Kâinatta hiçbir şeyin rastlantı olmadığını, canlılığın devamı için her santimetrenin ve sıcaklık derecesinin özel bir hesap ve hikmetle tayin edildiğini anlatır.</div>
-                    </div>
-                    <div class="write-block">
-                        <label style="font-size:0.88rem;">2. Güneş dünyamıza bu enerjiyi karşılıksız sunarken, insanın çevresindeki enerjiyi ve doğayı kullanırken nasıl bir sorumluluk taşıması gerekir?:</label>
-                        <div class="write-area">Güneş ışığını ve doğal enerjiyi israf etmeden kullanmalı, temiz tutmalı ve bu muazzam dengenin bozulmaması için doğayı koruma sorumluluğu taşımalıyız.</div>
-                    </div>
-                </div>
-
-                <!-- 6. TEFEKKÜR PENCERESİ -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-window-maximize"></i> 6. TEFEKKÜR PENCERESİ (Gözlemden Şuura 4 Aşamalı Tefekkür)</div>
-                    <div class="prompt-card">
-                        <em>"Kâinat; aklı olanların hikmetle okuyacağı, hayretle tefekkür edeceği açık bir kitaptır."</em><br>
-                        Bu bölümde kendi zihninde ve kalbinde oluşturduğun düşünce adımlarını yaz:
-                    </div>
-
-                    <table class="content-table" style="margin-top:0.5rem;">
-                        <tr style="background:#f8fafc;">
-                            <th width="22%">Aşama</th>
-                            <th width="35%">Rehber Soru</th>
-                            <th width="43%">Öğrencinin Tefekkür Çıkarımı</th>
-                        </tr>
-                        <tr>
-                            <td><strong>1. GÖRDÜM</strong><br><small style="color:#64748b;">(Bilimsel Gözlem)</small></td>
-                            <td>Bu derste bilimsel olarak neyi fark ettim?</td>
-                            <td>Güneş'in gazlardan oluşan, kendi ekseni etrafında batıdan doğuya dönen ve yüzeyinde lekeler barındıran dev bir gök cismi olduğunu gördüm.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2. DÜŞÜNDÜM</strong><br><small style="color:#64748b;">(Akıl Yürütme)</small></td>
-                            <td>Bu düzen, ölçü ve denge bana ne düşündürdü?</td>
-                            <td>Aklı, iradesi veya gözü olmayan bir gaz kütlesinin milyarlarca yıl boyunca yakıtı bitmeden tam canlıların ihtiyacı kadar ısı ve ışık vermesini düşündüm.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3. ANLAMLANDIRDIM</strong><br><small style="color:#64748b;">(Mana ve Hikmet)</small></td>
-                            <td>Bu olayın hayat ve yaratılış açısından düşündürdüğü anlam nedir?</td>
-                            <td>Bu kusursuz intizamın kendi kendine olamayacağını; her şeyi bilen, gören ve yarattığı varlıklara merhamet eden bir Yaratıcı'nın emrinde vazife gördüğünü anlamlandırdım.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>4. DEĞERLENDİRDİM</strong><br><small style="color:#64748b;">(Şuur ve Davranış)</small></td>
-                            <td>Bu farkındalık benim davranışlarımı nasıl etkileyebilir?</td>
-                            <td>Bana karşılıksız verilen bu hayat ve enerji nimetine karşı hayret, hürmet ve şükür duymam; doğaya ve kaynaklara karşı daha sorumlu davranmam gerektiğini değerlendirdim.</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <!-- 7. ERDEM VE DEĞER -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-gem"></i> 7. ERDEM – DEĞER ZİNCİRİ (Bilgi → Farkındalık → Anlam → Değer → Eylem)</div>
-                    <table class="content-table">
-                        <tr style="background:#f1f5f9;">
-                            <th width="20%">1. Ne Fark Ettim?</th>
-                            <th width="20%">2. Bu Bana Ne Düşündürdü?</th>
-                            <th width="20%">3. İnsan Hayatındaki Önemi Nedir?</th>
-                            <th width="20%">4. Hangi Değeri Görüyorum?</th>
-                            <th width="20%">5. Davranışımda Nasıl Görünür?</th>
-                        </tr>
-                        <tr>
-                            <td>Güneş'in hiç şaşmayan bir düzen ve ölçüyle dünyamızı ısıtıp aydınlattığını fark ettim.</td>
-                            <td>Kâinatta hiçbir şeyin başıboş olmadığını, her varlığın bir görevi ve dengesi olduğunu düşündürdü.</td>
-                            <td>Yaşamımızın devamı bu hassas dengeye bağlıdır; düzen bozulsa hayat biter.</td>
-                            <td><strong>İNTİZAM (DÜZEN), EMANET BİLİNCİ VE ŞÜKÜR</strong></td>
-                            <td>Doğayı kirletmemek, enerjiyi israf etmemek ve günlük hayatımda düzenli ve planlı olmak olarak görünür.</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <!-- 8. MÜZAKERE EDELİM -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-comments"></i> 8. MÜZAKERE EDELİM (Gerekçeli Müzakere Soruları)</div>
-                    <div class="prompt-card">
-                        <strong>1. Müzakere Sorusu:</strong> Bir arkadaşınız sınıfta şöyle bir fikir öne sürse: <em>"Güneş sadece uzayda duran sıradan bir gaz topudur, bunun üzerinde derinlemesine düşünmeye gerek yoktur."</em> Siz bugün edindiğiniz bilimsel gözlemler ve ölçüler ışığında ona nasıl bir karşılık verirsiniz? Gerekçeniz ne olur?<br><br>
-                        <strong>2. Müzakere Sorusu:</strong> Kâinatta Güneş ile Dünya arasındaki bu mükemmel uyum ve intizam, biz insanların toplumda birbirimizle kuracağımız ilişkilerde ve sorumluluklarımızda bize nasıl ilham verebilir?
-                    </div>
-                </div>
-
-                <!-- 9. EYLEME DÖNÜŞTÜR -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-bullseye"></i> 9. EYLEME DÖNÜŞTÜR (Farkındalık → Değerim → Somut Davranışım)</div>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox"> 
-                            <strong>1. Görev (Tefekkür & Şuur):</strong> Sabah gün ışığı pencerene ulaştığında 15 saniye dur; dünyayı ısıtan ve hayat veren bu muazzam intizamı düşünerek içinden şükret.<br>
-                            <small><em>Ne zaman yapacağım?:</em> Sabah uyandığımda [ .......... ]</small>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox"> 
-                            <strong>2. Görev (Ekolojik Sorumluluk & Tasarruf):</strong> Güneş ışığının aydınlattığı gündüz saatlerinde evde veya sınıfta gereksiz yere açık kalan lambaları kapat; enerjiyi bir emanet gibi koru.<br>
-                            <small><em>Nerede ve kime fayda sağlayacak?:</em> Evimde ve okulumda, doğaya ve geleceğe [ .......... ]</small>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox"> 
-                            <strong>3. Görev (Bilgiyi ve Hikmeti Paylaşma):</strong> Güneş'in bir topaç gibi döndüğünü ve üzerindeki lekelerin bunu nasıl ispatladığını ailenden birine veya arkadaşına anlat.<br>
-                            <small><em>Kime anlattım ve tepkisi ne oldu?:</em> [ ............................................................ ]</small>
+                        <div class="mmr-card-footer">
+                            <div class="mmr-footer-label"><i class="fa-solid fa-list-check"></i> Görev Uygulama Takibi:</div>
+                            <div class="mmr-footer-input">[ ✔ ] 1. Görev Yapıldı  |  [ ✔ ] 2. Görev Yapıldı  |  [ ✔ ] 3. Görev Yapıldı</div>
                         </div>
                     </div>
-                </div>
 
-                <!-- 10. KENDİMİ DEĞERLENDİRİYORUM -->
-                <div class="sec-box">
-                    <div class="sec-title"><i class="fa-solid fa-star"></i> 10. KENDİMİ DEĞERLENDİRİYORUM (Şuur Gelişim Çizelgesi - 3 Düzey)</div>
-                    <table class="content-table" style="font-size:0.88rem;">
-                        <tr style="background:#f8fafc;">
-                            <th width="28%">Şuur Düzeyi</th>
-                            <th width="24%">Soru</th>
-                            <th>Benim Öz Yansıtmam</th>
-                        </tr>
-                        <tr>
-                            <td><strong>1. BİLGİ DÜZEYİ</strong></td>
-                            <td>Bugün ne öğrendim?</td>
-                            <td>Güneş'in sıcak gazlardan oluşan küresel bir yapıda olduğunu ve kendi etrafında batıdan doğuya döndüğünü bilimsel olarak öğrendim.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2. ANLAM DÜZEYİ</strong></td>
-                            <td>Bugün hangi konuda farklı düşünmeye başladım?</td>
-                            <td>Güneş'in sadece parlak bir ışık kaynağı değil; tüm canlılığı ayakta tutan muazzam bir ölçü, nizam ve rahmet vesilesi olduğunu fark ettim.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>3. DEĞER / EYLEM DÜZEYİ</strong></td>
-                            <td>Fark ettiğim şey davranışımı nasıl etkileyecek?</td>
-                            <td>Kaynakları israf etmeden kullanacak, doğaya emanet bilinciyle yaklaşacak ve çevremdeki düzeni daha dikkatli inceleyeceğim.</td>
-                        </tr>
-                    </table>
-                    <div style="margin-top:0.6rem; display:flex; justify-content:space-between; align-items:center;">
-                        <span><strong>Genel Öğrenme ve Şuur Puanım:</strong> ⭐ ⭐ ⭐ ⭐ ⭐</span>
-                        <span><strong>Öğretmen İmzası / Notu:</strong> ........................................</span>
+                    <!-- 10. KENDİMİ DEĞERLENDİRİYORUM -->
+                    <div class="mmr-section-card">
+                        <div class="mmr-card-header">
+                            <div class="mmr-header-left">
+                                <div class="mmr-badge">10</div>
+                                <div class="mmr-title-group">
+                                    <h3 class="mmr-title"><i class="fa-solid fa-star"></i> KENDİMİ DEĞERLENDİRİYORUM</h3>
+                                    <span class="mmr-subtitle">3 Düzeyli Şuur Gelişim Çizelgesi</span>
+                                </div>
+                            </div>
+                            <span class="mmr-tag">Şuur</span>
+                        </div>
+                        <div class="mmr-card-body">
+                            <table class="content-table" style="font-size:0.88rem; margin:0.4rem 0;">
+                                <tr style="background:#f8fafc;">
+                                    <th width="28%">Şuur Düzeyi</th>
+                                    <th width="24%">Rehber Soru</th>
+                                    <th>Benim Öz Yansıtmam</th>
+                                </tr>
+                                <tr>
+                                    <td><strong>1. BİLGİ DÜZEYİ</strong></td>
+                                    <td>Bugün ne öğrendim?</td>
+                                    <td>Güneş'in sıcak gazlardan oluşan küresel bir yapıda olduğunu ve kendi etrafında batıdan doğuya döndüğünü bilimsel olarak öğrendim.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. ANLAM DÜZEYİ</strong></td>
+                                    <td>Bugün hangi konuda farklı düşünmeye başladım?</td>
+                                    <td>Güneş'in sadece parlak bir ışık kaynağı değil; tüm canlılığı ayakta tutan muazzam bir ölçü, nizam ve rahmet vesilesi olduğunu fark ettim.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. DEĞER / EYLEM DÜZEYİ</strong></td>
+                                    <td>Fark ettiğim şey davranışımı nasıl etkileyecek?</td>
+                                    <td>Kaynakları israf etmeden kullanacak, doğaya emanet bilinciyle yaklaşacak ve çevremdeki düzeni daha dikkatli inceleyeceğim.</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="mmr-card-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                            <span><strong style="color:var(--primary);">Genel Öğrenme ve Şuur Puanım:</strong> ⭐ ⭐ ⭐ ⭐ ⭐</span>
+                            <span><strong>Öğretmen İmzası / Notu:</strong> ........................................</span>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
@@ -1204,13 +1492,31 @@
         let originalPageBackup = null;
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Backup initial HTML
             originalPageBackup = document.querySelector('.container').innerHTML;
             attachSectionToolbars();
         });
 
+        function switchChunk(chunkId, btn) {
+            document.querySelectorAll('.btn-chunk').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            const p1 = document.getElementById('chunk-page-1');
+            const p2 = document.getElementById('chunk-page-2');
+            const p3 = document.getElementById('chunk-page-3');
+
+            if (chunkId === 'all') {
+                if (p1) p1.style.display = 'block';
+                if (p2) p2.style.display = 'block';
+                if (p3) p3.style.display = 'block';
+            } else {
+                if (p1) p1.style.display = (chunkId === 'page-1') ? 'block' : 'none';
+                if (p2) p2.style.display = (chunkId === 'page-2') ? 'block' : 'none';
+                if (p3) p3.style.display = (chunkId === 'page-3') ? 'block' : 'none';
+            }
+        }
+
         function attachSectionToolbars() {
-            document.querySelectorAll('.sec-box, .question-card').forEach(el => {
+            document.querySelectorAll('.mmr-section-card, .sec-box, .question-card').forEach(el => {
                 if (!el.querySelector('.item-action-toolbar')) {
                     const toolbar = document.createElement('div');
                     toolbar.className = 'item-action-toolbar';
@@ -1296,15 +1602,24 @@
             if (!title) return;
 
             const newSec = document.createElement('div');
-            newSec.className = 'sec-box';
+            newSec.className = 'mmr-section-card';
             newSec.innerHTML = `
-                <div class="sec-title"><i class="fa-solid fa-sparkles"></i> ${title}</div>
-                <div class="prompt-card" contenteditable="${isViewerEditing ? 'true' : 'false'}">
-                    Buraya etkinliğin açıklamasını, senaryosunu veya yönergesini yazabilirsiniz.
+                <div class="mmr-card-header">
+                    <div class="mmr-header-left">
+                        <div class="mmr-badge"><i class="fa-solid fa-plus"></i></div>
+                        <div class="mmr-title-group">
+                            <h3 class="mmr-title"><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                            <span class="mmr-subtitle">Kullanıcı Tarafından Eklenen Etkinlik</span>
+                        </div>
+                    </div>
+                    <span class="mmr-tag">Ek Etkinlik</span>
                 </div>
-                <div class="write-block">
-                    <label style="font-size:0.88rem;">Öğrenci Yazma / Çözüm Alanı:</label>
-                    <div class="write-area" contenteditable="${isViewerEditing ? 'true' : 'false'}">[ Öğrenci cevabı buraya yazılacaktır .......... ]</div>
+                <div class="mmr-card-body" contenteditable="${isViewerEditing ? 'true' : 'false'}">
+                    Etkinlik açıklaması ve yönergesi buraya yazılacaktır.
+                </div>
+                <div class="mmr-card-footer">
+                    <div class="mmr-footer-label"><i class="fa-solid fa-pen"></i> Öğrenci Cevap Alanı:</div>
+                    <div class="mmr-footer-input" contenteditable="${isViewerEditing ? 'true' : 'false'}">[ Öğrenci cevabı buraya yazılacaktır .......... ]</div>
                 </div>
             `;
 
@@ -1324,14 +1639,14 @@
         function moveSection(el, direction) {
             if (direction === 'up') {
                 const prev = el.previousElementSibling;
-                if (prev && (prev.classList.contains('sec-box') || prev.classList.contains('question-card'))) {
+                if (prev && (prev.classList.contains('mmr-section-card') || prev.classList.contains('sec-box') || prev.classList.contains('question-card'))) {
                     prev.before(el);
                     const rBtn = document.getElementById('viewerResetBtn');
                     if (rBtn && rBtn.style) rBtn.style.display = 'inline-flex';
                 }
             } else if (direction === 'down') {
                 const next = el.nextElementSibling;
-                if (next && (next.classList.contains('sec-box') || next.classList.contains('question-card'))) {
+                if (next && (next.classList.contains('mmr-section-card') || next.classList.contains('sec-box') || next.classList.contains('question-card'))) {
                     next.after(el);
                     const rBtn = document.getElementById('viewerResetBtn');
                     if (rBtn && rBtn.style) rBtn.style.display = 'inline-flex';
@@ -1352,7 +1667,7 @@
                 if (text) text.textContent = 'Bitti (Kaydet)';
                 if (resetBtn && resetBtn.style) resetBtn.style.display = 'inline-flex';
 
-                document.querySelectorAll('.prompt-card, .write-area, .q-text, .option-item, .sec-title, table td, .model-row').forEach(el => {
+                document.querySelectorAll('.mmr-card-body, .mmr-footer-input, .mmr-title, .prompt-card, .write-area, .q-text, .option-item, .sec-title, table td, .model-row').forEach(el => {
                     el.contentEditable = 'true';
                 });
             } else {
