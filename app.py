@@ -25,9 +25,10 @@ def add_no_cache_headers(response):
     return response
 
 GEMINI_MODELS = [
+    'gemini-3.5-flash-lite',
+    'gemini-flash-latest',
     'gemini-3.6-flash',
-    'gemini-3.5-flash',
-    'gemini-2.5-flash-lite'
+    'gemini-3.1-pro-preview'
 ]
 
 def get_api_key():
@@ -69,7 +70,7 @@ def call_gemini_api(system_instruction: str, user_prompt: str) -> str:
                 headers=headers,
                 method='POST'
             )
-            with urllib.request.urlopen(req, timeout=90) as response:
+            with urllib.request.urlopen(req, timeout=120) as response:
                 result = json.loads(response.read().decode('utf-8'))
                 candidates = result.get('candidates', [])
                 if candidates and 'content' in candidates[0]:

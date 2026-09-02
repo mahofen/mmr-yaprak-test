@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çalışma Kağıdı Bankası - Muallimin Manevi Rehberi (MMR)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #172554;
+            --teal: #0f766e;
+            --teal-dark: #115e59;
+            --accent: #d97706;
+            --bg-light: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            padding-bottom: 3rem;
+        }
+
+        /* Top Header */
+        .bank-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+            color: #ffffff;
+            padding: 1.25rem 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand-box i {
+            font-size: 2.2rem;
+            color: #38bdf8;
+        }
+
+        .brand-box h1 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-box p {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-bank {
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 0.5rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+
+        .btn-bank:hover {
+            background: rgba(255,255,255,0.25);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .btn-bank.btn-gold {
+            background: #d97706;
+            border-color: #f59e0b;
+        }
+        .btn-bank.btn-gold:hover {
+            background: #b45309;
+        }
+
+        .btn-bank.btn-docx-all {
+            background: #2563eb;
+            border-color: #3b82f6;
+        }
+        .btn-bank.btn-docx-all:hover {
+            background: #1d4ed8;
+        }
+
+        /* Week Nav Tabs */
+        .bank-nav {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 74px;
+            z-index: 90;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 0.6rem 1rem;
+            border: none;
+            background: transparent;
+            color: #475569;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .nav-tab.active {
+            background: #0f766e;
+            color: #ffffff;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 960px;
+            margin: 1.5rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Worksheet Card Sheet */
+        .sheet-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+            padding: 2rem 2.25rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .sheet-badge {
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: #0f766e;
+            color: #ffffff;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(15, 118, 110, 0.3);
+        }
+
+        .sheet-top-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .sheet-title-text {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .sheet-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-sheet-action {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            padding: 4px 9px;
+            border-radius: 5px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s;
+        }
+
+        .btn-sheet-action:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .btn-sheet-action.btn-docx {
+            color: #1e3a8a;
+            border-color: #93c5fd;
+            background: #eff6ff;
+        }
+        .btn-sheet-action.btn-docx:hover {
+            background: #1e3a8a;
+            color: #ffffff;
+        }
+
+        /* Content Styling */
+        .markdown-rendered {
+            font-size: 0.93rem;
+            line-height: 1.6;
+            color: #1e293b;
+        }
+
+        .markdown-rendered h1, 
+        .markdown-rendered h2 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.35rem;
+            margin: 1.2rem 0 0.6rem 0;
+        }
+
+        .markdown-rendered h3 {
+            font-size: 1.05rem;
+            color: var(--teal);
+            margin: 1rem 0 0.4rem 0;
+        }
+
+        .markdown-rendered p {
+            margin-bottom: 0.65rem;
+        }
+
+        .markdown-rendered ul, 
+        .markdown-rendered ol {
+            margin-bottom: 0.75rem;
+            padding-left: 1.4rem;
+        }
+
+        .markdown-rendered li {
+            margin-bottom: 0.3rem;
+        }
+
+        .markdown-rendered table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.8rem 0 1rem 0;
+            font-size: 0.88rem;
+        }
+
+        .markdown-rendered table th, 
+        .markdown-rendered table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem 0.7rem;
+        }
+
+        .markdown-rendered table th {
+            background: #f8fafc;
+            color: #1e3a8a;
+            font-weight: 700;
+            text-align: left;
+        }
+
+        .markdown-rendered blockquote {
+            border-left: 4px solid var(--teal);
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        /* Section Actions on Blocks */
+        .editable-section-block {
+            position: relative;
+            border: 1px dashed transparent;
+            border-radius: 6px;
+            padding: 0.4rem;
+            margin-bottom: 0.6rem;
+            transition: all 0.2s ease;
+        }
+
+        .editable-section-block:hover {
+            border-color: #cbd5e1;
+            background: rgba(240, 249, 255, 0.3);
+        }
+
+        .section-action-toolbar {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            display: none;
+            align-items: center;
+            gap: 3px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            padding: 2px 4px;
+            z-index: 20;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .editable-section-block:hover .section-action-toolbar {
+            display: flex;
+        }
+
+        .btn-toolbar-action {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 2px 5px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .btn-toolbar-action:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+        .btn-toolbar-add {
+            color: #0f766e;
+            background: #f0fdfa;
+            border-color: #99f6e4;
+        }
+        .btn-toolbar-add:hover {
+            background: #0f766e;
+            color: #ffffff;
+        }
+        .btn-toolbar-del {
+            color: #dc2626;
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+        .btn-toolbar-del:hover {
+            background: #dc2626;
+            color: #ffffff;
+        }
+
+        /* Print Media */
+        @media print {
+            .bank-header, .bank-nav, .sheet-top-actions, .section-action-toolbar {
+                display: none !important;
+            }
+            body {
+                background: #ffffff;
+                color: #000000;
+            }
+            .container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .sheet-card {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                page-break-after: always;
+            }
+            .sheet-card:not(.active-print) {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bank-header">
+        <div class="header-inner">
+            <div class="brand-box">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <div>
+                    <h1>Muallimin Manevi Rehberi (MMR) Çalışma Kağıdı Bankası</h1>
+                    <p>5. Sınıf Fen Bilimleri 1. Ünite: Güneş, Dünya ve Ay (5 Haftalık Tam Set)</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="calisma_kagidi_bankasi/CALISMA_KAGIDI_BANKASI_TUMU.docx" class="btn-bank btn-docx-all" download title="Tüm 5 haftayı tek bir Word dosyasında indir">
+                    <i class="fa-solid fa-file-word"></i> Tüm Bankayı İndir (.docx)
+                </a>
+                <button class="btn-bank btn-gold" onclick="window.print()" title="Görüntülenen çalışma kağıdını yazdır veya PDF olarak kaydet">
+                    <i class="fa-solid fa-print"></i> Yazdır / PDF
+                </button>
+                <a href="http://127.0.0.1:5000" target="_blank" class="btn-bank" title="Canlı Yapay Zekâ Üreticisini Aç">
+                    <i class="fa-solid fa-bolt"></i> Yeni Üretici
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bank-nav">
+        <div class="nav-inner">
+            <button class="nav-tab active" onclick="showWeek(1)"><i class="fa-solid fa-sun"></i> 1. Hafta (Güneş'in Yapısı)</button>
+            <button class="nav-tab" onclick="showWeek(2)"><i class="fa-solid fa-heart-pulse"></i> 2. Hafta (Dönme & Rahmet)</button>
+            <button class="nav-tab" onclick="showWeek(3)"><i class="fa-solid fa-moon"></i> 3. Hafta (Ay'ın Özellikleri)</button>
+            <button class="nav-tab" onclick="showWeek(4)"><i class="fa-solid fa-calendar-days"></i> 4. Hafta (Ay'ın Evreleri)</button>
+            <button class="nav-tab" onclick="showWeek(5)"><i class="fa-solid fa-atom"></i> 5. Hafta (Muazzam Uyum)</button>
+            <button class="nav-tab" onclick="showWeek('all')"><i class="fa-solid fa-layer-group"></i> Tümünü Göster</button>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- WEEK 1 -->
+        <article class="sheet-card" id="sheet-week-1" data-week="1">
+            <div class="sheet-badge">1. HAFTA ÇALIŞMA KAĞIDI</div>
+            <div class="sheet-top-actions">
+                <div class="sheet-title-text"><i class="fa-solid fa-file-signature"></i> 1. Hafta: Güneş'in Yapısı ve Dönme Hareketi (Soba-Lamba Analojisi)</div>
+                <div class="sheet-buttons">
+                    <a href="calisma_kagidi_bankasi/01_Hafta_1_Gunesin_Yapisi.docx" class="btn-sheet-action btn-docx" download>
+                        <i class="fa-solid fa-file-word"></i> Word (.docx)
+                    </a>
+                    <button class="btn-sheet-action" onclick="printSingleWeek(1)">
+                        <i class="fa-solid fa-print"></i> Yazdır
+                    </button>
+                    <button class="btn-sheet-action" onclick="addSectionToSheet(1)">
+                        <i class="fa-solid fa-plus"></i> Bölüm Ekle
+                    </button>
+                </div>
+            </div>
+            <div class="markdown-rendered" id="content-week-1"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    renderSheetContent(1, "# T\u00dcRK\u0130YE Y\u00dcZYILI MAAR\u0130F MODEL\u0130 - \u00c7ALI\u015eMA KA\u011eIDI\n\n| DERS | FEN B\u0130L\u0130MLER\u0130 |\n| :--- | :--- |\n| **S\u0131n\u0131f Seviyesi** | 5. S\u0131n\u0131f |\n| **\u00d6\u011frenme Alan\u0131** | D\u00fcnya ve Evren |\n| **Konu** | G\u00fcne\u015f'in Yap\u0131s\u0131 ve D\u00f6nme Hareketi |\n| **\u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131** | F.M.5.1.1.1. G\u00fcne\u015f'in yap\u0131s\u0131 ve d\u00f6nme hareketi ile ilgili bilgileri toplayabilme. |\n| **Manevi \u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131** | G\u00fcne\u015f'in yap\u0131s\u0131 ve hareketleri bak\u0131m\u0131ndan canl\u0131l\u0131\u011f\u0131n devam\u0131na katk\u0131s\u0131ndaki m\u00fckemmel yarat\u0131l\u0131\u015f\u0131n\u0131 fark edebilme. |\n| **Ad Soyad** | [ .................................................................................... ] |\n| **Tarih** | [ .................................................... ] |\n\n---\n\n### 1. MERAK ET (Merak & \u0130kinci D\u00fc\u015f\u00fcnme Kap\u0131s\u0131)\n\nG\u00f6zlerimizi g\u00f6ky\u00fcz\u00fcne \u00e7evirdi\u011fimizde her sabah bizi \u0131s\u0131tan, ayd\u0131nlatan ve d\u00fcnyadaki ya\u015fam\u0131n kayna\u011f\u0131 olan dev bir ate\u015f topu g\u00f6r\u00fcr\u00fcz. Milyonlarca y\u0131ld\u0131r ne bir saniye erken ne bir saniye ge\u00e7 do\u011fan, enerjisini hi\u00e7 kaybetmeden d\u00fczenle yayan bu b\u00fcy\u00fck y\u0131ld\u0131z, hayat\u0131m\u0131z\u0131n tam merkezindedir.\n\n*   Bu devasa sistem neden ve nas\u0131l bu kadar kusursuz bir saat gibi \u00e7al\u0131\u015fmaktad\u0131r?\n*   [ .................................................................................................................................................................. ]\n*   Bu kadar d\u00fczenli i\u015fleyen, d\u00fcnyaya ne \u00e7ok yak\u0131n ne de \u00e7ok uzak olan bu dengede seni en \u00e7ok d\u00fc\u015f\u00fcnd\u00fcren \u015fey nedir?\n*   [ .................................................................................................................................................................. ]\n\n---\n\n### 2. BA\u011eLAMI \u0130NCELE (Mana Ta\u015f\u0131y\u0131c\u0131s\u0131 Olay)\n\n**Olay:** 5. s\u0131n\u0131f \u00f6\u011frencisi Efe, bir pazar sabah\u0131 pencereden d\u0131\u015far\u0131 bakarken saks\u0131daki menek\u015felerinin yapraklar\u0131n\u0131n hep ayn\u0131 y\u00f6ne, yani g\u00fcne\u015f \u0131\u015f\u0131\u011f\u0131n\u0131n geldi\u011fi tarafa do\u011fru e\u011fildi\u011fini fark etti. Annesine d\u00f6nerek, \"Anne, G\u00fcne\u015f sanki sadece bizim \u00e7i\u00e7ekleri \u0131s\u0131tmak i\u00e7in sabahlar\u0131 yer de\u011fi\u015ftiriyor gibi, her g\u00fcn ayn\u0131 saatte ayn\u0131 yerden do\u011fuyor,\" dedi.\n\n**Bilgi ve G\u00f6zlem:** Efe'nin annesi g\u00fcl\u00fcmseyerek ona \u015funlar\u0131 s\u00f6yledi: \"Asl\u0131nda yerinde duran ve d\u00f6nen D\u00fcnya'm\u0131zd\u0131r o\u011flum. Ancak G\u00fcne\u015f de kendi ekseni etraf\u0131nda bat\u0131dan do\u011fuya do\u011fru d\u00f6nmektedir ve devasa yap\u0131s\u0131yla hi\u00e7 durmadan enerji \u00fcretir.\"\n\n*   Efenin fark etti\u011fi bu d\u00fczenli do\u011fu\u015f ve bat\u0131\u015f d\u00f6ng\u00fcs\u00fc, d\u00fcnyadaki canl\u0131l\u0131\u011f\u0131n s\u00fcrmesini nas\u0131l etkiliyor olabilir? D\u00fc\u015f\u00fcncelerini yaz:\n*   [ .................................................................................................................................................................. ]\n*   [ .................................................................................................................................................................. ]\n\n---\n\n### 3. FARK ET (Kainat\u0131 Okuma & Hayret)\n\nA\u015fa\u011f\u0131daki iki g\u00f6zlem alan\u0131n\u0131 incele ve sorular\u0131 yan\u0131tla:\n\n1.  **G\u00fcne\u015f'in Yap\u0131s\u0131:** Katmanlardan olu\u015fan, gaz halindeki G\u00fcne\u015f, i\u00e7indeki devasa enerji patlamalar\u0131na ra\u011fmen da\u011f\u0131lmaz; belirli bir k\u00fcresel \u00f6l\u00e7\u00fc ve denge i\u00e7inde varl\u0131\u011f\u0131n\u0131 s\u00fcrd\u00fcr\u00fcr.\n2.  **D\u00f6nme Hareketi:** G\u00fcne\u015f kendi ekseni etraf\u0131nda d\u00f6nerken \u00fczerindeki lekelerin hareketleriyle bu durum g\u00f6zlenebilir.\n\n*   Bu d\u00fczen ve uyum sana ne d\u00fc\u015f\u00fcnd\u00fcr\u00fcyor? Seni en \u00e7ok hayran b\u0131rakan \u00f6zellik nedir?\n*   [ .................................................................................................................................................................. ]\n*   [ .................................................................................................................................................................. ]\n\n---\n\n### 4. B\u0130LG\u0130Y\u0130 KULLAN (Bilgiden Manaya)\n\nG\u00fcne\u015f, orta b\u00fcy\u00fckl\u00fckte bir y\u0131ld\u0131zd\u0131r. Yap\u0131s\u0131nda \u00e7o\u011funlukla hidrojen ve helyum gazlar\u0131 bulunur. Kendi ekseni etraf\u0131ndaki d\u00f6nme hareketini yakla\u015f\u0131k 25-27 g\u00fcnde tamamlar. (Yayg\u0131n kavram yan\u0131lg\u0131s\u0131: G\u00fcne\u015f d\u00fcnya etraf\u0131nda d\u00f6nmez, aksine D\u00fcnya G\u00fcne\u015f etraf\u0131nda d\u00f6ner; ancak G\u00fcne\u015f'in kendi ekseni etraf\u0131nda d\u00f6nme hareketi vard\u0131r.)\n\n*   Bu bilimsel ger\u00e7e\u011fi \u00f6\u011frendi\u011finde, sabah uyand\u0131\u011f\u0131nda g\u00f6rd\u00fc\u011f\u00fcn G\u00fcne\u015f'e ve g\u00f6ky\u00fcz\u00fcne bak\u0131\u015f\u0131nda ne de\u011fi\u015fti?\n*   [ .................................................................................................................................................................. ]\n*   [ .................................................................................................................................................................. ]\n\n---\n\n### 5. D\u00dc\u015e\u00dcN VE \u0130L\u0130\u015eK\u0130LEND\u0130R\n\n1.  G\u00fcne\u015f'in sahip oldu\u011fu devasa \u0131s\u0131 ve \u0131\u015f\u0131k enerjisinin milimetrik bir sapma olmadan d\u00fcnyaya ula\u015fmas\u0131, evrendeki \u00f6l\u00e7\u00fc hakk\u0131nda bize ne s\u00f6yler?\n    [ .................................................................................................................................................................. ]\n2.  Canl\u0131lar\u0131n ya\u015famas\u0131 i\u00e7in su, hava ve toprak kadar G\u00fcne\u015f'in bu kusursuz yap\u0131s\u0131n\u0131n daimi olmas\u0131n\u0131n insan hayat\u0131ndaki sorumluluk boyutu nedir?\n    [ .................................................................................................................................................................. ]\n\n---\n\n### 6. TEFEKK\u00dcR PENCERES\u0130 (4 A\u015famal\u0131 Mimari)\n\n*   **1. G\u00d6RD\u00dcM:** G\u00fcne\u015f'in katmanl\u0131 yap\u0131s\u0131n\u0131, gaz halini ve kendi ekseni etraf\u0131nda belirli bir s\u00fcrede d\u00f6nd\u00fc\u011f\u00fcn\u00fc bilimsel olarak fark ettim.\n    [ .................................................................................................................................................................. ]\n*   **2. D\u00dc\u015e\u00dcND\u00dcM:** Bu d\u00fczen, \u00f6l\u00e7\u00fc ve denge bana \u015funu d\u00fc\u015f\u00fcnd\u00fcrd\u00fc:\n    [ .................................................................................................................................................................. ]\n*   **3. ANLAMLANDIRDIM:** Bu olay\u0131n hayat, insan veya varl\u0131k a\u00e7\u0131s\u0131ndan anlam\u0131 nedir?\n    [ .................................................................................................................................................................. ]\n*   **4. DE\u011eERLEND\u0130RD\u0130M:** Bu fark\u0131ndal\u0131k benim davran\u0131\u015flar\u0131m\u0131 nas\u0131l etkileyebilir?\n    [ .................................................................................................................................................................. ]\n\n---\n\n### 7. ERDEM VE DE\u011eER (Derinle\u015ftirilmi\u015f Ak\u0131\u015f)\n\n| Ne Fark Ettim? | Bu Bana Ne D\u00fc\u015f\u00fcnd\u00fcrd\u00fc? | \u0130nsan Hayat\u0131ndaki \u00d6nemi Nedir? | Hangi De\u011feri G\u00f6r\u00fcyorum? | Davran\u0131\u015f\u0131mda Nas\u0131l G\u00f6r\u00fcn\u00fcr? |\n| :--- | :--- | :--- | :--- | :--- |\n| G\u00fcne\u015f'in kusursuz bir nizamla d\u00f6nmesi ve enerji \u00fcretmesi | Evrende hi\u00e7bir \u015feyin ba\u015f\u0131bo\u015f olmad\u0131\u011f\u0131n\u0131, her \u015feyin bir \u00f6l\u00e7\u00fcyle yarat\u0131ld\u0131\u011f\u0131n\u0131 | Canl\u0131l\u0131\u011f\u0131n devam\u0131 i\u00e7in bu hassas dengenin korunmas\u0131 gereklili\u011fini | [ ] \u00d6l\u00e7\u00fcl\u00fc Olma<br>[ ] Sorumluluk<br>[ ] Hayret / \u015euur | [ ........................................................................ ] |\n\n---\n\n### 8. M\u00dcZAKERE EDEL\u0130M\n\nS\u0131n\u0131fta arkada\u015flar\u0131nla tart\u0131\u015fmak \u00fczere a\u015fa\u011f\u0131daki sorular \u00fczerine d\u00fc\u015f\u00fcn:\n1.  E\u011fer G\u00fcne\u015f'in enerjisinde ya da d\u00f6nme h\u0131z\u0131nda en ufak bir d\u00fczensizlik olsayd\u0131 d\u00fcnyadaki ya\u015fam nas\u0131l etkilenirdi? Bu durum bize evrendeki hassas denge hakk\u0131nda ne anlat\u0131r?\n2.  Bir y\u0131ld\u0131z\u0131n milyarlarca y\u0131ld\u0131r kusursuzca \u00e7al\u0131\u015fmas\u0131 rastlant\u0131 olabilir mi? Neden?\n\n---\n\n### 9. EYLEME D\u00d6N\u00dc\u015eT\u00dcR (Somut Sorumluluk)\n\n*   **Fark Etti\u011fim \u015eey:** G\u00fcne\u015f'in ve evrenin muazzam bir \u00f6l\u00e7\u00fcyle hareket etti\u011fi.\n*   **De\u011ferim:** Sorumluluk ve D\u00fczenli Ya\u015fam.\n*   **Davran\u0131\u015f\u0131m (Ne yapaca\u011f\u0131m?):** G\u00fcnl\u00fck hayat\u0131mda enerjiyi israf etmeyerek, do\u011fadaki bu dengenin k\u0131ymetini bilip kaynaklar\u0131 \u00f6zenli kullanaca\u011f\u0131m.\n*   **Ne Zaman?** [ .................................................................................... ]\n*   **Kime / Neye Fayda Sa\u011flayacak?** [ .................................................................................... ]\n\n---\n\n### 10. KEND\u0130M\u0130 DE\u011eERLEND\u0130R\u0130YORUM (\u015euurlu \u00d6z De\u011ferlendirme)\n\n*   **B\u0130LG\u0130:** Bug\u00fcn G\u00fcne\u015f'in yap\u0131s\u0131 ve d\u00f6nme hareketi hakk\u0131nda ne \u00f6\u011frendim?\n    [ .................................................................................................................................................................. ]\n*   **ANLAM:** Bug\u00fcn hangi konuda farkl\u0131 d\u00fc\u015f\u00fcnmeye ba\u015flad\u0131m?\n    [ .................................................................................................................................................................. ]\n*   **DE\u011eER / EYLEM:** \u00d6\u011frendi\u011fim ve fark etti\u011fim \u015fey g\u00fcnl\u00fck ya\u015famdaki davran\u0131\u015flar\u0131m\u0131 nas\u0131l etkileyecek?\n    [ .................................................................................................................................................................. ]");
+                });
+            </script>
+        </article>
+    
+        <!-- WEEK 2 -->
+        <article class="sheet-card" id="sheet-week-2" data-week="2">
+            <div class="sheet-badge">2. HAFTA ÇALIŞMA KAĞIDI</div>
+            <div class="sheet-top-actions">
+                <div class="sheet-title-text"><i class="fa-solid fa-file-signature"></i> 2. Hafta: Güneş'in Dönme Hareketi ve Rahmet Boyutu</div>
+                <div class="sheet-buttons">
+                    <a href="calisma_kagidi_bankasi/02_Hafta_2_Gunesin_Donme_Hareketi_Rahmet.docx" class="btn-sheet-action btn-docx" download>
+                        <i class="fa-solid fa-file-word"></i> Word (.docx)
+                    </a>
+                    <button class="btn-sheet-action" onclick="printSingleWeek(2)">
+                        <i class="fa-solid fa-print"></i> Yazdır
+                    </button>
+                    <button class="btn-sheet-action" onclick="addSectionToSheet(2)">
+                        <i class="fa-solid fa-plus"></i> Bölüm Ekle
+                    </button>
+                </div>
+            </div>
+            <div class="markdown-rendered" id="content-week-2"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    renderSheetContent(2, "| DERS | FEN B\u0130L\u0130MLER\u0130 |\n| :--- | :--- |\n| **S\u0131n\u0131f Seviyesi** | 5. S\u0131n\u0131f |\n| **\u00d6\u011frenme Alan\u0131** | D\u00fcnya ve Evren |\n| **Konu** | G\u00fcne\u015f'in D\u00f6nme Hareketinin Canl\u0131l\u0131\u011fa Etkisi |\n| **\u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131** | F.M.5.1.1.1. G\u00fcne\u015f'in yap\u0131s\u0131 ve d\u00f6nme hareketi ile ilgili bilgileri toplayabilme ve canl\u0131l\u0131\u011fa katk\u0131s\u0131n\u0131 de\u011ferlendirebilme. |\n| **Manevi \u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131** | G\u00fcne\u015f'in hareketli bir varl\u0131k olarak yarat\u0131lmas\u0131n\u0131n etraf\u0131ndaki gezegenlere, \u00f6zellikle d\u00fcnyam\u0131za, bir rahmet oldu\u011funu kavrayabilme. |\n\n**Ad\u0131 Soyad\u0131:** [ .................................................... ]  \n**Tarih:** [ .................................... ]\n\n---\n\n### 1. MERAK ET (Merak & \u0130kinci D\u00fc\u015f\u00fcnme Kap\u0131s\u0131)\n\nG\u00f6zlerimizi g\u00f6ky\u00fcz\u00fcne \u00e7evirdi\u011fimizde her sabah ayn\u0131 saatte do\u011fan, g\u00fcn boyu g\u00f6ky\u00fcz\u00fcnde belirli bir yolu izleyen ve ak\u015fam batan muazzam bir kaynakla kar\u015f\u0131la\u015f\u0131yoruz. Sabah uyan\u0131yorsun, odan\u0131 \u0131s\u0131tan \u0131\u015f\u0131\u011f\u0131 hissediyorsun; bitkiler yapraklar\u0131n\u0131 g\u00fcne\u015fe \u00e7eviriyor, sokaktaki kediler g\u00fcne\u015fin alt\u0131nda \u0131s\u0131n\u0131yor. Peki, milyarlarca y\u0131ld\u0131r bu devasa sistem hi\u00e7 aksamadan nas\u0131l \u00e7al\u0131\u015f\u0131yor? \n\n*   Bu sistem neden hep bu kusursuz d\u00f6ng\u00fcyle \u00e7al\u0131\u015f\u0131yor olabilir?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n*   G\u00fcne\u015f ile D\u00fcnya aras\u0131nda kurulan bu kadar d\u00fczenli ve dakik i\u015fleyen bu sistemde seni en \u00e7ok d\u00fc\u015f\u00fcnd\u00fcren \u015fey nedir?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n---\n\n### 2. BA\u011eLAMI \u0130NCELE (Mana Ta\u015f\u0131y\u0131c\u0131s\u0131 Olay)\n\n11 ya\u015f\u0131ndaki Kerem, pazar sabah\u0131 dedesinin bah\u00e7esindeki serada bitkileri suluyordu. Dedesi, seran\u0131n penceresinden i\u00e7eri s\u00fcz\u00fclen G\u00fcne\u015f \u0131\u015f\u0131klar\u0131n\u0131 g\u00f6stererek, *\"Bak kerem, \u015fu sar\u0131 s\u0131cak dev k\u00fcre olmasa ne bu domatesler b\u00fcy\u00fcrd\u00fc ne de biz ya\u015fard\u0131k. \u00dcstelik G\u00fcne\u015f sadece yerinde durmuyor, kendi ekseni etraf\u0131nda d\u00f6nerek enerjisini ve \u0131\u015f\u0131\u011f\u0131n\u0131 her tarafa adil bir \u00f6l\u00e7\u00fcyle da\u011f\u0131t\u0131yor\"* dedi. Kerem, G\u00fcne\u015f'in kendi etraf\u0131nda d\u00f6nmesinin D\u00fcnya'daki ya\u015fam\u0131 neden bu kadar etkiledi\u011fini merak ederek fen bilimleri defterini a\u00e7t\u0131 ve ara\u015ft\u0131rmaya ba\u015flad\u0131.\n\n*   **Olay:** Kerem'in serada G\u00fcne\u015f \u0131\u015f\u0131\u011f\u0131 ile bitkilerin b\u00fcy\u00fcmesi aras\u0131ndaki ba\u011f\u0131 fark etmesi.\n*   **Bilgi:** G\u00fcne\u015f, t\u0131pk\u0131 D\u00fcnya gibi kendi ekseni etraf\u0131nda d\u00f6nme hareketi yapar ve devasa bir enerji \u00fcretir.\n*   **G\u00f6zlem:** G\u00fcne\u015f \u0131\u015f\u0131\u011f\u0131 alan bitkilerin geli\u015fti\u011fi, almayanlar\u0131n ise soldu\u011fu g\u00f6r\u00fcl\u00fcr.\n*   **Sebep-Sonu\u00e7:** G\u00fcne\u015f'in hem yap\u0131s\u0131ndaki enerji hem de hareketli yap\u0131s\u0131, d\u00fcnyadaki \u0131s\u0131 ve \u0131\u015f\u0131k dengesini s\u00fcrekli ve \u00f6l\u00e7\u00fcl\u00fc k\u0131lmaktad\u0131r.\n\n*   Sence G\u00fcne\u015f sabit durmak yerine neden s\u00fcrekli bir hareket (d\u00f6nme) halinde yarat\u0131lm\u0131\u015f olabilir? Bu durumun D\u00fcnya'daki canl\u0131l\u0131\u011fa katk\u0131s\u0131 ne olabilir?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n---\n\n### 3. FARK ET (Kainat\u0131 Okuma & Hayret)\n\n**Etkinlik 1: I\u015f\u0131\u011f\u0131n ve Is\u0131n\u0131n Da\u011f\u0131l\u0131m\u0131**\nA\u015fa\u011f\u0131daki iki durumu incele ve kar\u015f\u0131la\u015ft\u0131r:\n*   [ ] Durum A: G\u00fcne\u015f'in belirli bir eksende d\u00f6nerek \u0131\u015f\u0131\u011f\u0131n\u0131 ve \u0131s\u0131s\u0131n\u0131 dengeli bir \u015fekilde yaymas\u0131.\n*   [ ] Durum B: G\u00fcne\u015f'in hi\u00e7 hareket etmeden tek bir noktaya s\u00fcrekli \u0131\u015f\u0131n g\u00f6ndermesi.\n\n**Etkinlik 2: Canl\u0131lar\u0131n Ritmi**\nBitkilerin g\u00fcnd\u00fcz \u0131\u015f\u0131k al\u0131p gece dinlenmesi, hayvanlar\u0131n ve insanlar\u0131n bu d\u00f6ng\u00fcye uyum sa\u011flamas\u0131.\n\n*   Bu d\u00fczen ve uyum sana ne d\u00fc\u015f\u00fcnd\u00fcr\u00fcyor? G\u00fcne\u015f'in hareketindeki \u00f6l\u00e7\u00fc ve denge seni en \u00e7ok hangi y\u00f6n\u00fcyle hayran b\u0131rak\u0131yor?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n---\n\n### 4. B\u0130LG\u0130Y\u0130 KULLAN (Bilgiden Manaya)\n\n**Bilimsel Ger\u00e7ek:** G\u00fcne\u015f, gaz halindeki katmanlardan olu\u015fan dev bir y\u0131ld\u0131zd\u0131r ve kendi ekseni etraf\u0131ndaki d\u00f6nmesini yakla\u015f\u0131k 25-35 g\u00fcnde tamamlar. Bu d\u00f6nme hareketi, G\u00fcne\u015f'in y\u00fczeyindeki s\u0131cakl\u0131k ve enerji da\u011f\u0131l\u0131m\u0131n\u0131n dengeli olmas\u0131n\u0131 destekler.\n*Yayg\u0131n Yan\u0131lg\u0131:* \"G\u00fcne\u015f sadece durur ve d\u00fcnyaya \u0131\u015f\u0131k f\u0131rlat\u0131r.\"  \n*Do\u011frusu:* G\u00fcne\u015f dinamik, hareketli, kendi i\u00e7inde katmanlar\u0131 olan ve belirli bir nizamla d\u00f6nen bir g\u00f6k cismidir.\n\n*   Bu bilimsel ger\u00e7e\u011fi \u00f6\u011frendi\u011finde, her sabah g\u00f6rd\u00fc\u011f\u00fcn G\u00fcne\u015f'e ve g\u00f6ky\u00fcz\u00fcndeki d\u00fczene bak\u0131\u015f\u0131nda ne de\u011fi\u015fti?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n---\n\n### 5. D\u00dc\u015e\u00dcN VE \u0130L\u0130\u015eK\u0130LEND\u0130R\n\n1.  G\u00fcne\u015f gibi devasa bir k\u00fctlenin kendi ekseni etraf\u0131nda kusursuz bir h\u0131zla d\u00f6nmesi, D\u00fcnya \u00fczerindeki iklimlerin ve ya\u015fam\u0131n s\u00fcrd\u00fcr\u00fclebilirli\u011fini nas\u0131l etkiler?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n2.  Evrendeki bu b\u00fcy\u00fck hareketlilik ile insan\u0131n g\u00fcnl\u00fck hayat\u0131ndaki d\u00fczeni ve sorumluluklar\u0131 aras\u0131nda nas\u0131l bir benzerlik kurabilirsin?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n---\n\n### 6. TEFEKK\u00dcR PENCERES\u0130 (4 A\u015famal\u0131 Mimari)\n\n*   **1. G\u00d6RD\u00dcM:** G\u00fcne\u015f'in sadece parlayan bir top olmad\u0131\u011f\u0131n\u0131, kendi ekseni etraf\u0131nda d\u00f6nen hareketli, dinamik bir yap\u0131ya sahip oldu\u011funu ve d\u00fcnyam\u0131za \u00f6l\u00e7\u00fcl\u00fc bir enerji sundu\u011funu fark ettim.\n    [ ........................................................................................................................................................................ ]\n\n*   **2. D\u00dc\u015e\u00dcND\u00dcM:** Evrende hi\u00e7bir \u015feyin ba\u015f\u0131bo\u015f olmad\u0131\u011f\u0131n\u0131, en b\u00fcy\u00fck y\u0131ld\u0131zlar\u0131n bile belirli bir y\u00f6r\u00fcngede, kusursuz bir \u00f6l\u00e7\u00fcyle hareket etti\u011fini g\u00f6rd\u00fcm. Bu d\u00fczen bana ne anlat\u0131yor?\n    [ ........................................................................................................................................................................ ]\n\n*   **3. ANLAMLANDIRDIM:** G\u00fcne\u015f'in bu hareketli ve rahmet dolu varl\u0131\u011f\u0131, d\u00fcnyadaki milyarlarca canl\u0131n\u0131n ya\u015fam\u0131n\u0131n teminat\u0131d\u0131r. Bu durum, evrende her varl\u0131\u011f\u0131n birbiriyle uyum i\u00e7inde oldu\u011funu g\u00f6sterir.\n    [ ........................................................................................................................................................................ ]\n\n*   **4. DE\u011eERLEND\u0130RD\u0130M:** Bu muazzam d\u00fczeni fark etmek, benim \u00e7evreye, zamana ve do\u011faya kar\u015f\u0131 daha sorumlu, \u00f6l\u00e7\u00fcl\u00fc ve bilin\u00e7li bir insan olmam\u0131 gerektirir.\n    [ ........................................................................................................................................................................ ]\n\n---\n\n### 7. ERDEM VE DE\u011eER (Derinle\u015ftirilmi\u015f Ak\u0131\u015f)\n\n| Ne fark ettim? | Bu bana ne d\u00fc\u015f\u00fcnd\u00fcrd\u00fc? | \u0130nsan hayat\u0131ndaki \u00f6nemi nedir? | Hangi de\u011feri g\u00f6r\u00fcyorum? | Davran\u0131\u015f\u0131mda nas\u0131l g\u00f6r\u00fcn\u00fcr? |\n| :--- | :--- | :--- | :--- | :--- |\n| G\u00fcne\u015f'in d\u00fczenli d\u00f6nmesi ve canl\u0131lara hayat vermesi. | Evrende hi\u00e7bir \u015feyin tesad\u00fcfi olmad\u0131\u011f\u0131n\u0131 ve her \u015feyin bir \u00f6l\u00e7\u00fcyle yarat\u0131ld\u0131\u011f\u0131n\u0131. | \u0130nsan\u0131n da hayat\u0131nda bir denge ve \u00f6l\u00e7\u00fc g\u00f6zetmesi gerekti\u011fini. | **\u00d6l\u00e7\u00fc, Sorumluluk ve \u015e\u00fck\u00fcr** | Zaman\u0131m\u0131 verimli kullanmak, do\u011faya ve enerji kaynaklar\u0131na zarar vermemek. |\n\n---\n\n### 8. M\u00dcZAKERE EDEL\u0130M\n\n*   *Soru 1:* E\u011fer G\u00fcne\u015f'in hareketinde veya yayd\u0131\u011f\u0131 enerjide en ufak bir d\u00fczensizlik olsayd\u0131, d\u00fcnyadaki ya\u015fam nas\u0131l etkilenirdi? Bu durum bize neyi g\u00f6sterir?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n*   *Soru 2:* Bir y\u0131ld\u0131z\u0131n bile kurallara ve bir d\u00fczene uyarak g\u00f6revini yapmas\u0131, insan\u0131n toplumsal ve bireysel hayat\u0131nda kurallara uymas\u0131yla nas\u0131l ili\u015fkilendirilebilir?  \n    [ ........................................................................................................................................................................ ]  \n    [ ........................................................................................................................................................................ ]\n\n---\n\n### 9. EYLEME D\u00d6N\u00dc\u015eT\u00dcR (Somut Sorumluluk)\n\n*   **Fark Etti\u011fim \u015eey:** G\u00fcne\u015f'in ve evrenin kusursuz bir \u00f6l\u00e7\u00fcyle \u00e7al\u0131\u015fmas\u0131, hayat\u0131n s\u00fcrd\u00fcr\u00fclebilirli\u011fi i\u00e7in enerjinin ve dengenin ne kadar \u00f6nemli oldu\u011fu.\n*   **De\u011ferim:** \u00d6l\u00e7\u00fcl\u00fc olmak, kaynaklar\u0131 israf etmemek ve do\u011fadaki d\u00fczene sayg\u0131 duymak.\n*   **Davran\u0131\u015f\u0131m:** Ne yapaca\u011f\u0131m? Ne zaman? Kime/neye fayda sa\u011flayacak?\n\n[ ........................................................................................................................................................................ ]  \n[ ........................................................................................................................................................................ ]  \n[ ........................................................................................................................................................................ ]\n\n---\n\n### 10. KEND\u0130M\u0130 DE\u011eERLEND\u0130R\u0130YORUM (\u015euurlu \u00d6z De\u011ferlendirme)\n\n*   **B\u0130LG\u0130:** Bug\u00fcn G\u00fcne\u015f'in yap\u0131s\u0131, d\u00f6nme hareketi ve bunun canl\u0131l\u0131\u011fa katk\u0131s\u0131 hakk\u0131nda ne \u00f6\u011frendim?  \n    [ ........................................................................................................................................................................ ]\n\n*   **ANLAM:** Bug\u00fcn evrendeki d\u00fczen ve G\u00fcne\u015f'in varl\u0131\u011f\u0131 konusunda hangi konuda farkl\u0131 d\u00fc\u015f\u00fcnmeye ba\u015flad\u0131m?  \n    [ ........................................................................................................................................................................ ]\n\n*   **DE\u011eER / EYLEM:** \u00d6\u011frendi\u011fim bu bilgiler ve fark etti\u011fim d\u00fczen, bundan sonraki g\u00fcnl\u00fck davran\u0131\u015flar\u0131m\u0131 nas\u0131l etkileyecek?  \n    [ ........................................................................................................................................................................ ]");
+                });
+            </script>
+        </article>
+    
+        <!-- WEEK 3 -->
+        <article class="sheet-card" id="sheet-week-3" data-week="3">
+            <div class="sheet-badge">3. HAFTA ÇALIŞMA KAĞIDI</div>
+            <div class="sheet-top-actions">
+                <div class="sheet-title-text"><i class="fa-solid fa-file-signature"></i> 3. Hafta: Ay'ın Özellikleri ve Hareketleri (Lisan-ı Hal)</div>
+                <div class="sheet-buttons">
+                    <a href="calisma_kagidi_bankasi/03_Hafta_3_Ayin_Ozellikleri_ve_Hareketleri.docx" class="btn-sheet-action btn-docx" download>
+                        <i class="fa-solid fa-file-word"></i> Word (.docx)
+                    </a>
+                    <button class="btn-sheet-action" onclick="printSingleWeek(3)">
+                        <i class="fa-solid fa-print"></i> Yazdır
+                    </button>
+                    <button class="btn-sheet-action" onclick="addSectionToSheet(3)">
+                        <i class="fa-solid fa-plus"></i> Bölüm Ekle
+                    </button>
+                </div>
+            </div>
+            <div class="markdown-rendered" id="content-week-3"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    renderSheetContent(3, "| Ders | Fen Bilimleri | S\u0131n\u0131f | 5. S\u0131n\u0131f |\n| :--- | :--- | :--- | :--- |\n| **\u00d6\u011frenme Alan\u0131** | D\u00fcnya ve Evren | **Konu** | Ay'\u0131n \u00d6zellikleri, D\u00f6nme ve Dolanma Hareketleri |\n| **\u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131** | F.M.5.1.2.1. Ay'\u0131n \u00f6zellikleri, d\u00f6nme ve dolanma hareketleri ile ilgili bilimsel \u00e7\u0131kar\u0131m yapabilme. | **Manevi \u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131** | Ay'\u0131n hareketlerindeki m\u00fckemmel d\u00fczeni fark ederek, bu d\u00fczenin sonsuz g\u00fc\u00e7 sahibi Allah taraf\u0131ndan sa\u011fland\u0131\u011f\u0131 hakk\u0131nda \u00e7\u0131kar\u0131m yapabilme. |\n| **Ad Soyad** | [ ........................................................ ] | **Tarih** | [ .................................... ] |\n\n---\n\n### 1. MERAK ET (Merak & \u0130kinci D\u00fc\u015f\u00fcnme Kap\u0131s\u0131)\n\nGeceleri g\u00f6ky\u00fcz\u00fcne bakt\u0131\u011f\u0131m\u0131zda Ay'\u0131n bazen par\u0131l par\u0131l parlayan bir top gibi, bazen de ince bir hilal \u015feklinde oldu\u011funu g\u00f6r\u00fcr\u00fcz. \u00dcstelik Ay, D\u00fcnya etraf\u0131ndaki turunu hep ayn\u0131 s\u00fcrede tamamlar ve biz onun hep ayn\u0131 y\u00fcz\u00fcn\u00fc g\u00f6r\u00fcr\u00fcz. \n\n* **Bu sistem neden milyarlarca y\u0131ld\u0131r hi\u00e7 aksamadan bu kadar kusursuz \u00e7al\u0131\u015f\u0131yor olabilir?**\n  [ ........................................................................................................................................................ ]\n  [ ........................................................................................................................................................ ]\n\n* **Bu kadar d\u00fczenli ve dakik i\u015fleyen bir g\u00f6ky\u00fcz\u00fc sisteminde seni en \u00e7ok d\u00fc\u015f\u00fcnd\u00fcren, hayrete d\u00fc\u015f\u00fcren \u015fey nedir?**\n  [ ........................................................................................................................................................ ]\n  [ ........................................................................................................................................................ ]\n\n---\n\n### 2. BA\u011eLAMI \u0130NCELE (Mana Ta\u015f\u0131y\u0131c\u0131s\u0131 Olay)\n\n5. S\u0131n\u0131f \u00f6\u011frencisi Elif, dedesiyle birlikte kamp yaparken gece g\u00f6ky\u00fcz\u00fcn\u00fc izliyordu. Elif g\u00f6ky\u00fcz\u00fcndeki Ay'\u0131 g\u00f6stererek, \"Dede, g\u00fcnlerdir buraday\u0131z ve Ay'da g\u00f6rd\u00fc\u011f\u00fcm lekelerin yeri sanki hi\u00e7 de\u011fi\u015fmiyor. Uzaydaki kocaman bir ta\u015f nas\u0131l olur da hep ayn\u0131 taraf\u0131n\u0131 bize g\u00f6sterir?\" diye sordu. \nDedesi g\u00fcl\u00fcmseyerek \u015f\u00f6yle dedi: \"K\u0131z\u0131m, Ay kendi etraf\u0131nda d\u00f6nerken ayn\u0131 zamanda D\u00fcnya'n\u0131n etraf\u0131nda da dolan\u0131r. Bu iki hareketin s\u00fcresi \u00f6yle harika bir \u00f6l\u00e7\u00fcyle ayarlanm\u0131\u015ft\u0131r ki, Ay kendi etraf\u0131nda bir tur atana kadar D\u00fcnya etraf\u0131ndaki turunu da tamamlar. Bu hassas uyum olmasayd\u0131, Ay'\u0131n arkas\u0131nda ne oldu\u011funu asla g\u00f6remezdik veya dengeler bamba\u015fka olurdu.\"\n\n* **Olaydan \u00c7\u0131kar\u0131m:** Elif'in fark etti\u011fi bu durum, Ay'\u0131n hareketlerinde rastgeleli\u011fe yer olmad\u0131\u011f\u0131n\u0131, kusursuz bir \u00f6l\u00e7\u00fc ve zamanlaman\u0131n varl\u0131\u011f\u0131n\u0131 g\u00f6sterir.\n\n---\n\n### 3. FARK ET (Kainat\u0131 Okuma & Hayret)\n\n**Etkinlik A:** A\u015fa\u011f\u0131daki tabloda Ay'\u0131n hareketleri verilmi\u015ftir. Bu hareketlerin s\u00fcrelerindeki uyumu incele:\n1. Ay'\u0131n kendi ekseni etraf\u0131ndaki d\u00f6nme s\u00fcresi: 27 g\u00fcn 8 saat\n2. Ay'\u0131n D\u00fcnya etraf\u0131ndaki dolanma s\u00fcresi: 27 g\u00fcn 8 saat\n\n* **Bu iki s\u00fcrenin saniyesi saniyesine birbirine e\u015fit olmas\u0131 sence neyi ifade eder?**\n  [ ........................................................................................................................................................ ]\n  [ ........................................................................................................................................................ ]\n\n**Etkinlik B:** Ay'\u0131n y\u00fczeyinde kraterler, da\u011flar ve d\u00fczl\u00fckler vard\u0131r ancak atmosferi \u00e7ok \u00e7ok incedir. Bu y\u00fczden Ay'da r\u00fczgar veya hava olaylar\u0131 olmaz; ayak izleri bile milyonlarca y\u0131l bozulmadan kalabilir.\n\n* **Bu d\u00fczen ve uyum sana ne d\u00fc\u015f\u00fcnd\u00fcr\u00fcyor? Ay'\u0131n hangi \u00f6zelli\u011fi seni en \u00e7ok hayran b\u0131rakt\u0131?**\n  [ ........................................................................................................................................................ ]\n  [ ........................................................................................................................................................ ]\n\n---\n\n### 4. B\u0130LG\u0130Y\u0130 KULLAN (Bilgiden Manaya)\n\n> **Bilimsel Ger\u00e7ek:** Ay, D\u00fcnya'n\u0131n tek do\u011fal uydusudur. K\u00fcre \u015feklindedir. Y\u00fczeyinde ta\u015flar, toz tabakas\u0131 ve meteor \u00e7ukurlar\u0131 (krater) bulunur. Atmosferi \u00e7ok zay\u0131f oldu\u011fu i\u00e7in \u0131s\u0131 fark\u0131 \u00e7ok fazlad\u0131r.\n> *Yayg\u0131n Yan\u0131lg\u0131:* \"Ay'\u0131n \u0131\u015f\u0131\u011f\u0131 kendisindir.\" \n> *Do\u011frusu:* Ay bir \u0131\u015f\u0131k kayna\u011f\u0131 de\u011fildir, G\u00fcne\u015f'ten ald\u0131\u011f\u0131 \u0131\u015f\u0131\u011f\u0131 yans\u0131t\u0131r.\n\n* **Bu bilimsel ger\u00e7e\u011fi \u00f6\u011frendi\u011finde ve Ay'\u0131n sadece bir yans\u0131t\u0131c\u0131 oldu\u011funu fark etti\u011finde, g\u00f6ky\u00fcz\u00fcne bak\u0131\u015f\u0131nda neler de\u011fi\u015fti?**\n  [ ........................................................................................................................................................ ]\n  [ ........................................................................................................................................................ ]\n\n---\n\n### 5. D\u00dc\u015e\u00dcN VE \u0130L\u0130\u015eK\u0130LEND\u0130R\n\n1. **Soru:** Ay, D\u00fcnya'dan \u00e7ok uzakta olmas\u0131na ra\u011fmen okyanuslarda med-cezir (gel-git) olay\u0131na sebep olur. Bu \u00e7ekim kuvvetinin ne az ne de \u00e7ok, tam karar\u0131nda olmas\u0131 d\u00fcnyam\u0131zdaki ya\u015fam\u0131 nas\u0131l etkiler?\n   [ ........................................................................................................................................................ ]\n\n2. **Soru:** Evrendeki bu muazzam hareketler, en k\u00fc\u00e7\u00fck bir aksama olmadan milyarlarca y\u0131ld\u0131r devam etmektedir. Bu kusursuz \u00f6l\u00e7\u00fc ve nizam, sana k\u00e2inattaki irade ve kudret hakk\u0131nda ne d\u00fc\u015f\u00fcnd\u00fcr\u00fcyor?\n   [ ........................................................................................................................................................ ]\n\n---\n\n### 6. TEFEKK\u00dcR PENCERES\u0130 (4 A\u015famal\u0131 Mimari)\n\n* **1. G\u00d6RD\u00dcM:** Ay'\u0131n kendi etraf\u0131ndaki d\u00f6nme s\u00fcresi ile D\u00fcnya etraf\u0131ndaki dolanma s\u00fcresinin birbirine e\u015fit oldu\u011funu ve bu y\u00fczden hep ayn\u0131 y\u00fcz\u00fcn\u00fc g\u00f6rd\u00fc\u011f\u00fcm\u00fcz\u00fc fark ettim.\n* **2. D\u00dc\u015e\u00dcND\u00dcM:** Bu iki ba\u011f\u0131ms\u0131z hareketin saniyesi saniyesine uyumlu olmas\u0131, evrende hi\u00e7bir \u015feyin ba\u015f\u0131bo\u015f ve tesad\u00fcfi olmad\u0131\u011f\u0131n\u0131, her \u015feyin ince bir \u00f6l\u00e7\u00fcye g\u00f6re d\u00fczenlendi\u011fini d\u00fc\u015f\u00fcnd\u00fcrd\u00fc.\n* **3. ANLAMLANDIRDIM:** K\u00e2inattaki bu kusursuz i\u015fleyi\u015f, sonsuz bir ilim ve kudret sahibinin her \u015feyi en g\u00fczel \u015fekilde planlad\u0131\u011f\u0131n\u0131 ve her varl\u0131\u011fa bir g\u00f6rev y\u00fckledi\u011fini g\u00f6sterir.\n* **4. DE\u011eERLEND\u0130RD\u0130M:** Bu d\u00fczeni fark etmek bana hayat\u0131mda daha planl\u0131, \u00f6l\u00e7\u00fcl\u00fc ve sorumluluk bilinciyle hareket etmem gerekti\u011fini, i\u015flerimi en iyi \u015fekilde yapmam\u0131n \u00f6nemini hat\u0131rlatt\u0131.\n\n---\n\n### 7. ERDEM VE DE\u011eER (Derinle\u015ftirilmi\u015f Ak\u0131\u015f)\n\n| Ne Fark Ettim? | Bu Bana Ne D\u00fc\u015f\u00fcnd\u00fcrd\u00fc? | \u0130nsan Hayat\u0131ndaki \u00d6nemi Nedir? | Hangi De\u011feri G\u00f6r\u00fcyormu\u015fum? | Davran\u0131\u015f\u0131mda Nas\u0131l G\u00f6r\u00fcn\u00fcr? |\n| :--- | :--- | :--- | :--- | :--- |\n| Ay'\u0131n hareketlerindeki kusursuz \u00f6l\u00e7\u00fc ve uyumu [ ] | Bu nizam\u0131n tesad\u00fcfen olamayaca\u011f\u0131n\u0131, bir tasar\u0131ma dayand\u0131\u011f\u0131n\u0131 [ ] | \u0130nsan\u0131n da hayat\u0131nda bir \u00f6l\u00e7\u00fc ve denge g\u00f6zetmesi gerekti\u011fini [ ] | [ ] D\u00fczen ve \u00d6l\u00e7\u00fc Bilinci / Hikmet | [ ] G\u00fcnl\u00fck i\u015flerimi planl\u0131 ve zaman\u0131nda yapar\u0131m. |\n\n---\n\n### 8. M\u00dcZAKERE EDEL\u0130M\n\n1. E\u011fer Ay'\u0131n D\u00fcnya etraf\u0131ndaki dolanma h\u0131z\u0131 \u015fimdikinden iki kat daha h\u0131zl\u0131 olsayd\u0131, d\u00fcnyam\u0131zdaki ya\u015fam ve zaman alg\u0131s\u0131 nas\u0131l etkilenirdi? Arkada\u015flar\u0131n\u0131zla tart\u0131\u015f\u0131n\u0131z.\n   [ ........................................................................................................................................................ ]\n\n2. K\u00e2inattaki en k\u00fc\u00e7\u00fck atomdan en b\u00fcy\u00fck gezegene kadar her \u015feyin bir \u00f6l\u00e7\u00fc i\u00e7inde hareket etmesi, insan olarak bizim \u00e7evreye ve do\u011faya kar\u015f\u0131 sorumluluklar\u0131m\u0131z\u0131 nas\u0131l \u015fekillendirmelidir?\n   [ ........................................................................................................................................................ ]\n\n---\n\n### 9. EYLEME D\u00d6N\u00dc\u015eT\u00dcR (Somut Sorumluluk)\n\n* **Fark etti\u011fim \u015fey:** Ay'\u0131n hareketlerindeki dakiklik ve muazzam d\u00fczen.\n* **De\u011ferim:** D\u00fczenli, \u00f6l\u00e7\u00fcl\u00fc ve sorumlu olmak.\n* **Ne yapaca\u011f\u0131m?** Ders \u00e7al\u0131\u015f\u0131rken, odam\u0131 toplarken ve g\u00fcnl\u00fck aktivitelerimde planl\u0131 olaca\u011f\u0131m; do\u011fadaki bu \u00f6l\u00e7\u00fcy\u00fc bozacak israftan ka\u00e7\u0131naca\u011f\u0131m.\n* **Ne zaman?** Bug\u00fcnden itibaren her g\u00fcn.\n* **Kime / Neye fayda sa\u011flayacak?** Kendi zihinsel huzuruma, zaman\u0131m\u0131n verimli kullan\u0131lmas\u0131na ve \u00e7evre dengesine katk\u0131 sa\u011flayacak.\n\n---\n\n### 10. KEND\u0130M\u0130 DE\u011eERLEND\u0130R\u0130YORUM (\u015euurlu \u00d6z De\u011ferlendirme)\n\n* **B\u0130LG\u0130:** Bug\u00fcn Ay'\u0131n \u00f6zellikleri, d\u00f6nme ve dolanma hareketleri ile bu hareketlerin s\u00fcreleri aras\u0131ndaki bilimsel ger\u00e7e\u011fi \u00f6\u011frendim.\n  [ ] Tamamen Anlad\u0131m  [ ] K\u0131smen Anlad\u0131m  [ ] Destek Gerekiyor\n\n* **ANLAM:** Ay'\u0131n hareketlerindeki kusursuz uyumun tesad\u00fcf olamayaca\u011f\u0131, k\u00e2inatta b\u00fcy\u00fck bir hikmet ve \u00f6l\u00e7\u00fc bulundu\u011fu konusunda farkl\u0131 d\u00fc\u015f\u00fcnmeye ba\u015flad\u0131m.\n  [ ] Derinden Hissettim  [ ] \u00dczerinde D\u00fc\u015f\u00fcnd\u00fcm  [ ] Yeni Fark Ettim\n\n* **DE\u011eER / EYLEM:** \u00d6\u011frendi\u011fim bu d\u00fczen ve \u00f6l\u00e7\u00fc bilinci, bundan sonraki \u00e7al\u0131\u015fmalar\u0131mda daha planl\u0131, dikkatli ve sorumluluk sahibi bir insan olmam\u0131 sa\u011flayacak.\n  [ ] Uygulamaya Ba\u015flayaca\u011f\u0131m  [ ] Plan Yap\u0131yorum  [ ] D\u00fc\u015f\u00fcn\u00fcyorum");
+                });
+            </script>
+        </article>
+    
+        <!-- WEEK 4 -->
+        <article class="sheet-card" id="sheet-week-4" data-week="4">
+            <div class="sheet-badge">4. HAFTA ÇALIŞMA KAĞIDI</div>
+            <div class="sheet-top-actions">
+                <div class="sheet-title-text"><i class="fa-solid fa-file-signature"></i> 4. Hafta: Ay'ın Evreleri (Gökyüzündeki İlahi Takvim)</div>
+                <div class="sheet-buttons">
+                    <a href="calisma_kagidi_bankasi/04_Hafta_4_Ayin_Evreleri_Ilahi_Takvim.docx" class="btn-sheet-action btn-docx" download>
+                        <i class="fa-solid fa-file-word"></i> Word (.docx)
+                    </a>
+                    <button class="btn-sheet-action" onclick="printSingleWeek(4)">
+                        <i class="fa-solid fa-print"></i> Yazdır
+                    </button>
+                    <button class="btn-sheet-action" onclick="addSectionToSheet(4)">
+                        <i class="fa-solid fa-plus"></i> Bölüm Ekle
+                    </button>
+                </div>
+            </div>
+            <div class="markdown-rendered" id="content-week-4"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    renderSheetContent(4, "| **Ders:** Fen Bilimleri | **S\u0131n\u0131f:** 5 |\n| :--- | :--- |\n| **\u00d6\u011frenme Alan\u0131:** D\u00fcnya ve Evren | **Konu:** Ay'\u0131n Evreleri ve Zaman Hesaplama |\n| **\u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131:** F.M.5.1.2.2. Ay'\u0131n evrelerini temsil eden bilimsel model olu\u015fturabilme. | **Manevi \u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131:** Ay'\u0131n hareketlerindeki ince hesap ve d\u00fczenden yola \u00e7\u0131karak Cenab-\u0131 Hakk\u0131n her \u015feye g\u00fcc\u00fcn\u00fcn yetti\u011fini anlayabilme. |\n| **Ad\u0131 Soyad\u0131:** [ .................................................... ] | **Tarih:** [ ........................ ] |\n\n---\n\n### 1. MERAK ET (Merak & \u0130kinci D\u00fc\u015f\u00fcnme Kap\u0131s\u0131)\n\nG\u00f6ky\u00fcz\u00fcne bakt\u0131\u011f\u0131nda Ay\u2019\u0131n her gece ayn\u0131 \u015fekilde g\u00f6r\u00fcnmedi\u011fini, bazen parlak bir daire, bazen ince bir yay gibi oldu\u011funu fark etmi\u015fsindir. Bazen gecenin en karanl\u0131k an\u0131nda g\u00f6ky\u00fcz\u00fcn\u00fc ayd\u0131nlatan Ay, bazen de g\u00fcnd\u00fcz vakti hafif\u00e7e kendini g\u00f6sterir. \n\n*   Bu sistem neden hi\u00e7 \u015fa\u015fmadan, hep ayn\u0131 d\u00f6ng\u00fcyle tekrarlan\u0131yor?\n*   G\u00fcne\u015f, D\u00fcnya ve Ay aras\u0131nda milyarlarca y\u0131ld\u0131r kusursuz bir saat gibi i\u015fleyen bu d\u00fczen sana ne d\u00fc\u015f\u00fcnd\u00fcr\u00fcyor? Bu kadar d\u00fczenli ve dakik i\u015fleyen bir sistemde seni en \u00e7ok d\u00fc\u015f\u00fcnd\u00fcren \u015fey nedir?\n\n[ .......................................................................................................................................................................... ]\n[ .......................................................................................................................................................................... ]\n\n---\n\n### 2. BA\u011eLAMI \u0130NCELE (Mana Ta\u015f\u0131y\u0131c\u0131s\u0131 Olay)\n\n11 ya\u015f\u0131ndaki Elif, ramazan ay\u0131n\u0131n ba\u015flang\u0131c\u0131n\u0131 ve bayram g\u00fcnlerini merakediyordu. Babas\u0131na, \"Babac\u0131\u011f\u0131m, takvimler ve saatler olmasayd\u0131 insanlar vakitleri nas\u0131l takip ederdi?\" diye sordu. Babas\u0131 onu balkona \u00e7\u0131kard\u0131 ve g\u00f6ky\u00fcz\u00fcndeki hilal halindeki Ay'\u0131 g\u00f6sterdi. \"K\u0131z\u0131m, g\u00f6ky\u00fcz\u00fcndeki bu b\u00fcy\u00fck saat, milyarlarca y\u0131ld\u0131r hi\u00e7 durmadan \u00e7al\u0131\u015f\u0131r. Ay, D\u00fcnya etraf\u0131ndaki turunu tamamlarken ald\u0131\u011f\u0131 her konum, yery\u00fcz\u00fcndeki takvimimizin yapraklar\u0131n\u0131 belirler. Ne bir saniye erken ne bir saniye ge\u00e7; her \u015fey kusursuz bir \u00f6l\u00e7\u00fcyle yerli yerindedir\" dedi.\n\n*   **Olay:** Elif'in g\u00f6ky\u00fcz\u00fcndeki Ay'\u0131 bir saat gibi fark etmesi.\n*   **Bilgi:** Ay, D\u00fcnya etraf\u0131ndaki dolan\u0131m\u0131n\u0131 yakla\u015f\u0131k 29,5 g\u00fcnde tamamlar ve bu s\u00fcre\u00e7te farkl\u0131 evreler olu\u015fturur.\n*   **G\u00f6zlem:** Ay'\u0131n \u015fekli her gece d\u00fczenli olarak de\u011fi\u015fir ve bu de\u011fi\u015fim belirli bir d\u00f6ng\u00fcy\u00fc takip eder.\n*   **Sebep-Sonu\u00e7:** Ay'\u0131n D\u00fcnya ve G\u00fcne\u015f'e g\u00f6re konumu de\u011fi\u015fti\u011fi i\u00e7in, yery\u00fcz\u00fcnden g\u00f6r\u00fcnen ayd\u0131nl\u0131k k\u0131sm\u0131 da de\u011fi\u015fir.\n*   **Anlam:** [ Bu kusursuz d\u00f6ng\u00fc ve zaman \u00f6l\u00e7\u00fcs\u00fc sence insan hayat\u0131na ve evrene ne f\u0131s\u0131ld\u0131yor? Kendi c\u00fcmlelerinle ifade et: ......................................................................................................................................................... ]\n\n---\n\n### 3. FARK ET (Kainat\u0131 Okuma & Hayret)\n\n**Etkinlik A:** A\u015fa\u011f\u0131daki tabloda Ay'\u0131n ana evrelerinin isimleri ile g\u00f6rselleri verilmi\u015ftir. Evrelerin s\u0131ras\u0131n\u0131 dikkatlice incele.\n\n1. [ ] Yeni Ay (Ay, D\u00fcnya ile G\u00fcne\u015f aras\u0131ndad\u0131r, karanl\u0131k g\u00f6r\u00fcn\u00fcr.)\n2. [ ] \u0130lk D\u00f6rd\u00fcn (Ay'\u0131n sa\u011f taraf\u0131 ayd\u0131nl\u0131k, yar\u0131m daire \u015feklindedir.)\n3. [ ] Dolunay (Ay'\u0131n tamam\u0131 ayd\u0131nl\u0131k ve parlakt\u0131r.)\n4. [ ] Son D\u00f6rd\u00fcn (Ay'\u0131n sol taraf\u0131 ayd\u0131nl\u0131k, yar\u0131m daire \u015feklindedir.)\n\n**Etkinlik B:** G\u00f6ky\u00fcz\u00fcndeki bu d\u00f6rt ana evrenin her birinin birbirini asla \u015fa\u015fmayan bir s\u0131rada takip etti\u011fini hayal et. \n\n*   Bu d\u00fczen ve uyum sana ne d\u00fc\u015f\u00fcnd\u00fcr\u00fcyor? Bu sistemde seni hayran b\u0131rakan en belirgin \u00f6zellik nedir?\n\n[ .......................................................................................................................................................................... ]\n[ .......................................................................................................................................................................... ]\n\n---\n\n### 4. B\u0130LG\u0130Y\u0130 KULLAN (Bilgiden Manaya)\n\n**Yayg\u0131n Kavram Yan\u0131lg\u0131s\u0131:** *\u201cAy, kendi \u0131\u015f\u0131\u011f\u0131n\u0131 \u00fcretti\u011fi i\u00e7in parlar.\u201d* \n**Bilimsel Ger\u00e7ek:** Ay, kendi \u0131\u015f\u0131\u011f\u0131 olan bir \u0131\u015f\u0131k kayna\u011f\u0131 de\u011fildir; G\u00fcne\u015f'ten ald\u0131\u011f\u0131 \u0131\u015f\u0131\u011f\u0131 yans\u0131t\u0131r. G\u00f6ky\u00fcz\u00fcnde par\u0131ldamas\u0131n\u0131n sebebi, G\u00fcne\u015f ile olan konumudur.\n\n*   **Ge\u00e7i\u015f Sorusu:** Ay'\u0131n kendi ba\u015f\u0131na \u0131\u015f\u0131k \u00fcretmedi\u011fi halde, G\u00fcne\u015f'ten ald\u0131\u011f\u0131 \u0131\u015f\u0131\u011f\u0131 b\u00f6ylesine kusursuz bir ayna gibi yans\u0131tarak bize zaman\u0131 bildirmesi, senin olaylara ve varl\u0131klara bak\u0131\u015f\u0131n\u0131 nas\u0131l de\u011fi\u015ftiriyor?\n\n[ .......................................................................................................................................................................... ]\n[ .......................................................................................................................................................................... ]\n\n---\n\n### 5. D\u00dc\u015e\u00dcN VE \u0130L\u0130\u015eK\u0130LEND\u0130R\n\n1. Milyarlarca ton a\u011f\u0131rl\u0131\u011f\u0131ndaki g\u00f6k cisimlerinin (D\u00fcnya, G\u00fcne\u015f ve Ay) uzay bo\u015flu\u011funda birbirine \u00e7arpmadan, kusursuz bir y\u00f6r\u00fcngede d\u00f6nmesi hangi kavramla a\u00e7\u0131klanabilir? Bu durum sana neyin g\u00f6stergesidir?\n   [ .......................................................................................................................................................................... ]\n\n2. \u0130nsan hayat\u0131nda dakik olmak, planl\u0131 ya\u015famak ve \u00f6l\u00e7\u00fcl\u00fc hareket etmek ile Ay'\u0131n y\u00f6r\u00fcngesindeki bu kusursuz \u00f6l\u00e7\u00fc aras\u0131nda nas\u0131l bir benzerlik kurabilirsin?\n   [ .......................................................................................................................................................................... ]\n\n---\n\n### 6. TEFEKK\u00dcR PENCERES\u0130 (4 A\u015famal\u0131 Mimari)\n\n*   **1. G\u00d6RD\u00dcM:** Bilimsel olarak neyi fark ettim?\n    [ Ay'\u0131n D\u00fcnya etraf\u0131ndaki hareketini belirli bir y\u00f6r\u00fcngede ve \u015fa\u015fmaz bir zamanlama ile ger\u00e7ekle\u015ftirdi\u011fini, evrelerin d\u00fczenli olarak tekrarland\u0131\u011f\u0131n\u0131 g\u00f6rd\u00fcm. ]\n\n*   **2. D\u00dc\u015e\u00dcND\u00dcM:** Bu d\u00fczen, \u00f6l\u00e7\u00fc ve denge bana ne d\u00fc\u015f\u00fcnd\u00fcrd\u00fc?\n    [ Evrende hi\u00e7bir \u015feyin tesad\u00fcfe b\u0131rak\u0131lmad\u0131\u011f\u0131n\u0131, en k\u00fc\u00e7\u00fck detaydan en b\u00fcy\u00fck g\u00f6k cismine kadar her \u015feyin kusursuz bir hesap ve kudretle idare edildi\u011fini d\u00fc\u015f\u00fcnd\u00fcrd\u00fc. ]\n\n*   **3. ANLAMLANDIRDIM:** Bu olay\u0131n hayat, insan veya varl\u0131k a\u00e7\u0131s\u0131ndan anlam\u0131 nedir?\n    [ \u0130nsan\u0131n da hayat\u0131nda bir \u00f6l\u00e7\u00fcs\u00fc, dengesi ve sorumlulu\u011fu olmas\u0131 gerekti\u011fini; evrendeki bu nizam\u0131n bize d\u00fczenli ve amaca uygun bir ya\u015fam\u0131 hat\u0131rlatt\u0131\u011f\u0131n\u0131 anlad\u0131m. ]\n\n*   **4. DE\u011eERLEND\u0130RD\u0130M:** Bu fark\u0131ndal\u0131k benim davran\u0131\u015flar\u0131m\u0131 nas\u0131l etkileyebilir?\n    [ \u0130\u015flerimde daha planl\u0131, \u00f6l\u00e7\u00fcl\u00fc ve sorumlu olmam\u0131; etraf\u0131mdaki d\u00fczene sayg\u0131 duymam\u0131 sa\u011flayabilir. ]\n\n---\n\n### 7. ERDEM VE DE\u011eER (Derinle\u015ftirilmi\u015f Ak\u0131\u015f)\n\n| Ne Fark Ettim? | Bu Bana Ne D\u00fc\u015f\u00fcnd\u00fcrd\u00fc? | \u0130nsan Hayat\u0131ndaki \u00d6nemi Nedir? | Hangi De\u011feri G\u00f6r\u00fcyorum? | Davran\u0131\u015f\u0131mda Nas\u0131l G\u00f6r\u00fcn\u00fcr? |\n| :--- | :--- | :--- | :--- | :--- |\n| Ay'\u0131n evrelerindeki \u015fa\u015fmaz d\u00fczen ve \u00f6l\u00e7\u00fc | Evrenin b\u00fcy\u00fck bir kudret ve nizamla idare edildi\u011fi | Hayat\u0131n da bir \u00f6l\u00e7\u00fc ve d\u00fczen i\u00e7inde ya\u015fanmas\u0131 gerekti\u011fi | [ ] \u00d6l\u00e7\u00fc / D\u00fczen / Sorumluluk | Planl\u0131 ve dikkatli hareket etmek |\n\n---\n\n### 8. M\u00dcZAKERE EDEL\u0130M\n\n*   *Soru 1:* E\u011fer Ay'\u0131n hareketlerinde bu d\u00fczen olmasayd\u0131, d\u00fcnyadaki ya\u015fam ve zaman hesaplar\u0131 nas\u0131l etkilenirdi? Gerek\u00e7elerin nelerdir?\n    [ .......................................................................................................................................................................... ]\n*   *Soru 2:* \"Evrendeki her \u015fey en ince detay\u0131na kadar \u00f6l\u00e7\u00fclm\u00fc\u015ft\u00fcr\" ifadesi bilimsel g\u00f6zlemlerimizle nas\u0131l \u00f6rt\u00fc\u015fmektedir? Arkada\u015flar\u0131nla tart\u0131\u015f\u0131n\u0131z.\n    [ .......................................................................................................................................................................... ]\n\n---\n\n### 9. EYLEME D\u00d6N\u00dc\u015eT\u00dcR (Somut Sorumluluk)\n\n*   **Fark etti\u011fim \u015fey:** Ay'\u0131n hareketlerindeki kusursuz \u00f6l\u00e7\u00fc ve dakiklik.\n*   **De\u011ferim:** D\u00fczenli ve \u00f6l\u00e7\u00fcl\u00fc olmak.\n*   **Davran\u0131\u015f\u0131m (Ne yapaca\u011f\u0131m?):** G\u00fcnl\u00fck ders \u00e7al\u0131\u015fma ve dinlenme saatlerimi g\u00f6ky\u00fcz\u00fcndeki bu d\u00fczeni \u00f6rnek alarak daha planl\u0131 hale getirece\u011fim.\n*   **Ne zaman?:** Yar\u0131ndan itibaren her g\u00fcn.\n*   **Kime/neye fayda sa\u011flayacak?:** Kendi zaman\u0131m\u0131 verimli kullanmama ve \u00e7evreme huzurlu bir \u00f6rnek olmama.\n\n---\n\n### 10. KEND\u0130M\u0130 DE\u011eERLEND\u0130R\u0130YORUM (\u015euurlu \u00d6z De\u011ferlendirme)\n\n*   **B\u0130LG\u0130:** Bug\u00fcn Ay'\u0131n evrelerini ve bu evrelerin olu\u015fumundaki bilimsel modeli ne kadar \u00f6\u011frendim?\n    [ ] Tamamen \u00f6\u011frendim   [ ] K\u0131smen \u00f6\u011frendim   [ ] Tekrar etmem gerekiyor\n\n*   **ANLAM:** Bug\u00fcn hangi konuda farkl\u0131 d\u00fc\u015f\u00fcnmeye ba\u015flad\u0131m?\n    [ Evrendeki d\u00fczenin ve zaman\u0131n i\u015fleyi\u015finin arkas\u0131ndaki hikmet ve kusursuz \u00f6l\u00e7\u00fc \u00fczerine farkl\u0131 d\u00fc\u015f\u00fcnmeye ba\u015flad\u0131m. ]\n\n*   **DE\u011eER / EYLEM:** \u00d6\u011frendi\u011fim ve fark etti\u011fim \u015fey g\u00fcnl\u00fck ya\u015fam\u0131m\u0131 ve davran\u0131\u015flar\u0131m\u0131 nas\u0131l etkilecek?\n    [ Zaman\u0131m\u0131 daha bilin\u00e7li kullanacak, hayat\u0131mda ve e\u015fyalar\u0131mda d\u00fczenli olmaya \u00f6zen g\u00f6sterece\u011fim. ]");
+                });
+            </script>
+        </article>
+    
+        <!-- WEEK 5 -->
+        <article class="sheet-card" id="sheet-week-5" data-week="5">
+            <div class="sheet-badge">5. HAFTA ÇALIŞMA KAĞIDI</div>
+            <div class="sheet-top-actions">
+                <div class="sheet-title-text"><i class="fa-solid fa-file-signature"></i> 5. Hafta: Güneş, Dünya ve Ay'ın Muazzam Uyumu (Vahdet ve Sanat)</div>
+                <div class="sheet-buttons">
+                    <a href="calisma_kagidi_bankasi/05_Hafta_5_Gunes_Dunya_Ay_Muazzam_Uyum.docx" class="btn-sheet-action btn-docx" download>
+                        <i class="fa-solid fa-file-word"></i> Word (.docx)
+                    </a>
+                    <button class="btn-sheet-action" onclick="printSingleWeek(5)">
+                        <i class="fa-solid fa-print"></i> Yazdır
+                    </button>
+                    <button class="btn-sheet-action" onclick="addSectionToSheet(5)">
+                        <i class="fa-solid fa-plus"></i> Bölüm Ekle
+                    </button>
+                </div>
+            </div>
+            <div class="markdown-rendered" id="content-week-5"></div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    renderSheetContent(5, "| Ders | Fen Bilimleri | S\u0131n\u0131f | 5. S\u0131n\u0131f |\n| :--- | :--- | :--- | :--- |\n| **\u00d6\u011frenme Alan\u0131** | D\u00fcnya ve Evren | **Konu** | G\u00fcne\u015f, D\u00fcnya ve Ay'\u0131n Birbirlerine G\u00f6re Hareketleri ve B\u00fcy\u00fckl\u00fck Modelleri |\n| **\u00d6\u011frenme \u00c7\u0131kt\u0131s\u0131** | F.M.5.1.3.1. G\u00fcne\u015f, D\u00fcnya ve Ay'\u0131n birbirlerine g\u00f6re hareketlerini ve hacimsel b\u00fcy\u00fckl\u00fcklerini temsil eden bilimsel model olu\u015fturabilme. |\n| **Manevi \u00c7\u0131kt\u0131** | G\u00fcne\u015f, D\u00fcnya ve Ay aras\u0131ndaki harika uyum ve hareketlerin varolu\u015ftaki kusursuz d\u00fczene i\u015faret etti\u011fi \u00e7\u0131kar\u0131m\u0131nda bulunabilme. |\n| **Ad Soyad** | [ .................................................... ] | **Tarih** | [ ........................ ] |\n\n---\n\n### 1. MERAK ET (Merak & \u0130kinci D\u00fc\u015f\u00fcnme Kap\u0131s\u0131)\n\nGeceleri g\u00f6ky\u00fcz\u00fcne bakt\u0131\u011f\u0131nda Ay'\u0131n bazen bir hilal, bazen b\u00fcy\u00fck bir parlak daire oldu\u011funu g\u00f6r\u00fcrs\u00fcn. G\u00fcnd\u00fczleri ise i\u00e7imizi \u0131s\u0131tan G\u00fcne\u015f, g\u00f6ky\u00fcz\u00fcnde hep ayn\u0131 yolu izler gibi g\u00f6r\u00fcn\u00fcr. D\u00fcnya, kendi etraf\u0131nda d\u00f6nerken ayn\u0131 zamanda G\u00fcne\u015f'in etraf\u0131nda dolan\u0131r; Ay da hem kendi etraf\u0131nda hem de D\u00fcnya'n\u0131n etraf\u0131nda d\u00f6nmektedir. \n\n* **Bu sistem neden hi\u00e7 durmadan ve hi\u00e7 \u00e7arp\u0131\u015fmadan bu kadar kusursuz \u00e7al\u0131\u015f\u0131yor?**\n  [ .......................................................................................................................................................................................... ]\n  [ .......................................................................................................................................................................................... ]\n\n* **Uzaydaki bu muazzam hareketlili\u011fi d\u00fc\u015f\u00fcnd\u00fc\u011f\u00fcnde, seni en \u00e7ok hayrete d\u00fc\u015f\u00fcren \u015fey nedir?**\n  [ .......................................................................................................................................................................................... ]\n  [ .......................................................................................................................................................................................... ]\n\n---\n\n### 2. BA\u011eLAMI \u0130NCELE (Mana Ta\u015f\u0131y\u0131c\u0131s\u0131 Olay)\n\n5. S\u0131n\u0131f \u00f6\u011frencisi Kerem, ak\u015fam babas\u0131yla balkonda g\u00f6ky\u00fcz\u00fcn\u00fc izliyordu. Kerem heyecanla sordu: *\"Baba, Ay her gece \u015fekil de\u011fi\u015ftiriyor gibi g\u00f6r\u00fcn\u00fcyor ama asl\u0131nda hep ayn\u0131 k\u00fcre de\u011fil mi? Neden birbirlerine \u00e7arp\u0131p d\u00fc\u015fm\u00fcyorlar?\"* Babas\u0131 g\u00fcl\u00fcmsedi ve elindeki elmay\u0131, portakal\u0131 ve k\u00fc\u00e7\u00fck bir bilyeyi masaya koyarak: *\"Bak Kerem, evrende her \u015fey t\u0131pk\u0131 saat mekanizmas\u0131 gibi belirli bir \u00f6l\u00e7\u00fcye g\u00f6re hareket eder. B\u00fcy\u00fck cisimlerin \u00e7ekim g\u00fc\u00e7leri ve hareket h\u0131zlar\u0131 \u00f6yle bir ayarlanm\u0131\u015ft\u0131r ki, milyonlarca y\u0131ld\u0131r hi\u00e7 kimse rotas\u0131n\u0131 \u015fa\u015f\u0131rmaz\"* dedi.\n\n* **Olaydan \u00c7\u0131kar\u0131m:** Kerem ve babas\u0131n\u0131n inceledi\u011fi bu modelde, g\u00f6k cisimlerinin belirli bir y\u00f6r\u00fcngede hareket etmesi bize hangi temel fiziksel ger\u00e7e\u011fi g\u00f6sterir?\n  [ .......................................................................................................................................................................................... ]\n\n---\n\n### 3. FARK ET (Kainat\u0131 Okuma & Hayret)\n\n1. **\u00d6l\u00e7\u00fc ve Mesafe:** G\u00fcne\u015f, D\u00fcnya'dan devasa b\u00fcy\u00fckl\u00fcktedir; ancak aradaki mesafe o kadar idealdir ki, ne kavruluruz ne de donar\u0131z. \n2. **Y\u00f6r\u00fcnge Uyumu:** D\u00fcnya ve Ay, uzayda rastgele sal\u0131nmaz; her birinin takip etti\u011fi yol (y\u00f6r\u00fcnge) milimetrik bir hassasiyetle belirlenmi\u015ftir.\n\n* **Bu kusursuz d\u00fczen ve uyum sana ne d\u00fc\u015f\u00fcnd\u00fcr\u00fcyorsun? Seni bu sistemde en \u00e7ok hayran b\u0131rakan detay nedir?**\n  [ .......................................................................................................................................................................................... ]\n  [ .......................................................................................................................................................................................... ]\n\n---\n\n### 4. B\u0130LG\u0130Y\u0130 KULLAN (Bilgiden Manaya)\n\n* **Bilimsel Ger\u00e7ek:** G\u00fcne\u015f en b\u00fcy\u00fckleridir, D\u00fcnya orta boylu bir k\u00fcre gibidir, Ay ise en k\u00fc\u00e7\u00fckleridir. D\u00fcnya G\u00fcne\u015f'in etraf\u0131nda dolan\u0131rken, Ay da D\u00fcnya'n\u0131n etraf\u0131nda dolan\u0131r.\n* **Yayg\u0131n Yan\u0131lg\u0131 D\u00fczeltmesi:** *( ) \"Ay kendi etraf\u0131nda d\u00f6nmez, sadece D\u00fcnya etraf\u0131nda d\u00f6ner.\"* d\u00fc\u015f\u00fcncesi yanl\u0131\u015ft\u0131r. Ay hem kendi etraf\u0131nda hem de D\u00fcnya ile birlikte G\u00fcne\u015f etraf\u0131nda d\u00f6ner.\n\n* **Bu bilimsel ger\u00e7ekleri \u00f6\u011frendikten sonra, g\u00f6ky\u00fcz\u00fcne ve evrendeki hareketlili\u011fe bak\u0131\u015f\u0131nda ne de\u011fi\u015fti?**\n  [ .......................................................................................................................................................................................... ]\n  [ .......................................................................................................................................................................................... ]\n\n---\n\n### 5. D\u00dc\u015e\u00dcN VE \u0130L\u0130\u015eK\u0130LEND\u0130R\n\n1. E\u011fer D\u00fcnya, G\u00fcne\u015f'e biraz daha yak\u0131n veya biraz daha uzak olsayd\u0131, bildi\u011fimiz anlamda ya\u015fam m\u00fcmk\u00fcn olur muydu? Bu durumdaki \"hassas \u00f6l\u00e7\u00fc\" bize neyi anlat\u0131r?\n   [ .......................................................................................................................................................................................... ]\n   [ .......................................................................................................................................................................................... ]\n\n2. G\u00fcne\u015f, D\u00fcnya ve Ay'\u0131n hareketlerindeki bu kusursuz dakiklik, insan olarak bizim g\u00fcnl\u00fck hayat\u0131m\u0131zdaki sorumluluklar\u0131m\u0131zla nas\u0131l ba\u011fda\u015ft\u0131r\u0131labilir?\n   [ .......................................................................................................................................................................................... ]\n   [ .......................................................................................................................................................................................... ]\n\n---\n\n### 6. TEFEKK\u00dcR PENCERES\u0130 (4 A\u015famal\u0131 Mimari)\n\n* **1. G\u00d6RD\u00dcM:** G\u00fcne\u015f, D\u00fcnya ve Ay'\u0131n boyutlar\u0131n\u0131n farkl\u0131 oldu\u011funu, belirli y\u00f6r\u00fcngelerde ve s\u00fcrekli bir hareket halinde bulunduklar\u0131n\u0131 bilimsel olarak fark ettim.\n  [ .......................................................................................................................................................................................... ]\n\n* **2. D\u00dc\u015e\u00dcND\u00dcM:** Bu devasa g\u00f6k cisimlerinin milyarlarca y\u0131ld\u0131r hi\u00e7 kaza yapmadan, birbirine \u00e7arpmadan d\u00f6nmesi bana kusursuz bir nizam ve \u00f6l\u00e7\u00fcy\u00fc d\u00fc\u015f\u00fcnd\u00fcrd\u00fc.\n  [ .......................................................................................................................................................................................... ]\n\n* **3. ANLAMLANDIRDIM:** Evrendeki bu t\u0131k\u0131r t\u0131k\u0131r i\u015fleyen d\u00fczenin tesad\u00fcfi olamayaca\u011f\u0131n\u0131, her \u015feyin bir gayeye ve hesaba dayanarak var edildi\u011fini anlamland\u0131rd\u0131m.\n  [ .......................................................................................................................................................................................... ]\n\n* **4. DE\u011eERLEND\u0130RD\u0130M:** Hayat\u0131n her alan\u0131nda bir \u00f6l\u00e7\u00fc ve dengenin oldu\u011funu fark ederek, kendi i\u015flerimde ve sorumluluklar\u0131mda daha planl\u0131 ve \u00f6l\u00e7\u00fcl\u00fc olmam gerekti\u011fini de\u011ferlendirdim.\n  [ .......................................................................................................................................................................................... ]\n\n---\n\n### 7. ERDEM VE DE\u011eER (Derinle\u015ftirilmi\u015f Ak\u0131\u015f)\n\n| Ne Fark Ettim? | Bu Bana Ne D\u00fc\u015f\u00fcnd\u00fcrd\u00fc? | \u0130nsan Hayat\u0131ndaki \u00d6nemi | Hangi De\u011feri G\u00f6r\u00fcyorum? | Davran\u0131\u015f\u0131mda Nas\u0131l G\u00f6r\u00fcn\u00fcr? |\n| :--- | :--- | :--- | :--- | :--- |\n| G\u00f6k cisimlerinin kusursuz y\u00f6r\u00fcngelerini ve hareketlerini. | Evrende ba\u015f\u0131bo\u015fluk yok, her \u015fey bir \u00f6l\u00e7\u00fcyle y\u00f6netiliyor. | \u0130nsan\u0131n da hayat\u0131nda bir denge ve d\u00fczen g\u00f6zetmesi gerekir. | **\u00d6l\u00e7\u00fc, Denge ve Sorumluluk** | \u0130\u015flerimi zaman\u0131nda yapar, \u00e7evreme kar\u015f\u0131 duyarl\u0131 olurum. |\n\n---\n\n### 8. M\u00dcZAKERE EDEL\u0130M\n\n1. \"E\u011fer evrende en ufak bir tesad\u00fcf veya karga\u015fa olsayd\u0131 ne olurdu?\" sorusu etraf\u0131nda arkada\u015flar\u0131n\u0131zla tart\u0131\u015f\u0131n\u0131z. Gerek\u00e7enizi yaz\u0131n\u0131z:\n   [ .......................................................................................................................................................................................... ]\n   [ .......................................................................................................................................................................................... ]\n\n2. D\u00fczenli \u00e7al\u0131\u015fmak ile G\u00fcne\u015f, D\u00fcnya ve Ay'\u0131n y\u00f6r\u00fcngesindeki d\u00fczen aras\u0131nda nas\u0131l bir benzerlik kurabilirsiniz?\n   [ .......................................................................................................................................................................................... ]\n   [ .......................................................................................................................................................................................... ]\n\n---\n\n### 9. EYLEME D\u00d6N\u00dc\u015eT\u00dcR (Somut Sorumluluk)\n\n* **Fark etti\u011fim \u015fey:** Evrendeki kusursuz \u00f6l\u00e7\u00fc ve d\u00fczen.\n* **De\u011ferim:** D\u00fczenli, planl\u0131 ve \u00f6l\u00e7\u00fcl\u00fc olmak.\n* **Ne yapaca\u011f\u0131m?** [ ............................................................................................................................................................................. ]\n* **Ne zaman?** [ .................................................................................................................................................................................... ]\n* **Kime / Neye fayda sa\u011flayacak?** [ ................................................................................................................................................ ]\n\n---\n\n### 10. KEND\u0130M\u0130 DE\u011eERLEND\u0130R\u0130YORUM (\u015euurlu \u00d6z De\u011ferlendirme)\n\n* **B\u0130LG\u0130:** Bug\u00fcn G\u00fcne\u015f, D\u00fcnya ve Ay'\u0131n b\u00fcy\u00fckl\u00fck ili\u015fkilerini ve birbirlerine g\u00f6re hareket modellerini \u00f6\u011frendim.\n  [ ] Tamamen Anlad\u0131m  [ ] K\u0131smen Anlad\u0131m  [ ] Destek Gerekiyor\n\n* **ANLAM:** Evrendeki hareketlerin ba\u015f\u0131bo\u015f olmad\u0131\u011f\u0131n\u0131, b\u00fcy\u00fck bir uyum ve \u00f6l\u00e7\u00fc bar\u0131nd\u0131rd\u0131\u011f\u0131n\u0131 fark ettim.\n  [ ] Derinden Hissettim  [ ] \u00dczerinde D\u00fc\u015f\u00fcnd\u00fcm  [ ] Yeni Fark Ediyorum\n\n* **DE\u011eER / EYLEM:** \u00d6\u011frendi\u011fim bu d\u00fczen ve \u00f6l\u00e7\u00fc kavram\u0131n\u0131 kendi g\u00fcnl\u00fck ya\u015fam\u0131ma, derslerime ve \u00e7evreme yans\u0131tmak i\u00e7in ad\u0131m ataca\u011f\u0131m.\n  [ ] Kararl\u0131y\u0131m  [ ] \u00c7aba G\u00f6sterece\u011fim");
+                });
+            </script>
+        </article>
+    
+    </main>
+
+    <script>
+        let currentActiveWeek = 1;
+
+        function renderSheetContent(weekNum, markdownText) {
+            const container = document.getElementById('content-week-' + weekNum);
+            if (!container) return;
+
+            const rawHtml = marked.parse(markdownText);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = rawHtml;
+
+            const children = Array.from(tempDiv.children);
+            container.innerHTML = '';
+            let currentBlock = null;
+
+            children.forEach(child => {
+                const tag = child.tagName.toLowerCase();
+                if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || !currentBlock) {
+                    currentBlock = document.createElement('div');
+                    currentBlock.className = 'editable-section-block';
+
+                    const toolbar = document.createElement('div');
+                    toolbar.className = 'section-action-toolbar';
+
+                    // Edit
+                    const editBtn = document.createElement('button');
+                    editBtn.className = 'btn-toolbar-action';
+                    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Düzenle';
+                    editBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        const contentWrap = currentBlock.querySelector('.block-inner');
+                        if (contentWrap) {
+                            contentWrap.contentEditable = 'true';
+                            contentWrap.focus();
+                        }
+                    };
+                    toolbar.appendChild(editBtn);
+
+                    // Add Below
+                    const addBtn = document.createElement('button');
+                    addBtn.className = 'btn-toolbar-action btn-toolbar-add';
+                    addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> Ekle';
+                    addBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        addSectionBelow(currentBlock);
+                    };
+                    toolbar.appendChild(addBtn);
+
+                    // Move Up
+                    const upBtn = document.createElement('button');
+                    upBtn.className = 'btn-toolbar-action';
+                    upBtn.innerHTML = '<i class="fa-solid fa-arrow-up"></i>';
+                    upBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        const prev = currentBlock.previousElementSibling;
+                        if (prev && prev.classList.contains('editable-section-block')) prev.before(currentBlock);
+                    };
+                    toolbar.appendChild(upBtn);
+
+                    // Move Down
+                    const downBtn = document.createElement('button');
+                    downBtn.className = 'btn-toolbar-action';
+                    downBtn.innerHTML = '<i class="fa-solid fa-arrow-down"></i>';
+                    downBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        const next = currentBlock.nextElementSibling;
+                        if (next && next.classList.contains('editable-section-block')) next.after(currentBlock);
+                    };
+                    toolbar.appendChild(downBtn);
+
+                    // Delete
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'btn-toolbar-action btn-toolbar-del';
+                    delBtn.innerHTML = '<i class="fa-solid fa-trash-can"></i> Sil';
+                    delBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        if (confirm('Bu bölümü silmek istediğinize emin misiniz?')) {
+                            currentBlock.style.transition = 'all 0.25s ease';
+                            currentBlock.style.opacity = '0';
+                            setTimeout(() => currentBlock.remove(), 250);
+                        }
+                    };
+                    toolbar.appendChild(delBtn);
+
+                    currentBlock.appendChild(toolbar);
+
+                    const blockInner = document.createElement('div');
+                    blockInner.className = 'block-inner';
+                    currentBlock.appendChild(blockInner);
+
+                    container.appendChild(currentBlock);
+                }
+
+                const inner = currentBlock.querySelector('.block-inner');
+                if (inner) inner.appendChild(child);
+            });
+        }
+
+        function showWeek(week) {
+            currentActiveWeek = week;
+            const tabs = document.querySelectorAll('.nav-tab');
+            const sheets = document.querySelectorAll('.sheet-card');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            sheets.forEach(s => s.style.display = 'none');
+
+            if (week === 'all') {
+                tabs[5].classList.add('active');
+                sheets.forEach(s => s.style.display = 'block');
+            } else {
+                tabs[week - 1].classList.add('active');
+                const target = document.getElementById('sheet-week-' + week);
+                if (target) {
+                    target.style.display = 'block';
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        function printSingleWeek(weekNum) {
+            document.querySelectorAll('.sheet-card').forEach(s => s.classList.remove('active-print'));
+            const sheet = document.getElementById('sheet-week-' + weekNum);
+            if (sheet) sheet.classList.add('active-print');
+            window.print();
+        }
+
+        function addSectionBelow(block) {
+            const title = prompt('Yeni bölüm başlığını giriniz:', 'YENİ ETKİNLİK / BÖLÜM');
+            if (!title) return;
+            const newBlock = document.createElement('div');
+            newBlock.className = 'editable-section-block';
+            newBlock.innerHTML = `
+                <div class="block-inner" contenteditable="true">
+                    <h3><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                    <p>Etkinlik açıklaması ve yönergesi buraya yazılacaktır.</p>
+                    <p>[ Öğrenci Cevap Alanı: ............................................................ ]</p>
+                </div>
+            `;
+            block.after(newBlock);
+            newBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function addSectionToSheet(weekNum) {
+            const container = document.getElementById('content-week-' + weekNum);
+            if (!container) return;
+            const title = prompt('Yeni bölüm başlığını giriniz:', 'YENİ ETKİNLİK / BÖLÜM');
+            if (!title) return;
+            const newBlock = document.createElement('div');
+            newBlock.className = 'editable-section-block';
+            newBlock.innerHTML = `
+                <div class="block-inner" contenteditable="true">
+                    <h3><i class="fa-solid fa-sparkles"></i> ${title}</h3>
+                    <p>Etkinlik açıklaması ve yönergesi buraya yazılacaktır.</p>
+                    <p>[ Öğrenci Cevap Alanı: ............................................................ ]</p>
+                </div>
+            `;
+            container.appendChild(newBlock);
+            newBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Initialize: Show Week 1 by default
+        document.addEventListener('DOMContentLoaded', () => {
+            showWeek(1);
+        });
+    </script>
+</body>
+</html>
