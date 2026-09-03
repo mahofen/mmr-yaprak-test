@@ -493,6 +493,211 @@ document.addEventListener('DOMContentLoaded', () => {
         return header;
     }
 
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function parseMindMapData(rawText, fallbackRoot = 'Merkezi Kavram') {
+        const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+        let root = fallbackRoot;
+        const branches = [];
+
+        for (const line of lines) {
+            // Check for root: e.g. └── [Güneş: Hayat Kaynağı] or [Güneş'in Yapısı] or Merkezi Kavram: ...
+            const rootMatch = line.match(/(?:└──|└)\s*\[([^\]]+)\]$/) ||
+                              line.match(/^\[([^\]]+)\]$/) ||
+                              line.match(/Merkez(?:i)?\s*Kavram[\s:*]+([^\n]+)/i);
+            if (rootMatch && branches.length === 0) {
+                root = rootMatch[1].replace(/[*#]/g, '').trim();
+                continue;
+            }
+
+            // Branch with arrows (──>, ->, →)
+            if (line.includes('──>') || line.includes('->') || line.includes('→')) {
+                const clean = line.replace(/^[├└│\s─]+/, '').trim();
+                const parts = clean.split(/\s*(?:──>|->|→)\s*/)
+                                   .map(p => p.replace(/^\[|\]$/g, '').replace(/[*_]/g, '').trim())
+                                   .filter(Boolean);
+                if (parts.length > 0) {
+                    branches.push({
+                        title: parts[0],
+                        steps: parts.slice(1)
+                    });
+                }
+            }
+            // Branch without arrows: ├── [Ana Dal 1] or ├── Fiziksel Yapı
+            else if (/^[├└]\s*──\s*(.+)/.test(line)) {
+                const clean = line.replace(/^[├└│\s─]+/, '')
+                                  .replace(/^\[|\]$/g, '')
+                                  .replace(/[*_]/g, '')
+                                  .trim();
+                if (clean && clean !== root) {
+                    branches.push({
+                        title: clean,
+                        steps: []
+                    });
+                }
+            }
+            // Markdown bullet branches: - **Ana Dal 1**: Alt adımlar
+            else if (/^[-*]\s+\*\*(.+?)\*\*[:\s]*(.*)/.test(line)) {
+                const m = line.match(/^[-*]\s+\*\*(.+?)\*\*[:\s]*(.*)/);
+                const title = m[1].trim();
+                const rest = m[2].trim();
+                const steps = rest ? rest.split(/[,;•]/).map(s => s.trim()).filter(Boolean) : [];
+                branches.push({ title, steps });
+            }
+        }
+
+        return { root, branches };
+    }
+
+    function createVisualMindMapElement(rawText, originalEl, defaultRoot) {
+        const data = parseMindMapData(rawText, defaultRoot);
+        if (!data.branches || data.branches.length === 0) {
+            return null;
+        }
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'visual-mindmap-box';
+
+        // Toolbar
+        const toolbar = document.createElement('div');
+        toolbar.className = 'vmm-toolbar';
+        toolbar.innerHTML = `
+            <div class="vmm-badge-title">
+                <span class="vmm-icon-pill"><i class="fa-solid fa-sitemap"></i></span>
+                <div class="vmm-title-text">
+                    <strong>KAVRAMSAL ZİHİN HARİTASI AĞI</strong>
+                    <span>Görsel Kavram &amp; İlişki Hiyerarşisi</span>
+                </div>
+            </div>
+            <div class="vmm-mode-switcher">
+                <button type="button" class="btn-vmm-mode active" data-vmm-mode="visual" title="Görsel Ağ Modu">
+                    <i class="fa-solid fa-diagram-project"></i> Görsel Harita
+                </button>
+                <button type="button" class="btn-vmm-mode" data-vmm-mode="code" title="Metin / Kod Şeması">
+                    <i class="fa-solid fa-code"></i> Ağaç Kodu
+                </button>
+            </div>
+        `;
+        wrapper.appendChild(toolbar);
+
+        // Canvas View
+        const canvasView = document.createElement('div');
+        canvasView.className = 'vmm-canvas-view';
+
+        // Detect appropriate icon for root
+        const lowerRoot = (data.root + ' ' + defaultRoot).toLowerCase();
+        let hubIcon = 'fa-lightbulb';
+        if (lowerRoot.includes('güneş') || lowerRoot.includes('ışık') || lowerRoot.includes('sıcak')) {
+            hubIcon = 'fa-sun';
+        } else if (lowerRoot.includes('ay') || lowerRoot.includes('hilal') || lowerRoot.includes('evre')) {
+            hubIcon = 'fa-moon';
+        } else if (lowerRoot.includes('dünya') || lowerRoot.includes('yer') || lowerRoot.includes('gezegen')) {
+            hubIcon = 'fa-earth-americas';
+        } else if (lowerRoot.includes('madde') || lowerRoot.includes('atom') || lowerRoot.includes('enerji')) {
+            hubIcon = 'fa-atom';
+        } else if (lowerRoot.includes('canlı') || lowerRoot.includes('hücre') || lowerRoot.includes('bitki')) {
+            hubIcon = 'fa-seedling';
+        }
+
+        // Center Hub
+        const hub = document.createElement('div');
+        hub.className = 'vmm-center-hub';
+        hub.innerHTML = `
+            <div class="vmm-hub-card">
+                <div class="vmm-hub-icon"><i class="fa-solid ${hubIcon}"></i></div>
+                <div class="vmm-hub-content">
+                    <span class="vmm-hub-label"><i class="fa-solid fa-compass"></i> ÇEKİRDEK KAVRAM</span>
+                    <h4 class="vmm-hub-title">${escapeHtml(data.root)}</h4>
+                </div>
+            </div>
+            <div class="vmm-spine-down"></div>
+        `;
+        canvasView.appendChild(hub);
+
+        // Branches Grid
+        const branchesGrid = document.createElement('div');
+        branchesGrid.className = 'vmm-branches-grid';
+
+        data.branches.forEach((b, idx) => {
+            const themeNum = (idx % 5) + 1;
+            const branchCard = document.createElement('div');
+            branchCard.className = `vmm-branch-card theme-branch-${themeNum}`;
+
+            let stepsHtml = '';
+            if (b.steps && b.steps.length > 0) {
+                stepsHtml = `
+                    <div class="vmm-steps-track">
+                        ${b.steps.map((step, sIdx) => `
+                            <div class="vmm-step-bubble">
+                                <span class="vmm-step-index">${sIdx + 1}</span>
+                                <span class="vmm-step-label">${escapeHtml(step)}</span>
+                            </div>
+                            ${sIdx < b.steps.length - 1 ? '<div class="vmm-step-arrow"><i class="fa-solid fa-arrow-down-long"></i></div>' : ''}
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                stepsHtml = `
+                    <div class="vmm-steps-track">
+                        <div class="vmm-step-bubble">
+                            <span class="vmm-step-index">★</span>
+                            <span class="vmm-step-label">Temel Kavramsal Odak</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            branchCard.innerHTML = `
+                <div class="vmm-branch-top">
+                    <span class="vmm-branch-num">0${idx + 1}</span>
+                    <h5 class="vmm-branch-heading"><i class="fa-solid fa-circle-nodes"></i> ${escapeHtml(b.title)}</h5>
+                </div>
+                <div class="vmm-branch-body">
+                    ${stepsHtml}
+                </div>
+            `;
+            branchesGrid.appendChild(branchCard);
+        });
+
+        canvasView.appendChild(branchesGrid);
+        wrapper.appendChild(canvasView);
+
+        // Code View (Original pre/element preserved)
+        const codeView = document.createElement('div');
+        codeView.className = 'vmm-code-view hidden';
+        const codeClone = originalEl.cloneNode(true);
+        codeClone.className = 'mind-map-tree';
+        codeView.appendChild(codeClone);
+        wrapper.appendChild(codeView);
+
+        // Mode Switcher Listeners
+        const btns = toolbar.querySelectorAll('.btn-vmm-mode');
+        btns.forEach(btn => {
+            btn.onclick = () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const mode = btn.getAttribute('data-vmm-mode');
+                if (mode === 'visual') {
+                    canvasView.classList.remove('hidden');
+                    codeView.classList.add('hidden');
+                } else {
+                    canvasView.classList.add('hidden');
+                    codeView.classList.remove('hidden');
+                }
+            };
+        });
+
+        return wrapper;
+    }
+
     // 5. Modular Content Rendering with Unified MMR Cards & Page Fitting
     function renderModularContent(markdownText) {
         const cleanMarkdown = sanitizeEducationalText(markdownText);
@@ -793,10 +998,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            // E) Zihin Haritası Ağaç Şeması UX
-            body.querySelectorAll('pre, code').forEach(el => {
-                if (el.textContent.includes('├──') || el.textContent.includes('└──') || el.textContent.includes('│')) {
-                    el.classList.add('mind-map-tree');
+            // E) Zihin Haritası Ağını Görsel İnteraktif Diyagrama Dönüştürme
+            const treeCandidates = body.querySelectorAll('pre, code, p');
+            treeCandidates.forEach(el => {
+                const text = el.textContent || '';
+                if (text.includes('├──') || text.includes('└──') || text.includes('──>') || text.includes('├') || text.includes('└')) {
+                    if (el.closest('.visual-mindmap-box')) return;
+
+                    const defaultTopic = (document.getElementById('topic')?.value || 'Merkezi Kavram').trim();
+                    const visualMap = createVisualMindMapElement(text, el, defaultTopic);
+                    if (visualMap) {
+                        el.replaceWith(visualMap);
+                    } else {
+                        el.classList.add('mind-map-tree');
+                    }
                 }
             });
         });

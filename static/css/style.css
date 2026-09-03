@@ -2773,6 +2773,331 @@ body {
     }
 }
 
+/* =========================================================
+   VISUAL MIND MAP (GÖRSEL ZİHİN HARİTASI AĞI) STYLES
+   ========================================================= */
+.visual-mindmap-box {
+    background: #ffffff;
+    border: 2px solid #e0f2fe;
+    border-radius: 14px;
+    margin: 1.25rem 0;
+    overflow: hidden;
+    box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.08);
+}
+
+.vmm-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-bottom: 1px solid #bae6fd;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.vmm-badge-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.vmm-icon-pill {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+}
+
+.vmm-title-text strong {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #0369a1;
+    letter-spacing: 0.3px;
+}
+
+.vmm-title-text span {
+    display: block;
+    font-size: 0.72rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.vmm-mode-switcher {
+    display: inline-flex;
+    background: #ffffff;
+    padding: 3px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    gap: 2px;
+}
+
+.btn-vmm-mode {
+    background: transparent;
+    border: none;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.btn-vmm-mode:hover {
+    color: #0369a1;
+    background: #f8fafc;
+}
+
+.btn-vmm-mode.active {
+    background: #0284c7;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+}
+
+/* Canvas View */
+.vmm-canvas-view {
+    padding: 1.5rem 1.25rem;
+    background: radial-gradient(circle at top center, #f8fafc 0%, #ffffff 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Center Hub (Merkez Düğüm) */
+.vmm-center-hub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+}
+
+.vmm-hub-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 2px solid #38bdf8;
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25), 0 0 15px rgba(56, 189, 248, 0.2);
+    position: relative;
+    z-index: 2;
+}
+
+.vmm-hub-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+}
+
+.vmm-hub-content {
+    flex: 1;
+}
+
+.vmm-hub-label {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.15);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.25rem;
+}
+
+.vmm-hub-title {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #f8fafc;
+    line-height: 1.3;
+}
+
+.vmm-spine-down {
+    width: 3px;
+    height: 24px;
+    background: linear-gradient(to bottom, #38bdf8, #94a3b8);
+    margin-top: -2px;
+    border-radius: 2px;
+}
+
+/* Branches Grid */
+.vmm-branches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.vmm-branch-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s ease;
+}
+
+.vmm-branch-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.vmm-branch-top {
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #ffffff;
+}
+
+.vmm-branch-num {
+    font-size: 0.75rem;
+    font-weight: 900;
+    padding: 0.2rem 0.45rem;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+.vmm-branch-heading {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    flex: 1;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Branch Themes */
+.theme-branch-1 .vmm-branch-top {
+    background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+}
+.theme-branch-1 {
+    border-top: 3px solid #0f766e;
+}
+
+.theme-branch-2 .vmm-branch-top {
+    background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
+}
+.theme-branch-2 {
+    border-top: 3px solid #1d4ed8;
+}
+
+.theme-branch-3 .vmm-branch-top {
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+}
+.theme-branch-3 {
+    border-top: 3px solid #d97706;
+}
+
+.theme-branch-4 .vmm-branch-top {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+}
+.theme-branch-4 {
+    border-top: 3px solid #7c3aed;
+}
+
+.theme-branch-5 .vmm-branch-top {
+    background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+}
+.theme-branch-5 {
+    border-top: 3px solid #e11d48;
+}
+
+/* Branch Steps Track */
+.vmm-branch-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    background: #fafbfc;
+}
+
+.vmm-steps-track {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    align-items: stretch;
+}
+
+.vmm-step-bubble {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.55rem 0.75rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.vmm-step-index {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #64748b;
+    background: #f1f5f9;
+    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.vmm-step-label {
+    font-size: 0.83rem;
+    color: #334155;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.vmm-step-arrow {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin: -2px 0;
+}
+
+/* Code View */
+.vmm-code-view {
+    padding: 1rem;
+    background: #0f172a;
+}
+.vmm-code-view pre {
+    margin: 0;
+}
+
 /* PRINT MEDIA SÜTUN & A4 DÜZENİ */
 @media print {
     body {
@@ -2868,6 +3193,56 @@ body {
 
     .ux-checklist-box {
         border: 1.5px solid #475569 !important;
+    }
+
+    /* Visual Mind Map Print Rules */
+    .visual-mindmap-box {
+        border: 1px solid #94a3b8 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .vmm-toolbar .vmm-mode-switcher {
+        display: none !important;
+    }
+
+    .vmm-canvas-view {
+        background: #ffffff !important;
+        padding: 0.75rem 0.5rem !important;
+    }
+
+    .vmm-hub-card {
+        background: #f8fafc !important;
+        border: 2px solid #0f172a !important;
+        box-shadow: none !important;
+    }
+
+    .vmm-hub-title {
+        color: #0f172a !important;
+    }
+
+    .vmm-hub-label {
+        color: #0369a1 !important;
+        background: #e0f2fe !important;
+        border: 1px solid #bae6fd !important;
+    }
+
+    .vmm-branch-card {
+        border: 1px solid #94a3b8 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    .vmm-branch-top {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .vmm-step-bubble {
+        border: 1px solid #cbd5e1 !important;
+        background: #ffffff !important;
     }
 
     @page {
