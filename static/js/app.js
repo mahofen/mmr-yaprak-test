@@ -594,61 +594,49 @@ document.addEventListener('DOMContentLoaded', () => {
                     secNum = parseInt(match[1] || match[2]);
                     titleText = (match[3] || '').trim();
                 } else if (['h1', 'h2', 'h3'].includes(tag)) {
-                    titleText = text.replace(/^#+\s*/, '').replace(/^(?:BÖLÜM\s*\d+\s*[\—\–\-:]\s*|0?\d+\.\s*)/i, '');
-                }
-
-                // Pedagojik etiketleri eylem odaklı modern başlıklara dönüştür
-                const PEDAGOGICAL_REPLACEMENTS = {
-                    'MERAK ET': 'Gözlemle ve Merak Et',
-                    'BAĞLAMI İNCELE': 'Bağlam',
-                    'FARK ET VE BİLGİYİ KULLAN': 'Kanıt / Veri / Materyal',
-                    'DÜŞÜN VE İLİŞKİLENDİR': 'Akıl Yürütme',
-                    'TEFEKKÜR ET – ERDEM VE DEĞER': 'Tefekkür',
-                    'TEFEKKÜR ET': 'Tefekkür',
-                    'TEFEKKÜR PENCERESİ': 'Tefekkür',
-                    'MÜZAKERE EDELİM': 'Müzakere',
-                    'ERDEM VE DEĞER': 'Değer ve Hayata Yansıtma',
-                    'EYLEME DÖNÜŞTÜR – KENDİMİ DEĞERLENDİR': 'Değer ve Hayata Yansıtma',
-                    'EYLEME DÖNÜŞTÜR': 'Değer ve Hayata Yansıtma',
-                    'KENDİMİ DEĞERLENDİRİYORUM': 'Öz Değerlendirme'
-                };
-
-                const DEFAULT_ACTION_TITLES = {
-                    1: 'Kimlik Alanı',
-                    2: 'Bağlam',
-                    3: 'Kanıt / Veri / Materyal',
-                    4: 'TYMM Beceri Görevi',
-                    5: 'Akıl Yürütme',
-                    6: 'MMR Penceresi',
-                    7: 'Tefekkür',
-                    8: 'Müzakere',
-                    9: 'Değer ve Hayata Yansıtma',
-                    10: 'Öz Değerlendirme'
-                };
-
-                for (const [key, replacement] of Object.entries(PEDAGOGICAL_REPLACEMENTS)) {
-                    if (titleText.toUpperCase().includes(key)) {
-                        titleText = titleText.replace(new RegExp(key, 'i'), replacement).trim();
-                    }
+                    titleText = text.replace(/^#+\s*/, '').replace(/^(?:BÖLÜM\s*\d+\s*[\—\–\-:]\s*|0?\d+\.\s*)/i, '').trim();
                 }
 
                 if (!titleText || titleText === 'BÖLÜM' || /^\d+$/.test(titleText)) {
-                    titleText = DEFAULT_ACTION_TITLES[secNum] || `Bölüm ${String(secNum).padStart(2, '0')}`;
+                    const CANONICAL_7_TITLES = [
+                        'BAĞLAM',
+                        'KANIT / VERİ / MATERYAL',
+                        'TYMM BECERİ GÖREVİ',
+                        'AKIL YÜRÜTME',
+                        'MMR PENCERESİ ve tefekkür',
+                        'Değer ve Hayata Yansıtma',
+                        'MÜZAKERE'
+                    ];
+                    titleText = CANONICAL_7_TITLES[secNum - 1] || `Bölüm ${String(secNum).padStart(2, '0')}`;
                 }
 
                 let themeClass = '';
-                if (secNum === 1 || /kimlik/i.test(titleText)) themeClass = 'section-card-kimlik';
-                else if (secNum === 2 || /bağlam/i.test(titleText)) themeClass = 'section-card-baglam';
-                else if (secNum === 3 || /kanıt|veri|materyal/i.test(titleText)) themeClass = 'section-card-veri';
-                else if (secNum === 4 || /beceri/i.test(titleText)) themeClass = 'section-card-beceri';
-                else if (secNum === 5 || /akıl|muhakeme/i.test(titleText)) themeClass = 'section-card-akil';
-                else if (secNum === 6 || /mmr/i.test(titleText)) themeClass = 'section-card-mmr';
-                else if (secNum === 7 || /tefekkür/i.test(titleText)) themeClass = 'section-card-tefekkur';
-                else if (secNum === 8 || /müzakere/i.test(titleText)) themeClass = 'section-card-muzakere';
-                else if (secNum === 9 || /hayat|değer/i.test(titleText)) themeClass = 'section-card-hayat';
-                else if (secNum === 10 || /öz değerlendirme/i.test(titleText)) themeClass = 'section-card-ozdeg';
+                let secMeta = { icon: 'fa-file-lines', tag: 'Bölüm' };
 
-                const secMeta = SECTION_METADATA[secNum] || { icon: 'fa-file-lines', tag: 'Bölüm' };
+                if (/bağlam/i.test(titleText)) {
+                    themeClass = 'section-card-baglam';
+                    secMeta = { icon: 'fa-compass', tag: 'Gerçek Yaşam Bağlamı' };
+                } else if (/kanıt|veri|materyal/i.test(titleText)) {
+                    themeClass = 'section-card-veri';
+                    secMeta = { icon: 'fa-database', tag: 'Kanıt & Veri' };
+                } else if (/beceri/i.test(titleText)) {
+                    themeClass = 'section-card-beceri';
+                    secMeta = { icon: 'fa-brain', tag: 'TYMM Becerisi' };
+                } else if (/akıl\s*yürütme|muhakeme/i.test(titleText)) {
+                    themeClass = 'section-card-akil';
+                    secMeta = { icon: 'fa-arrow-trend-up', tag: 'Akıl Yürütme' };
+                } else if (/mmr.*tefekkür|tefekkür.*mmr|mmr\s*penceresi/i.test(titleText)) {
+                    themeClass = 'section-card-tefekkur';
+                    secMeta = { icon: 'fa-seedling', tag: 'MMR & Tefekkür' };
+                } else if (/değer.*hayat|hayat.*değer/i.test(titleText)) {
+                    themeClass = 'section-card-hayat';
+                    secMeta = { icon: 'fa-hand-holding-heart', tag: 'Değer & Hayat' };
+                } else if (/müzakere/i.test(titleText)) {
+                    themeClass = 'section-card-muzakere';
+                    secMeta = { icon: 'fa-comments', tag: 'Akran Müzakeresi' };
+                } else {
+                    secMeta = SECTION_METADATA[secNum] || { icon: 'fa-file-lines', tag: 'Bölüm' };
+                }
 
                 currentCard = document.createElement('div');
                 currentCard.className = `mmr-section-card ${themeClass} editable-section-block`;
