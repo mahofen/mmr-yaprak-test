@@ -20,6 +20,9 @@
                 </div>
             </div>
             <div class="nav-right-actions">
+                <button class="btn-nav-info" id="openAboutModalBtn" type="button" title="Bu Çalışma Nedir? TYMM + MMR Sistemi Rehberi">
+                    <i class="fa-solid fa-circle-question"></i> Bu Çalışma Nedir?
+                </button>
                 <a href="/materyal_goruntuleyici.html" class="btn-nav-link" target="_blank" title="5. Sınıf Örnek Vitrin Materyalleri">
                     <i class="fa-solid fa-chalkboard-user"></i> Vitrini Gör
                 </a>
@@ -202,9 +205,13 @@
                 <i class="fa-solid fa-file-circle-question"></i>
                 <h3>Henüz Materyal Üretilmedi</h3>
                 <p>Sol taraftaki bilgileri doldurarak <strong>Çalışma Kağıdı</strong> veya <strong>Yaprak Test</strong> oluşturabilirsiniz.</p>
+                <button type="button" class="btn-about-inline" id="openAboutInlineBtn" title="TYMM ve MMR Sistemini Öğrenin">
+                    <i class="fa-solid fa-circle-question"></i> Bu Çalışma Nedir? (Sistem Rehberini Oku)
+                </button>
                 <div class="empty-tips">
                     <span><i class="fa-solid fa-check"></i> TYMM Maarif Modeli uyumlu</span>
                     <span><i class="fa-solid fa-check"></i> Muallimin Manevi Rehberi</span>
+                    <span><i class="fa-solid fa-check"></i> 10 Bölümlü Standart İçerik</span>
                     <span><i class="fa-solid fa-check"></i> Erdem-Değer-Eylem odaklı</span>
                 </div>
             </div>
@@ -258,6 +265,197 @@
                     <h4>Henüz Kayıtlı Bir Materyaliniz Yok</h4>
                     <p>Materyal ürettikten sonra sağ üstteki <strong>"Kaydet"</strong> butonuna basarak kütüphanenize ekleyebilir ve dilediğiniz zaman tekrar yükleyebilirsiniz.</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bu Çalışma Nedir? (TYMM + MMR Rehberi) Modalı -->
+    <div id="aboutSystemModal" class="modal-overlay hidden">
+        <div class="modal-container about-modal-container">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <div>
+                        <h3>Bu Çalışma Nedir? (TYMM + MMR Eğitim Sistemi)</h3>
+                        <p class="modal-subtitle">Türkiye Yüzyılı Maarif Modeli ve Muallimin Manevi Rehberi Bütünleşik Yaklaşımı</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-modal-close" id="closeAboutModalBtn" title="Kapat">&times;</button>
+            </div>
+            <div class="modal-body about-modal-body">
+                
+                <!-- 1. Temel Tanım & Vizyon -->
+                <div class="about-hero-box">
+                    <div class="about-hero-badge"><i class="fa-solid fa-star"></i> YENİ NESİL EĞİTİM MATERYALİ SİSTEMİ</div>
+                    <h4>Akıl ile Kalbin, Bilim ile Hikmetin Buluştuğu Eğitim Materyali Motoru</h4>
+                    <p>
+                        Bu platform; Millî Eğitim Bakanlığı'nın <strong>Türkiye Yüzyılı Maarif Modeli (TYMM)</strong>'nde yer alan beceri ve bağlam temelli öğrenme yaklaşımı ile <strong>Muallimin Manevi Rehberi (MMR)</strong>'nin tefekkür, nizam, ölçü ve hikmet ilkelerini bir araya getiren yapay zekâ destekli bir eğitim teknolojisi sistemidir. İlkokul 3. sınıftan Lise 12. sınıfa kadar tüm branşlarda öğretmenin ihtiyacına özel, pedagojik olarak denetlenmiş ve A4 baskıya hazır <strong>Çalışma Kâğıtları</strong> ve <strong>Yaprak Testler</strong> üretir.
+                    </p>
+                </div>
+
+                <!-- 2. İki Ana Sütun (TYMM vs MMR) -->
+                <div class="about-grid-2">
+                    <div class="about-card tymm-card">
+                        <div class="about-card-header">
+                            <i class="fa-solid fa-brain"></i>
+                            <h5>1. TYMM BAĞLAM TEMELLİ YAKLAŞIM</h5>
+                        </div>
+                        <div class="about-card-body">
+                            <p class="about-flow-tag">Öğrenme Çıktısı → Beceri → Süreç Bileşeni → Gerçekçi Bağlam → Kanıt/Veri → Akıl Yürütme → Karar</p>
+                            <ul>
+                                <li><strong>Ezber Değil, Anlam:</strong> Öğrenci bilgiyi sadece hatırlamaz; sahici bir yaşam durumu içinde verileri kullanarak çözümler.</li>
+                                <li><strong>Yaşantısal Bağlam:</strong> Senaryolar doğrudan öğrencinin yaş seviyesine uygun, merak uyandıran ve gerçek hayatla ilişkili olaylardan seçilir.</li>
+                                <li><strong>Kanıt ve Veri Temelli:</strong> Tablolar, grafikler, deney sonuçları ve ölçümler kullanılarak öğrencinin analitik muhakeme yapması sağlanır.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="about-card mmr-card">
+                        <div class="about-card-header">
+                            <i class="fa-solid fa-seedling"></i>
+                            <h5>2. MMR MANEVİ REHBERLİK YAKLAŞIMI</h5>
+                        </div>
+                        <div class="about-card-body">
+                            <p class="about-flow-tag">Bilgi → Hayret → Anlamlandırma → Hikmet/Nizam → Tefekkür → Değer → Sorumluluk</p>
+                            <ul>
+                                <li><strong>Ayrı Bir Din Dersi Değildir:</strong> MMR konunun sonuna eklenen bir vaaz veya nasihat değil; ders bilgisinin içindeki mükemmel nizam, ölçü ve dengenin fark edilmesidir.</li>
+                                <li><strong>Hazır Dogma Yasağı:</strong> Öğrenciye hazır manevi cevaplar dayatılmaz; açık uçlu sorularla öğrencinin kendi tefekkürünü yapması sağlanır.</li>
+                                <li><strong>Akıl + Kalp = Şuur:</strong> Bilimsel gerçekler tam bir doğrulukla aktarılırken, manevi boyut öğrencinin ahlaki sorumluluk ve erdem geliştirmesini sağlar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Standart 10 Bölümlü İçerik Mimarisi -->
+                <div class="about-section-block">
+                    <h5 class="about-section-title"><i class="fa-solid fa-layer-group"></i> Standart 10 Bölümlü Çalışma Kâğıdı Mimarisi</h5>
+                    <p class="about-section-desc">Her çalışma kâğıdı pedagojik olarak aşağıdaki 10 kanonik bölümü takip eder:</p>
+                    <div class="about-steps-list">
+                        <div class="about-step-item">
+                            <span class="about-step-num">01</span>
+                            <div>
+                                <strong>Kimlik Alanı</strong>
+                                <p>Ders, Sınıf, Konu, Öğrenme Çıktısı, Hedeflenen Beceri, Süreç Bileşeni ve Künye.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">02</span>
+                            <div>
+                                <strong>Bağlam</strong>
+                                <p>Öğrencinin kendini içinde hissedeceği yaşantısal problem durumu veya araştırma olayı.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">03</span>
+                            <div>
+                                <strong>Kanıt / Veri / Materyal</strong>
+                                <p>Akıl yürütmeye hizmet eden sade ve anlaşılır veri tablosu, deney sonucu veya model.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">04</span>
+                            <div>
+                                <strong>TYMM Beceri Görevi</strong>
+                                <p>Hedef bilişsel eylemi (Karşılaştır, sınıflandır, ilişkilendir, çıkarım yap) çalıştıran görev.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">05</span>
+                            <div>
+                                <strong>Akıl Yürütme</strong>
+                                <p>Basitten karmaşığa sorular ve çizgili defter mizanpajlı ferah öğrenci çözüm alanı.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">06</span>
+                            <div>
+                                <strong>MMR Penceresi</strong>
+                                <p>Ders konusundaki nizam, denge, ölçü ve süreklilik üzerine zihni açan manevi derinlik alanı.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">07</span>
+                            <div>
+                                <strong>Tefekkür</strong>
+                                <p>Gözlem, Hayret, Hikmet ve İnsani Sorumluluk basamaklarında öğrencinin kendi kalp mimarisi.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">08</span>
+                            <div>
+                                <strong>Müzakere</strong>
+                                <p>Sınıf içi akran tartışması için tek doğru cevabı olmayan, gerekçeli düşünce soruları.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">09</span>
+                            <div>
+                                <strong>Değer ve Hayata Yansıtma</strong>
+                                <p>Öğrencinin günlük yaşamında uygulayacağı somut davranış değişikliği ve sorumluluk taahhüdü.</p>
+                            </div>
+                        </div>
+                        <div class="about-step-item">
+                            <span class="about-step-num">10</span>
+                            <div>
+                                <strong>Öz Değerlendirme</strong>
+                                <p>Öğrencinin kendi öğrenme sürecini kontrol ettiği 6 maddelik interaktif kontrol listesi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Kalite Güvencesi ve Öğretmen Denetimi -->
+                <div class="about-grid-2">
+                    <div class="about-card">
+                        <div class="about-card-header">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            <h5>Ön Planlama Matrisi (14 Satır)</h5>
+                        </div>
+                        <div class="about-card-body">
+                            <p>Yapay zekâ kâğıdı üretmeden önce; ders, bağlam, veri, beceri, MMR bağlantısı, tefekkür ve müzakere kararlarını netleştirir ve öğretmen için ayrı bir planlama matrisi sunar.</p>
+                        </div>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-card-header">
+                            <i class="fa-solid fa-award"></i>
+                            <h5>20 Puanlık MMR Denetim Motoru</h5>
+                        </div>
+                        <div class="about-card-body">
+                            <p>Üretilen her materyal 10 somut ölçüt (Ders bağlantısı, tefekkür, denge, hazır cevaptan kaçınma, akıl-kalp dengesi vb.) üzerinden 20 puanla puanlanır ve akreditasyon raporu düzenlenir.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Nasıl Kullanılır? -->
+                <div class="about-usage-box">
+                    <h5><i class="fa-solid fa-rocket"></i> Nasıl Kullanılır? (3 Adımda Materyal Hazırlama)</h5>
+                    <div class="usage-steps">
+                        <div class="usage-step">
+                            <span class="u-num">1</span>
+                            <strong>Bilgileri Girin veya Şablon Seçin:</strong>
+                            <p>Sınıfınızı ve dersinizi seçin ya da hazır 1. Ünite şablonlarından birine tek tıkla tıklayın.</p>
+                        </div>
+                        <div class="usage-step">
+                            <span class="u-num">2</span>
+                            <strong>Materyali Üretin:</strong>
+                            <p>"Materyali Üret" butonuna basın; yapay zekâ saniyeler içinde eksiksiz materyali tasarlar.</p>
+                        </div>
+                        <div class="usage-step">
+                            <span class="u-num">3</span>
+                            <strong>Düzenleyin & Yazdırın:</strong>
+                            <p>İçeriği ekranda düzenleyebilir, kayıt kütüphanenize ekleyebilir veya tek tıkla kusursuz A4 çıktısı alabilirsiniz.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a href="/materyal_goruntuleyici.html" class="btn-modal-link" target="_blank">
+                    <i class="fa-solid fa-chalkboard-user"></i> Canlı Vitrini İncele
+                </a>
+                <button type="button" class="btn-modal-primary" id="confirmCloseAboutBtn">
+                    <i class="fa-solid fa-check"></i> Anladım, Kapat
+                </button>
             </div>
         </div>
     </div>

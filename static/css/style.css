@@ -2300,6 +2300,363 @@ body {
     line-height: 1.5;
 }
 
+/* ==========================================================================
+   BU ÇALIŞMA NEDİR? (TYMM + MMR SİSTEM REHBERİ) MODAL VE BUTON STILLERI
+   ========================================================================== */
+.btn-nav-info {
+    background: #f0fdfa;
+    border: 1.5px solid #0f766e;
+    color: #0f766e;
+    border-radius: 20px;
+    padding: 0.45rem 1rem;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: all 0.2s ease;
+}
+.btn-nav-info:hover {
+    background: #0f766e;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(15, 118, 110, 0.2);
+}
+
+.btn-about-inline {
+    margin-top: 1rem;
+    background: #eff6ff;
+    border: 1.5px solid #3b82f6;
+    color: #1d4ed8;
+    border-radius: 8px;
+    padding: 0.55rem 1.15rem;
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+.btn-about-inline:hover {
+    background: #1d4ed8;
+    color: #ffffff;
+    border-color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.about-modal-container {
+    max-width: 900px;
+    max-height: 90vh;
+}
+
+.about-modal-body {
+    padding: 1.5rem;
+    max-height: calc(90vh - 140px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.about-hero-box {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    padding: 1.5rem 1.75rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+}
+
+.about-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(45, 212, 191, 0.15);
+    border: 1px solid #2dd4bf;
+    color: #2dd4bf;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+}
+
+.about-hero-box h4 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 0.65rem;
+    color: #ffffff;
+}
+
+.about-hero-box p {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: #cbd5e1;
+    margin: 0;
+}
+
+.about-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .about-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.about-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.2rem 1.35rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.about-card.tymm-card {
+    border-top: 4px solid #2563eb;
+}
+
+.about-card.mmr-card {
+    border-top: 4px solid #0f766e;
+}
+
+.about-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+}
+
+.about-card.tymm-card .about-card-header i {
+    color: #2563eb;
+    font-size: 1.3rem;
+}
+
+.about-card.mmr-card .about-card-header i {
+    color: #0f766e;
+    font-size: 1.3rem;
+}
+
+.about-card-header h5 {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.about-flow-tag {
+    font-size: 0.76rem;
+    font-weight: 700;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 0.4rem 0.65rem;
+    border-radius: 6px;
+    color: #475569;
+    margin-bottom: 0.85rem;
+    line-height: 1.4;
+}
+
+.about-card-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.about-card-body li {
+    font-size: 0.88rem;
+    color: #334155;
+    line-height: 1.5;
+    position: relative;
+    padding-left: 1.1rem;
+}
+
+.about-card-body li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #0f766e;
+    font-weight: 900;
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
+
+.about-section-block {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+}
+
+.about-section-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.about-section-title i {
+    color: #0284c7;
+}
+
+.about-section-desc {
+    font-size: 0.88rem;
+    color: #64748b;
+    margin-bottom: 1rem;
+}
+
+.about-steps-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem 1.2rem;
+}
+
+@media (max-width: 768px) {
+    .about-steps-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.about-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.55rem 0.75rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+}
+
+.about-step-num {
+    background: #0f172a;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+    font-family: monospace;
+    flex-shrink: 0;
+}
+
+.about-step-item strong {
+    font-size: 0.88rem;
+    color: #0f172a;
+    display: block;
+    margin-bottom: 0.15rem;
+}
+
+.about-step-item p {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.35;
+}
+
+.about-usage-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+}
+
+.about-usage-box h5 {
+    font-size: 0.98rem;
+    font-weight: 800;
+    color: #166534;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+}
+
+.usage-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .usage-steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+.usage-step {
+    background: #ffffff;
+    border: 1px solid #dcfce7;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    position: relative;
+}
+
+.usage-step .u-num {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 22px;
+    height: 22px;
+    background: #16a34a;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.usage-step strong {
+    font-size: 0.88rem;
+    color: #15803d;
+    display: block;
+    margin-bottom: 0.25rem;
+    padding-right: 1.5rem;
+}
+
+.usage-step p {
+    font-size: 0.8rem;
+    color: #4b5563;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.modal-subtitle {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 0.2rem;
+}
+
+.btn-modal-link {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.15s;
+}
+
+.btn-modal-link:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
 /* Toast Notification */
 .toast-container {
     position: fixed;

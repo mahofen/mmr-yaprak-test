@@ -1383,6 +1383,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ==========================================================
+    // BU ÇALIŞMA NEDİR? (TYMM + MMR REHBERİ) MODAL İŞLEMLERİ
+    // ==========================================================
+    const aboutSystemModal = document.getElementById('aboutSystemModal');
+    const openAboutModalBtn = document.getElementById('openAboutModalBtn');
+    const openAboutInlineBtn = document.getElementById('openAboutInlineBtn');
+    const closeAboutModalBtn = document.getElementById('closeAboutModalBtn');
+    const confirmCloseAboutBtn = document.getElementById('confirmCloseAboutBtn');
+
+    function openAboutModal() {
+        if (aboutSystemModal) {
+            aboutSystemModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeAboutModal() {
+        if (aboutSystemModal) {
+            aboutSystemModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    }
+
+    if (openAboutModalBtn) openAboutModalBtn.addEventListener('click', openAboutModal);
+    if (openAboutInlineBtn) openAboutInlineBtn.addEventListener('click', openAboutModal);
+    if (closeAboutModalBtn) closeAboutModalBtn.addEventListener('click', closeAboutModal);
+    if (confirmCloseAboutBtn) confirmCloseAboutBtn.addEventListener('click', closeAboutModal);
+
+    if (aboutSystemModal) {
+        aboutSystemModal.addEventListener('click', (e) => {
+            if (e.target === aboutSystemModal) closeAboutModal();
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeAboutModal();
+            closeSavedModal();
+        }
+    });
+
     // Filtre Tabları
     document.querySelectorAll('.modal-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
