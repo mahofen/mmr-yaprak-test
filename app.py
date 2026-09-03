@@ -135,10 +135,16 @@ def build_worksheet_prompt(data: dict) -> tuple[str, str]:
         '5. Anlamlandırma (0-2), 6. Değer keşfi (0-2), 7. Eyleme geçiş (0-2), 8. Öğrencinin keşfi (0-2), '
         '9. Hazır manevi cevaptan kaçınma (0-2), 10. Akıl + kalp dengesi (0-2).\n'
         'Hedef: 18-20 Puan (ÇOK GÜÇLÜ).\n\n'
-        'MODERN ÇALIŞMA KAĞIDI — İÇERİK ODAKLI TASARIM İLKESİ:\n'
-        '- Başlıklar doğrudan öğrencinin yapacağı eylemi açıklamalıdır: "01. Gözlemle ve Merak Et", "02. Durumu İncele ve Keşfet", '
-        '"03. Verileri İncele ve Akıl Yürüt", "04. Müzakere Et ve İlişkilendir", "05. Tefekkür Penceresi", "06. Hayata Yansıt ve Kendimi Değerlendir".\n'
-        '- Öğrencinin yazacağı cevap alanlarını ferah ve yeterli bırak.'
+        'PROFESYONEL EĞİTİM MATERYALİ UX/UI TASARIM İLKELERİ:\n'
+        '1. GÖRSEL HİYERARŞİ: Başlık → Bağlam → Veri/Materyal → Beceri Görevi → Akıl Yürütme → MMR Penceresi → '
+        'Tefekkür → Müzakere → Hayat Bağlantısı → Öz Değerlendirme şeklinde net bir hiyerarşi kur.\n'
+        '2. BÖLÜMLERİN KİMLİĞİ: Her ana bölümün kendine ait başlığı, odak noktası ve öğrenci etkileşim alanı bulunsun. '
+        'Akademik, modern ve güven veren bir MEB eğitim materyali estetiği sun.\n'
+        '3. BOŞLUK KULLANIMI: Öğrencinin cevap yazacağı alanları KESİNLİKLE KÜÇÜLTME. Açık uçlu cevap, gerekçelendirme, '
+        'tefekkür, müzakere ve hayata yansıtma alanlarında yeterli fiziksel yazma alanı bırak (noktalı çizgilerle belirt).\n'
+        '4. VERİ VE MATERYAL DÜZENİ: Tablo, grafik veya veri seti kullanıldığında öğrencinin kolay okuyabileceği sade, '
+        'yüksek kontrastlı ve anlaşılır bir düzen kur.\n'
+        '5. A4 BASKI VE DİJİTAL UYUMLULUK: Çıktı A4 yazdırmaya, kenar boşluklarına ve responsive dijital kullanıma tam uyumlu olsun.'
     )
 
     user_prompt = (

@@ -838,6 +838,275 @@ body {
     line-height: 1.4;
 }
 
+/* ==========================================================
+   PROFESYONEL EĞİTİM MATERYALİ UX/UI TASARIM SİSTEMİ
+   ========================================================== */
+
+/* 1. BÖLÜM KİMLİKLERİ VE RENK HİYERARŞİSİ */
+.section-card-kimlik {
+    border-left: 5px solid #1e293b;
+    background: #ffffff;
+}
+.section-card-kimlik .mmr-num-badge {
+    background: #1e293b;
+}
+
+.section-card-baglam {
+    border-left: 5px solid #2563eb;
+    background: #ffffff;
+}
+.section-card-baglam .mmr-num-badge {
+    background: #2563eb;
+}
+.section-card-baglam .mmr-title {
+    color: #1d4ed8;
+}
+
+.section-card-veri {
+    border-left: 5px solid #4f46e5;
+    background: #ffffff;
+}
+.section-card-veri .mmr-num-badge {
+    background: #4f46e5;
+}
+.section-card-veri .mmr-title {
+    color: #4338ca;
+}
+
+.section-card-beceri {
+    border-left: 5px solid #0284c7;
+    background: #ffffff;
+}
+.section-card-beceri .mmr-num-badge {
+    background: #0284c7;
+}
+.section-card-beceri .mmr-title {
+    color: #0369a1;
+}
+
+.section-card-akil {
+    border-left: 5px solid #334155;
+    background: #ffffff;
+}
+.section-card-akil .mmr-num-badge {
+    background: #334155;
+}
+
+.section-card-mmr {
+    border-left: 5px solid #0d9488;
+    background: #fafdfc;
+}
+.section-card-mmr .mmr-num-badge {
+    background: #0d9488;
+}
+.section-card-mmr .mmr-title {
+    color: #0f766e;
+}
+
+.section-card-tefekkur {
+    border-left: 5px solid #059669;
+    background: #f0fdf4;
+}
+.section-card-tefekkur .mmr-num-badge {
+    background: #059669;
+}
+.section-card-tefekkur .mmr-title {
+    color: #047857;
+}
+
+.section-card-muzakere {
+    border-left: 5px solid #7c3aed;
+    background: #faf5ff;
+}
+.section-card-muzakere .mmr-num-badge {
+    background: #7c3aed;
+}
+.section-card-muzakere .mmr-title {
+    color: #6d28d9;
+}
+
+.section-card-hayat {
+    border-left: 5px solid #d97706;
+    background: #fffbeb;
+}
+.section-card-hayat .mmr-num-badge {
+    background: #d97706;
+}
+.section-card-hayat .mmr-title {
+    color: #b45309;
+}
+
+.section-card-ozdeg {
+    border-left: 5px solid #475569;
+    background: #ffffff;
+}
+.section-card-ozdeg .mmr-num-badge {
+    background: #475569;
+}
+
+/* 2. BAĞLAM VE HİKÂYE KUTUSU */
+.context-narrative-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin: 0.6rem 0;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: #1e293b;
+    position: relative;
+}
+.context-narrative-box::before {
+    content: 'Gerçek Yaşam Bağlamı';
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    border: 1px solid #bfdbfe;
+}
+
+/* 3. ÖĞRENCİ YAZMA ALANLARI (GENİŞ & ÇİZGİLİ DEFTER DÜZENİ) */
+.student-writing-box {
+    margin: 0.65rem 0 0.85rem 0;
+    padding: 0.85rem 1.1rem;
+    background-color: #fbfcfe;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    min-height: 86px;
+    background-image: repeating-linear-gradient(transparent, transparent 27px, #e2e8f0 28px);
+    line-height: 28px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.93rem;
+    color: #1e293b;
+    outline: none;
+    position: relative;
+    box-sizing: border-box;
+}
+.student-writing-box:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+.student-writing-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+}
+.student-writing-label i {
+    color: #2563eb;
+}
+
+/* 4. ÖZ DEĞERLENDİRME ÇEKMECE & KONTROL LİSTESİ */
+.ux-checklist-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 0.85rem;
+    margin-top: 0.6rem;
+}
+@media (max-width: 768px) {
+    .ux-checklist-group {
+        grid-template-columns: 1fr;
+    }
+}
+.ux-checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.75rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+    font-size: 0.88rem;
+    color: #334155;
+}
+.ux-checklist-item:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+.ux-checklist-item.checked {
+    background: #f0fdf4;
+    border-color: #86efac;
+    color: #166534;
+}
+.ux-checklist-box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #94a3b8;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: #ffffff;
+    transition: all 0.15s ease;
+}
+.ux-checklist-item.checked .ux-checklist-box {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: #ffffff;
+}
+.ux-checklist-box i {
+    font-size: 0.75rem;
+    display: none;
+}
+.ux-checklist-item.checked .ux-checklist-box i {
+    display: block;
+}
+
+/* 5. MÜZAKERE VE DİYALOG BALONLARI */
+.dialogue-prompt-card {
+    background: #ffffff;
+    border: 1px solid #e9d5ff;
+    border-left: 4px solid #9333ea;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin: 0.6rem 0;
+    color: #4c1d95;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+/* 6. VERİ TABLOSU VE MODEL ALANI */
+.content-area table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+    font-size: 0.88rem;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.content-area table th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #cbd5e1;
+    text-align: left;
+}
+.content-area table td {
+    padding: 0.6rem 0.85rem;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    line-height: 1.45;
+}
+.content-area table tr:nth-child(even) td {
+    background: #f8fafc;
+}
+
 /* EMPTY STATE */
 .empty-state {
     display: flex;
@@ -2088,6 +2357,33 @@ body {
 
     .test-opt-item {
         border-color: #cbd5e1 !important;
+    }
+
+    .student-writing-box {
+        border: 1px solid #94a3b8 !important;
+        background-color: #ffffff !important;
+        background-image: repeating-linear-gradient(transparent, transparent 27px, #cbd5e1 28px) !important;
+        min-height: 95px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .context-narrative-box {
+        background: #f8fafc !important;
+        border: 1px solid #94a3b8 !important;
+        border-left: 4px solid #2563eb !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .ux-checklist-item {
+        border: 1px solid #cbd5e1 !important;
+        background: #ffffff !important;
+        break-inside: avoid !important;
+    }
+
+    .ux-checklist-box {
+        border: 1.5px solid #475569 !important;
     }
 
     @page {

@@ -606,8 +606,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     titleText = DEFAULT_ACTION_TITLES[secNum] || `Bölüm ${String(secNum).padStart(2, '0')}`;
                 }
 
+                let themeClass = '';
+                if (secNum === 1 || /kimlik/i.test(titleText)) themeClass = 'section-card-kimlik';
+                else if (secNum === 2 || /bağlam/i.test(titleText)) themeClass = 'section-card-baglam';
+                else if (secNum === 3 || /kanıt|veri|materyal/i.test(titleText)) themeClass = 'section-card-veri';
+                else if (secNum === 4 || /beceri/i.test(titleText)) themeClass = 'section-card-beceri';
+                else if (secNum === 5 || /akıl|muhakeme/i.test(titleText)) themeClass = 'section-card-akil';
+                else if (secNum === 6 || /mmr/i.test(titleText)) themeClass = 'section-card-mmr';
+                else if (secNum === 7 || /tefekkür/i.test(titleText)) themeClass = 'section-card-tefekkur';
+                else if (secNum === 8 || /müzakere/i.test(titleText)) themeClass = 'section-card-muzakere';
+                else if (secNum === 9 || /hayat|değer/i.test(titleText)) themeClass = 'section-card-hayat';
+                else if (secNum === 10 || /öz değerlendirme/i.test(titleText)) themeClass = 'section-card-ozdeg';
+
+                const secMeta = SECTION_METADATA[secNum] || { icon: 'fa-file-lines', tag: 'Bölüm' };
+
                 currentCard = document.createElement('div');
-                currentCard.className = 'mmr-section-card editable-section-block';
+                currentCard.className = `mmr-section-card ${themeClass} editable-section-block`;
                 currentCard.setAttribute('data-sec-num', secNum);
 
                 const toolbar = createSectionToolbar(currentCard);
@@ -618,8 +632,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 headerEl.innerHTML = `
                     <div class="mmr-header-left">
                         <span class="mmr-num-badge">${String(secNum).padStart(2, '0')}</span>
-                        <h3 class="mmr-title">${titleText}</h3>
+                        <h3 class="mmr-title"><i class="fa-solid ${secMeta.icon}"></i> ${titleText}</h3>
                     </div>
+                    <span style="font-size:0.75rem; font-weight:700; color:#64748b; background:#f8fafc; padding:0.2rem 0.6rem; border-radius:12px; border:1px solid #e2e8f0;">${secMeta.tag || ''}</span>
                 `;
                 currentCard.appendChild(headerEl);
 
@@ -641,6 +656,62 @@ document.addEventListener('DOMContentLoaded', () => {
             const blockContent = currentCard.querySelector('.block-content');
             if (blockContent) {
                 blockContent.appendChild(child);
+            }
+        });
+
+        // 4. Profesyonel UX/UI İyileştiricileri (Yazma Alanları, Kontrol Kutuları, Bağlam Kutusu)
+        renderedMarkdown.querySelectorAll('.mmr-section-card').forEach(card => {
+            const secNum = parseInt(card.getAttribute('data-sec-num') || '0', 10);
+            const body = card.querySelector('.block-content');
+            if (!body) return;
+
+            // A) Boşluk ve Yazma Alanı UX (Çizgili defter alanı oluşturma)
+            body.innerHTML = body.innerHTML.replace(
+                /\[\s*\.{4,}\s*\]/g,
+                '<div class="student-writing-box" contenteditable="true" spellcheck="false"></div>'
+            );
+
+            // B) Öz Değerlendirme Kontrol Kutuları (Bölüm 10)
+            if (secNum === 10 || card.classList.contains('section-card-ozdeg')) {
+                const listItems = body.querySelectorAll('li, p');
+                listItems.forEach(item => {
+                    const text = item.innerHTML;
+                    if (text.includes('[ ]') || text.includes('[✔]')) {
+                        const isChecked = text.includes('[✔]');
+                        const cleanLabel = text.replace(/\[\s*\]|\[\s*✔\s*\]/g, '').trim();
+                        const checkEl = document.createElement('div');
+                        checkEl.className = `ux-checklist-item ${isChecked ? 'checked' : ''}`;
+                        checkEl.innerHTML = `
+                            <div class="ux-checklist-box"><i class="fa-solid fa-check"></i></div>
+                            <span class="ux-checklist-label">${cleanLabel}</span>
+                        `;
+                        checkEl.onclick = () => {
+                            checkEl.classList.toggle('checked');
+                            if (resetBtn) resetBtn.style.display = 'inline-flex';
+                        };
+                        item.replaceWith(checkEl);
+                    }
+                });
+            }
+
+            // C) Bağlam Kutusu (Bölüm 2)
+            if (secNum === 2 || card.classList.contains('section-card-baglam')) {
+                const paragraphs = body.querySelectorAll('p');
+                paragraphs.forEach(p => {
+                    if (p.textContent.length > 50 && !p.classList.contains('context-narrative-box')) {
+                        p.classList.add('context-narrative-box');
+                    }
+                });
+            }
+
+            // D) Müzakere Diyalog Balonu (Bölüm 8)
+            if (secNum === 8 || card.classList.contains('section-card-muzakere')) {
+                const lis = body.querySelectorAll('li, p');
+                lis.forEach(el => {
+                    if (el.textContent.includes('?') && !el.classList.contains('dialogue-prompt-card')) {
+                        el.classList.add('dialogue-prompt-card');
+                    }
+                });
             }
         });
     }
