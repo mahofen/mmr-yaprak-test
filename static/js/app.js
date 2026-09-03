@@ -524,12 +524,42 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentCard = null;
         let sectionCount = 0;
         let inAuditCard = false;
+        let inPlanningCard = false;
 
         children.forEach(child => {
             const tag = child.tagName.toLowerCase();
             const text = child.textContent.trim();
 
-            // MMR Denetim ve Akreditasyon Raporu Kartı
+            // 1. TYMM + MMR Öğretim Tasarımı ve Planlama Matrisi Kartı
+            if (/PLANLAMA\s*MATRİSİ|ÖĞRETİM\s*TASARIMI/i.test(text) || inPlanningCard) {
+                if (/^#+\s*BÖLÜM\s*1/i.test(text) || (text.includes('BÖLÜM 1') && ['h1', 'h2', 'h3'].includes(tag))) {
+                    inPlanningCard = false;
+                } else {
+                    inPlanningCard = true;
+                    let planCard = renderedMarkdown.querySelector('.planning-matrix-card');
+                    if (!planCard) {
+                        planCard = document.createElement('div');
+                        planCard.className = 'planning-matrix-card';
+                        planCard.innerHTML = `
+                            <div class="planning-card-header">
+                                <div class="planning-title">
+                                    <i class="fa-solid fa-compass-drafting"></i>
+                                    <span>TYMM + MMR ÖĞRETİM TASARIMI VE PLANLAMA MATRİSİ (ÖN KARARLAR)</span>
+                                </div>
+                                <span class="planning-badge"><i class="fa-solid fa-clipboard-check"></i> PEDAGOJİK PLANLAMA</span>
+                            </div>
+                            <div class="planning-body block-content"></div>
+                        `;
+                        renderedMarkdown.appendChild(planCard);
+                    }
+                    const pBody = planCard.querySelector('.planning-body');
+                    if (pBody) pBody.appendChild(child);
+                    currentCard = null;
+                    return;
+                }
+            }
+
+            // 2. MMR Denetim ve Akreditasyon Raporu Kartı
             if (/MMR\s*KALİTE\s*DENETİM|AKREDİTASYON|GEMİNİ'NİN\s*SON\s*MMR\s*KARARI/i.test(text) || inAuditCard) {
                 inAuditCard = true;
                 let auditCard = renderedMarkdown.querySelector('.mmr-audit-card');
