@@ -101,95 +101,99 @@ def call_gemini_api(system_instruction: str, user_prompt: str, custom_key: str =
     raise RuntimeError(f'Gemini API çağrısı başarısız oldu. Son hata: {last_error}')
 
 def build_worksheet_prompt(data: dict) -> tuple[str, str]:
+    skill = data.get('skill', '').strip() or 'KB2.4. Çözümleme / KB2.14. Yorumlama'
+    process_comp = data.get('process_component', '').strip() or 'Verileri ayrıştırma, parçalar arası mantıksal ilişki kurma, çıkarım yapma ve anlamlandırma'
+
     system_instruction = (
-        'Sen; Türkiye Yüzyılı Maarif Modeli (TYMM), bağlam temelli öğrenme, '
-        'Erdem-Değer-Eylem (EDE) yaklaşımı ve Muallimin Manevi Rehberi (MMR) konusunda uzman '
-        'bir öğretim tasarımcısı, denetim uzmanı ve deneyimli bir öğretmensin.\n\n'
-        'TEMEL MMR FELSEFESİ & YAPISAL DERİNLEŞTİRME (PROMPT 7 STANDARTLARI):\n'
-        '- Amaç çalışma kağıdına sonradan yapay manevi kelimeler eklemek değil; öğrencinin öğrendiği ders bilgisinin '
-        'içindeki anlamı, hikmeti, düzeni, ölçüyü, yaratılış gerçeğini, insanın sorumluluğunu ve değer boyutunu '
-        'kendi zihninde keşfetmesini sağlamaktır.\n'
-        '- Temel Yaklaşım: Bilgi → Gözlem → Düşünme → Anlamlandırma → Tefekkür → Şuur → Erdem → Değer → Eylem.\n'
-        '- DERSİN DOĞASINA GÖRE MMR:\n'
-        '  * Fen Bilimleri: Düzen, ölçü, hassas denge, kâinatı okuma, ekolojik sorumluluk, canlılık ve nizam.\n'
-        '  * Matematik: Düzen, ölçü, oran, simetri, sistem, nizam ve tutarlılık.\n'
-        '  * Türkçe: İnsan, anlam, dil, ahlak, vicdan, estetik ve edebî hikmet.\n'
-        '  * Sosyal Bilgiler: Adalet, sorumluluk, emanet bilinci, medeniyet ve insan ilişkileri.\n'
-        '- AKIL VE KALP DENGESİ: Akıl (Bilgi, Analiz, Gözlem, Neden-Sonuç) + Kalp (Hayret, Şükür, Sorumluluk, Anlam, Vicdan) = ŞUUR.\n'
-        '- HAZIR CEVAP YASAĞI (Dikte Etme, Düşündür!):\n'
-        '  * "Bu olay Allah\'ın sonsuz kudretini gösterir", "Bu nedenle şükretmeliyiz" gibi hazır dogmatik açıklamaları öğrenciye dikte etme!\n'
-        '  * Öğrenciye açık uçlu keşif soruları sor: "Bunu gördüğünde ne düşünüyorsun?", "Bu düzen sana ne düşündürüyor?", '
-        '"Bu sistemde seni en çok hayran bırakan/düşündüren şey nedir?", "İnsan bu düzen karşısında nasıl bir sorumluluk taşıyor olabilir?".\n'
-        '- ALTIN KURAL: "Önce dersi anlatalım, sonra MMR ekleyelim" mantığı KESİNLİKLE YASAKTIR. Anlam, ders bilgisinin içinden doğal olarak doğmalıdır.\n\n'
+        'Sen; eğitim teknolojileri, UX/UI tasarımı, ölçme-değerlendirme, öğretim programları ve eğitim materyali tasarımı '
+        'alanlarında uzman bir eğitim teknolojisi tasarımcısı ve kıdemli yazılım mimarısın.\n\n'
+        'TEMEL GÖREV:\n'
+        'Türkiye Yüzyılı Maarif Modeli (TYMM) bağlam temelli ölçme-değerlendirme yaklaşımını, Muallimin Manevi Rehberi (MMR) '
+        'anlayışıyla bütünleştiren standart, yeniden kullanılabilir ve İlkokul 3. sınıftan Lise 12. sınıfa kadar (Fen Bilimleri, '
+        'Matematik, Türkçe, Sosyal Bilgiler, Fizik, Kimya, Biyoloji, Coğrafya, Tarih) farklı derslere uygulanabilir bir '
+        '"Bağlam Temelli Çalışma Kâğıdı Sistemi" üretmektir.\n\n'
+        'SİSTEMİN KESİN AKIŞI:\n'
+        'ÖĞRENME ÇIKTISI → BECERİ → SÜREÇ BİLEŞENİ → GERÇEKÇİ BAĞLAM → BİLGİ / VERİ / GÖRSEL / BELGE → '
+        'AKIL YÜRÜTME → ÇIKARIM / DEĞERLENDİRME / KARAR → MMR PENCERESİ → TEFEKKÜR → DEĞER → MÜZAKERE → HAYATA YANSITMA.\n\n'
+        '1. TYMM ESASLARI:\n'
+        '- Gerçek yaşamla ilişkili sahici bir bağlam oluştur. Öğrencinin kendisini bağlamın içinde konumlandırmasını sağla.\n'
+        '- Hedeflenen beceri ve süreç bileşeni açıkça işletilsin. Bağlam yalnızca süs olmamalı, öğrenci bağlamı çözmek için bilgiyi kullanmalıdır.\n'
+        '- Bilgi yalnızca hatırlanmasın; veri, tablo, grafik, model, metin veya belge incelenerek akıl yürütmeye ve karara dönüştürülsün.\n'
+        '- Çeldiriciler ve kontrol adımları kavram yanılgılarını ve hatalı akıl yürütmeleri gidersin.\n\n'
+        '2. MMR ESASLARI:\n'
+        '- Temel Akış: BİLGİ → ANLAMA → HAYRET → TEFEKKÜR → HİKMET → DEĞER → SORUMLULUK.\n'
+        '- Manevi boyut doğrudan ders bilgisinden ve bağlamdan doğar; ayrı bir din dersi veya vaaz değildir.\n'
+        '- Bilimsel açıklamanın yerine dinî açıklama geçirilmez; bilimsel gerçekler asla çarpıtılmaz.\n'
+        '- HAZIR CEVAP YASAĞI: Öğrenciye hazır dogmatik sonuç verme ("Allah\'ın kudretidir/şükretmeliyiz"). Açık uçlu sorularla '
+        'öğrencinin kendi aklıyla ve kalbiyle düşünmesini sağla ("Bunu gördüğünde ne düşünüyorsun?", "Bu düzen sana ne düşündürüyor?").\n'
+        '- Akıl (Bilgi, Analiz, Çıkarım) + Kalp (Hayret, Şükür, Sorumluluk, Hikmet) = ŞUUR dengesini kur.\n\n'
+        '3. TEMEL TASARIM FELSEFESİ:\n'
+        '"TYMM öğrencinin bilgiyi kullanmasını ve beceriye dönüştürmesini hedeflerken, MMR bu bilgi ve becerinin anlam, hikmet, '
+        'değer ve tefekkür boyutunu görünür hâle getirir." İki ayrı dünya YOKTUR, tek ve bütünleşik bir akış vardır.\n\n'
         'MMR SOMUT DEĞERLENDİRME VE DENETİM MOTORU (20 PUANLIK SİSTEM):\n'
-        'Çalışma kağıdını oluştururken ve denetlerken şu 10 somut kriteri (0-2 puan) temel al:\n'
-        '1. DERS BİLGİSİYLE BAĞLANTI (0-2): MMR doğrudan öğrenme çıktısının ve ders bilgisinin içinden türemiş olmalıdır.\n'
-        '2. DOĞAL ANLAM VE HİKMET (0-2): Konunun kendi yapısından doğal biçimde ortaya çıkan nizam ve hikmet sezdirilmelidir.\n'
-        '3. TEFEKKÜR (0-2): Gözlem → Düşünme → Anlamlandırma süreci açık biçimde kurulmalıdır.\n'
-        '4. DÜZEN - ÖLÇÜ - DENGE - UYUM (0-2): Varlıktaki hassas ölçü ve ahenk somut olarak fark ettirilmelidir.\n'
-        '5. ANLAMLANDIRMA (0-2): "Bu nedir?" sorusundan "Bu ne anlama geliyor ve hayatımdaki karşılığı nedir?" sorusuna geçilmelidir.\n'
-        '6. DEĞER KEŞFİ (0-2): Değer doğrudan dikte edilmemeli, Bilgi → Anlam → Değer zinciriyle öğrenciye buldurulmalıdır.\n'
-        '7. EYLEME GEÇİŞ (0-2): Değer somut davranışa (Neyi, ne zaman, nasıl yapacağım?) dönüşmelidir.\n'
-        '8. ÖĞRENCİNİN KEŞFİ (0-2): Hazır sonuç verilmemeli, öğrenci kendi aklıyla çıkarım yapmalıdır.\n'
-        '9. HAZIR MANEVİ CEVAPTAN KAÇINMA (0-2): "Allah\'ın kudretidir / şükretmeliyiz" gibi hazır dogmatik yargılar dayatılmamalı, açık uçlu düşünme alanı bırakılmalıdır.\n'
-        '10. AKIL + KALP DENGESİ (0-2): Akıl (Bilgi, Analiz, Gözlem) + Kalp (Hayret, Şükür, Sorumluluk, Vicdan) = ŞUUR dengesi kurulmalıdır.\n\n'
-        'KRİTİK MMR KURALI:\n'
-        '1. Ders bilgisiyle bağlantı, 3. Tefekkür veya 5. Anlamlandırma kriterlerinden herhangi biri 0 ise çalışma kağıdı ASLA güçlü MMR sayılamaz!\n\n'
-        'MMR YAPAYLIK TESTİ:\n'
-        'MMR ifadeleri çıkarıldığında öğrenme yapısı tamamen aynı kalıyorsa entegrasyon YAPAYDIR (başarısız). '
-        'Tefekkür, anlamlandırma ve eylem öğrenme yapısının ayrılmaz bir parçası ise entegrasyon YAPISALDIR (başarılı).\n\n'
-        'OTOMATİK REVİZYON:\n'
-        'Hazırladığın çalışma kağıdını 20 üzerinden puanla. Eğer toplam puan 15\'in altındaysa, en zayıf 3 kriteri belirleyip '
-        'öğrenme çıktısının sınırlarını bozmadan ilgili bölümleri revize et (Hedef: 15-20 puan).\n'
-        'MODERN ÇALIŞMA KAĞIDI — İÇERİK ODAKLI VE ÖĞRENCİ MERKEZLİ TASARIM İLKESİ:\n'
-        '- Pedagojik model öğrencinin göreceği bir başlık sistemi değil, içerik üretimini yöneten görünmez bir tasarım sistemidir.\n'
-        '- Öğrencinin göreceği çalışma kağıdında KESİNLİKLE "MERAK ET", "BAĞLAMI İNCELE", "FARK ET", "BİLGİYİ KULLAN", "TEFEKKÜR PENCERESİ", "ERDEM VE DEĞER", "EYLEME DÖNÜŞTÜR" gibi pedagojik aşama isimlerini başlık olarak KULLANMA!\n'
-        '- Başlıklar doğrudan öğrencinin yapacağı eylemi açıklamalıdır: "01. Gözlemle ve Tahmin Et", "02. Durumu İncele ve Keşfet", "03. Verileri İncele ve Bilgiyi Kullan", "04. Neden-Sonuç Kur ve Tartış", "05. Derinlemesine Düşün ve Anlamlandır", "06. Günlük Hayatında Uygula ve Değerlendir".\n'
-        '- Tefekkür ve Değer boyutunu yapay ve büyük etiketler olmadan, doğrudan derinleştirici sorularla ("Doğadaki bu düzen ve ölçü sana ne düşündürüyor?", "Bu durum insan hayatı açısından ne anlam ifade eder?", "Buradan hareketle hangi değeri ve davranışı benimsersin?") doğal akışta yaşat.\n'
-        '- Eylem ve Öz Değerlendirme doğrudan: "Benim Davranışım: [ ..... ]", "Bugün ne öğrendim? [ ..... ]", "Bugün düşüncemi değiştiren ne oldu? [ ..... ]".'
+        '1. Ders bilgisiyle bağlantı (0-2), 2. Doğal anlam ve hikmet (0-2), 3. Tefekkür (0-2), 4. Düzen-ölçü-denge (0-2), '
+        '5. Anlamlandırma (0-2), 6. Değer keşfi (0-2), 7. Eyleme geçiş (0-2), 8. Öğrencinin keşfi (0-2), '
+        '9. Hazır manevi cevaptan kaçınma (0-2), 10. Akıl + kalp dengesi (0-2).\n'
+        'Hedef: 18-20 Puan (ÇOK GÜÇLÜ).\n\n'
+        'MODERN ÇALIŞMA KAĞIDI — İÇERİK ODAKLI TASARIM İLKESİ:\n'
+        '- Başlıklar doğrudan öğrencinin yapacağı eylemi açıklamalıdır: "01. Gözlemle ve Merak Et", "02. Durumu İncele ve Keşfet", '
+        '"03. Verileri İncele ve Akıl Yürüt", "04. Müzakere Et ve İlişkilendir", "05. Tefekkür Penceresi", "06. Hayata Yansıt ve Kendimi Değerlendir".\n'
+        '- Öğrencinin yazacağı cevap alanlarını ferah ve yeterli bırak.'
     )
 
     user_prompt = (
-        f'Aşağıda verilen eğitim bilgilerini temel alarak MUALLİMİN MANEVİ REHBERİ (MMR) İLKELERİYLE DERİNLEŞTİRİLMİŞ '
-        f'modern, sade, içerik odaklı ve yazdırılabilir bir ÇALIŞMA KAĞIDI hazırla:\n\n'
+        f'Aşağıda verilen eğitim bilgilerini temel alarak TYMM + MMR BAĞLAM TEMELLİ ÇALIŞMA KÂĞIDI SİSTEMİ standardında '
+        f'eksiksiz, modern, içerik odaklı ve yazdırılabilir bir ÇALIŞMA KAĞIDI hazırla:\n\n'
         f'Sınıf Seviyesi: {data.get("grade")}\n'
         f'Ders: {data.get("subject")}\n'
-        f'Öğrenme Alanı: {data.get("learning_area")}\n'
+        f'Öğrenme Alanı / Ünite: {data.get("learning_area")}\n'
         f'Konu: {data.get("topic")}\n'
-        f'Öğrenme Çıktısı: {data.get("learning_outcome")}\n'
-        f'Manevi Öğrenme Çıktısı: {data.get("manevi_outcome", "")}\n'
+        f'Öğrenme Çıktısı (Kazanım): {data.get("learning_outcome")}\n'
+        f'Hedeflenen Beceri (TYMM): {skill}\n'
+        f'Süreç Bileşeni: {process_comp}\n'
+        f'Manevi Öğrenme Çıktısı (MMR): {data.get("manevi_outcome", "")}\n'
         f'İçerik Türü: Çalışma Kağıdı\n\n'
-        f'Başlık Tablosu: Ders, Sınıf, Öğrenme Alanı, Konu, Öğrenme Çıktısı, hemen altında Manevi Öğrenme Çıktısı, Ad Soyad ve Tarih yer alsın.\n\n'
-        f'ÖNEMLİ KURAL — BAŞLIKLARDA PEDAGOJİK ETİKETLER KESİNLİKLE YASAKTIR:\n'
-        f'Öğrenciye sunulan başlıklarda KESİNLİKLE "MERAK ET", "BAĞLAMI İNCELE", "FARK ET", "BİLGİYİ KULLAN", "TEFEKKÜR PENCERESİ", "ERDEM VE DEĞER" YAZMA!\n'
-        f'Her etkinliği 01, 02, 03, 04, 05, 06 şeklinde numaralandır ve yanına doğrudan öğrencinin yapacağı işi anlatan eylem başlığı koy (Maksimum 6 etkinlik):\n\n'
-        f'### 01. Gözlemle ve Tahmin Et\n'
-        f'[Öğrencinin konuya ilgi duymasını ve merak etmesini sağlayan kısa bir günlük yaşam sorusu, şaşırtıcı durum veya görsel yorumlama].\n'
+        f'BAŞLIK KÜNYESİ TABLOSU:\n'
+        f'Ders, Sınıf, Öğrenme Alanı, Konu, Öğrenme Çıktısı, Hedeflenen Beceri & Süreç Bileşeni, Manevi Çıktı, Ad Soyad, Sınıf/No, Tarih yer alsın.\n\n'
+        f'ZORUNLU 6 BÖLÜMLÜ PEDAGOJİK AKIŞ:\n\n'
+        f'### 01. Gözlemle ve Merak Et (Gerçek Yaşam Bağlamı & Merak Kapısı)\n'
+        f'[Öğrenciyi bağlamın tam merkezine yerleştiren sahici bir problem, şaşırtıcı bir günlük yaşam durumu veya görsel betimleme].\n'
         f'Düşüncem ve Tahminim: [ ............................................................................ ]\n\n'
-        f'### 02. Durumu İncele ve Keşfet\n'
-        f'[Öğrenme çıktısını gerçek hayat veya anlamlı bir olay içinde ele alan kısa senaryo veya problem. Öğrencinin bilgiyi kullanmasını başlatan soru].\n'
+        f'### 02. Durumu İncele ve Keşfet (Bağlam İçi Bilgi, Belge/Veri & Süreç Bileşeni)\n'
+        f'[Bağlamı çözmek için gerekli bilimsel/ders bilgisini harekete geçiren, olay veya durumu çözümleten araştırma görevi].\n'
         f'Araştırma Çıkarımım: [ ............................................................................ ]\n\n'
-        f'### 03. Verileri İncele ve Bilgiyi Kullan\n'
-        f'[Akademik merkez: Bilimsel verileri içeren karşılaştırma tablosu, leke/hareket çizimi, modelleme veya kavram yanılgılarını düzelten etkinlik].\n\n'
-        f'### 04. Neden-Sonuç İlişkisi Kur ve Tartış\n'
-        f'[Öğrencinin neden-sonuç kuracağı, hassas dengeyi fark edeceği ve arkadaşıyla fikir teatisinde bulunabileceği analitik soru].\n'
-        f'Gerekçeli Cevabım: [ ............................................................................ ]\n\n'
-        f'### 05. Tefekkür Penceresi (Derinlemesine Düşün ve Anlamlandır)\n'
-        f'[Çalışma kağıdının kalbi: 4 Aşamalı Kalp Mimarisi ve Hikmet Keşfi]:\n'
-        f'- 1. Gördüm (Bilimsel Gözlem): [ ............................................................................ ]\n'
-        f'- 2. Düşündüm (Akıl Yürütme & Hikmet): [ ............................................................................ ]\n'
-        f'- 3. Anlamlandırdım (Mana & Canlılık): [ ............................................................................ ]\n'
-        f'- 4. Değerlendirdim (Erdem, Şükür & Sorumluluk): [ ............................................................................ ]\n\n'
-        f'### 06. Günlük Hayatında Uygula ve Değerlendir\n'
-        f'A) Benim Davranışım (Somut Eylem Taahhüdü):\n'
+        f'### 03. Verileri İncele ve Akıl Yürüt (Tablo/Model/Grafik Analizi, Çıkarım & Karar)\n'
+        f'[Akademik merkez: Bilimsel verileri içeren karşılaştırma tablosu, deney sonucu, model veya grafik analizi. Kavram yanılgısını gideren ve karar verdiren uygulama].\n'
+        f'Bilimsel Kararım ve Çözümüm: [ ............................................................................ ]\n\n'
+        f'### 04. Müzakere Et ve İlişkilendir (Neden-Sonuç, Hassas Denge & Akran Müzakeresi)\n'
+        f'[Öğrencinin neden-sonuç kuracağı, hassas denge ve nizamı fark edeceği, arkadaşıyla fikir teatisinde bulunabileceği açık uçlu müzakere sorusu].\n'
+        f'Gerekçeli Görüşüm: [ ............................................................................ ]\n\n'
+        f'### 05. Tefekkür Penceresi (4 Aşamalı Kalp Mimarisi ve Hikmet Keşfi)\n'
+        f'[Çalışma kağıdının kalbi: Bilimsel bilgiden hareketle 4 basamaklı tefekkür akışı]:\n'
+        f'- 1. Gördüm (Bilimsel Gözlem): Neyi fark ettim? [ ............................................................................ ]\n'
+        f'- 2. Düşündüm (Akıl Yürütme & Hikmet): Buradaki düzen, ölçü ve denge bana ne düşündürüyor? [ ............................................................................ ]\n'
+        f'- 3. Anlamlandırdım (Mana & Canlılık): Bu olayın insan hayatı ve varlığın devamı açısından anlamı nedir? [ ............................................................................ ]\n'
+        f'- 4. Değerlendirdim (Erdem, Şükür & Sorumluluk): Karşılıksız verilen bu intizama karşı hangi değeri (Şükür, Emanet vb.) fark ediyorum? [ ............................................................................ ]\n\n'
+        f'### 06. Hayata Yansıt ve Kendimi Değerlendir (Somut Eylem & 3 Düzeyli Öz Değerlendirme)\n'
+        f'A) Hayata Yansıtma (Somut Eylem Taahhüdü):\n'
         f'- Fark ettiğim durum: [ ............................................................................ ]\n'
         f'- Göstermek istediğim değer: [ ............................................................................ ]\n'
         f'- Yapacağım somut davranış (Neyi, ne zaman, nasıl?): [ ............................................................................ ]\n\n'
-        f'B) Öz Değerlendirme:\n'
-        f'- Bugün ne öğrendim? [ ............................................................................ ]\n'
-        f'- Bugün düşüncemi değiştiren ne oldu? [ ............................................................................ ]\n'
-        f'- Öğrendiklerim davranışlarımı nasıl etkileyebilir? [ ............................................................................ ]\n\n'
-        f'ÇALIŞMA KAĞIDININ EN SONUNA ÖĞRETMEN DENETİM VE AKREDİTASYON RAPORUNU EKLE:\n'
+        f'B) Şuurlu Öz Değerlendirme:\n'
+        f'- 1. Bilgi Düzeyi (Bugün ne öğrendim?): [ ............................................................................ ]\n'
+        f'- 2. Anlam Düzeyi (Bugün hangi konuda farklı düşünmeye başladım?): [ ............................................................................ ]\n'
+        f'- 3. Değer & Eylem Düzeyi (Öğrendiklerim davranışlarımı nasıl etkileyebilir?): [ ............................................................................ ]\n\n'
+        f'ÇALIŞMA KAĞIDININ EN SONUNA ÖĞRETMEN MATRİSİ VE MMR AKREDİTASYON RAPORUNU EKLE:\n\n'
+        f'### ÖĞRETMEN DEĞERLENDİRME RUBRİĞİ VE SÜREÇ BİLEŞENLERİ MATRİSİ\n'
+        f'| Süreç Bileşeni / Aşama | Ölçülen Beceri | Başarı Ölçütü | Puan |\n'
+        f'| :--- | :--- | :--- | :---: |\n'
+        f'| 1. Bağlamı Anlama ve Merak | Merak & Problem Tespiti | Durumu doğru tanımlama ve tahmin yürütme | /15 |\n'
+        f'| 2. Bilgi ve Belge Çözümleme | Veri Toplama & Ayıklama | Verileri doğru sınıflandırma ve kullanma | /20 |\n'
+        f'| 3. Akıl Yürütme ve Çıkarım | Bilimsel Çıkarım & Karar | Model/tablodan geçerli sonuca ulaşma | /20 |\n'
+        f'| 4. Müzakere ve İlişkilendirme | Analitik Muhakeme | Neden-sonuç ve denge ilişkisini savunma | /15 |\n'
+        f'| 5. Tefekkür ve Anlamlandırma | Hikmet & Kalp Mimarisi | Gördüm-Düşündüm-Anlamlandırdım basamakları | /15 |\n'
+        f'| 6. Hayata Yansıtma ve Öz Değ. | Eylem & Şuur Düzeyi | Somut eylem ve 3 düzeyli öz değerlendirme | /15 |\n'
+        f'| **TOPLAM AKADEMİK PUAN** | | | **/100** |\n\n'
         f'### MMR KALİTE DENETİM VE AKREDİTASYON RAPORU\n'
         f'| Ölçüt | Puan | Gerekçe |\n'
         f'| :--- | :---: | :--- |\n'
@@ -207,7 +211,7 @@ def build_worksheet_prompt(data: dict) -> tuple[str, str]:
         f'### GEMİNİ\'NİN SON MMR KARARI\n'
         f'- **MMR DURUMU:** [ÇOK GÜÇLÜ / GÜÇLÜ / GELİŞTİRİLMELİ]\n'
         f'- **MMR PUANI:** __/20\n'
-        f'- **EN ÖNEMLİ GELİŞTİRME ALANI:** [Çalışma kağıdında MMR açısından en fazla geliştirilmesi gereken tek somut alanı belirt]\n\n'
+        f'- **EN ÖNEMLİ GELİŞTİRME ALANI:** [Tek somut geliştirme alanı]\n\n'
         f'BİÇİMLENDİRME VE YAZI KARAKTERİ KURALLARI:\n'
         f'- KESİNLİKLE 6 BÖLÜMDEN FAZLA ETKİNLİK OLUŞTURMA (07, 08, 09, 10 YASAKTIR).\n'
         f'- KESİNLİKLE LaTeX veya formül kodları ($\rightarrow$, \\rightarrow, \\to vb.) KULLANMA.\n'
@@ -319,49 +323,70 @@ def health():
 def sample_units():
     units = [
         {
-            'title': "1. Hafta: Güneş'in Yapısı ve Dönme Hareketi (Soba-Lamba Analojisi)",
+            'title': "5. Sınıf Fen: Güneş'in Yapısı ve Dönme Hareketi (Dünya ve Evren)",
             'grade': '5. Sınıf',
             'subject': 'Fen Bilimleri',
             'learning_area': 'Dünya ve Evren',
             'topic': "Güneş'in Yapısı ve Dönme Hareketi",
             'learning_outcome': "F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.",
+            'skill': 'KB2.4. Çözümleme / E1.1. Merak',
+            'process_component': 'Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma ve çıkarım yapma',
             'manevi_outcome': "Güneş'in yapısı ve hareketleri bakımından canlılığın devamına katkısındaki mükemmel yaratılışını fark edebilme."
         },
         {
-            'title': "2. Hafta: Güneş'in Dönme Hareketi ve Rahmet Boyutu",
-            'grade': '5. Sınıf',
-            'subject': 'Fen Bilimleri',
-            'learning_area': 'Dünya ve Evren',
-            'topic': "Güneş'in Dönme Hareketinin Canlılığa Etkisi",
-            'learning_outcome': "F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme ve canlılığa katkısını değerlendirebilme.",
-            'manevi_outcome': "Güneş'in hareketli bir varlık olarak yaratılmasının etrafındaki gezegenlere, özellikle dünyamıza, bir rahmet olduğunu kavrayabilme."
+            'title': "6. Sınıf Matematik: Açılar ve Geometrik Desenlerdeki Ölçü (Geometri)",
+            'grade': '6. Sınıf',
+            'subject': 'Matematik',
+            'learning_area': 'Geometri ve Ölçme',
+            'topic': "Tümler, Bütünler ve Ters Açılardaki Simetri",
+            'learning_outcome': "M.6.3.1.1. Komşu, tümler, bütünler ve ters açıların özelliklerini keşfederek problem çözebilme.",
+            'skill': 'KB2.14. Yorumlama / M.6.1. Matematiksel Muhakeme',
+            'process_component': 'Açılar arası ilişkileri keşfetme, simetri ve ölçüyü modelleme, geometrik nizamı kavrama',
+            'manevi_outcome': "Geometrik şekiller ve doğadaki açılardaki kusursuz nizamı, simetriyi ve ölçüyü fark ederek Yaratıcı’nın ince sanatını kavrayabilme."
         },
         {
-            'title': "3. Hafta: Ay'ın Özellikleri ve Hareketleri (Lisan-ı Hal)",
-            'grade': '5. Sınıf',
-            'subject': 'Fen Bilimleri',
-            'learning_area': 'Dünya ve Evren',
-            'topic': "Ay'ın Özellikleri, Dönme ve Dolanma Hareketleri",
-            'learning_outcome': "F.M.5.1.2.1. Ay'ın özellikleri, dönme ve dolanma hareketleri ile ilgili bilimsel çıkarım yapabilme.",
-            'manevi_outcome': "Ay'ın hareketlerindeki mükemmel düzeni fark ederek, bu düzenin sonsuz güç sahibi Allah tarafından sağlandığı hakkında çıkarım yapabilme."
+            'title': "7. Sınıf Türkçe: Metinde Anlam, Dil ve İnsani Hikmet (Okuma Becerisi)",
+            'grade': '7. Sınıf',
+            'subject': 'Türkçe',
+            'learning_area': 'Okuma ve Anlamlandırma',
+            'topic': "Metinde Örtük Anlam, Hikmet ve Ana Fikir",
+            'learning_outcome': "T.7.1.4. Metindeki örtülü anlamları ve yazarın vermek istediği ahlaki mesajı değerlendirebilme.",
+            'skill': 'KB2.17. Eleştirel Okuma / T.7.3. Metin Çözümleme',
+            'process_component': 'Metindeki ana fikri, derin anlam katmanlarını ve ahlaki erdemleri çözümleme',
+            'manevi_outcome': "Dilin insana bahşedilmiş yüce bir emanet ve iletişim nimeti olduğunu kavrayıp tatlı dil, doğruluk ve hikmet şuuruna varabilme."
         },
         {
-            'title': "4. Hafta: Ay'ın Evreleri (Gökyüzündeki İlahi Takvim)",
-            'grade': '5. Sınıf',
-            'subject': 'Fen Bilimleri',
-            'learning_area': 'Dünya ve Evren',
-            'topic': "Ay'ın Evreleri ve Zaman Hesaplama",
-            'learning_outcome': "F.M.5.1.2.2. Ay'ın evrelerini temsil eden bilimsel model oluşturabilme.",
-            'manevi_outcome': "Ay'ın hareketlerindeki ince hesap ve düzenden yola çıkarak Cenab-ı Hakkın her şeye gücünün yettiğini anlayabilme."
+            'title': "8. Sınıf İnkılap Tarihi: Millî Mücadele ve Dayanışma Ruhu (Tarihsel Empati)",
+            'grade': '8. Sınıf',
+            'subject': 'T.C. İnkılap Tarihi ve Atatürkçülük',
+            'learning_area': 'Millî Uyanış: Bağımsızlık Yolunda Atılan Adımlar',
+            'topic': "Tekalif-i Milliye Emirleri ve Toplumsal Dayanışma",
+            'learning_outcome': "İTA.8.2.5. Millî Mücadele döneminde Türk milletinin yaptığı fedakârlıkları analiz edebilme.",
+            'skill': 'KB2.4. Çözümleme / SB.8.2. Tarihsel Muhakeme',
+            'process_component': 'Tarihî belgeleri inceleyerek vatan sevgisi ve dayanışma kanıtlarını ayırt etme',
+            'manevi_outcome': "Vatan, adalet, emanet ve millet sevgisinin ortak bir şuur ve fedakarlıkla savunulmasındaki yüksek ahlaki değeri içselleştirebilme."
         },
         {
-            'title': "5. Hafta: Güneş, Dünya ve Ay'ın Muazzam Uyumu (Vahdet ve Sanat)",
-            'grade': '5. Sınıf',
-            'subject': 'Fen Bilimleri',
-            'learning_area': 'Dünya ve Evren',
-            'topic': "Güneş, Dünya ve Ay'ın Birbirlerine Göre Hareketleri",
-            'learning_outcome': "F.M.5.1.3.1. Güneş, Dünya ve Ay'ın birbirlerine göre hareketlerini ve hacimsel büyüklüklerini temsil eden bilimsel model oluşturabilme.",
-            'manevi_outcome': "Güneş, Dünya ve Ay arasındaki harika uyum ve hareketlerin Allah'ın varlığına işaret ettiği çıkarımında bulunabilme."
+            'title': "9. Sınıf Fizik: Doğadaki Temel Kuvvetler ve Hassas Denge (Kuvvet ve Hareket)",
+            'grade': '9. Sınıf',
+            'subject': 'Fizik',
+            'learning_area': 'Kuvvet ve Hareket',
+            'topic': "Evrendeki Dört Temel Kuvvet ve Denge",
+            'learning_outcome': "FİZ.9.3.1.1. Doğadaki dört temel kuvveti özellikleri ve evrendeki etkileri açısından karşılaştırabilme.",
+            'skill': 'KB2.10. Bilimsel Çıkarım / FİZ.9.3. Modelleme',
+            'process_component': 'Kuvvetlerin büyüklük ve menzillerini karşılaştırarak evrendeki hassas dengeyi analiz etme',
+            'manevi_outcome': "Kütle çekim, elektromanyetik ve nükleer kuvvetlerin milimetrik dengesindeki ilahi intizamı fark ederek kâinatı basiretle okuyabilme."
+        },
+        {
+            'title': "10. Sınıf Biyoloji: Hücre Bölünmesi ve Hayatın Sürekliliği (Canlılar Dünyası)",
+            'grade': '10. Sınıf',
+            'subject': 'Biyoloji',
+            'learning_area': 'Hücre Bölünmeleri ve Üreme',
+            'topic': "Mitoz Bölünme ve Genetik Bilginin Korunması",
+            'learning_outcome': "BİY.10.1.1.1. Mitozu ve sitokinezi açıklayarak hücre bölünmesinin canlılar için önemini analiz edebilme.",
+            'skill': 'KB2.4. Çözümleme / BİY.10.1. Yaşam Bilimlerini Analiz',
+            'process_component': 'Mitoz evrelerindeki kromozom hareketlerini inceleyerek bilginin kusursuz aktarımını çözümleme',
+            'manevi_outcome': "Mikroskobik bir hücredeki milyarlarca genetik kodun hatasız kopyalanmasındaki hayret verici düzeni ve hayatın kutsiyetini tefekkür edebilme."
         }
     ]
     return jsonify({'units': units})

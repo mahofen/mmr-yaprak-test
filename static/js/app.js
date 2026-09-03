@@ -114,6 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('learningArea').value = selected.learning_area;
                 document.getElementById('topic').value = selected.topic;
                 document.getElementById('learningOutcome').value = selected.learning_outcome;
+                const skillElem = document.getElementById('skill');
+                if (skillElem) {
+                    skillElem.value = selected.skill || 'KB2.4. Çözümleme / E1.1. Merak';
+                }
+                const procElem = document.getElementById('processComponent');
+                if (procElem) {
+                    procElem.value = selected.process_component || 'Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma ve çıkarım yapma';
+                }
                 const maneviElem = document.getElementById('maneviOutcome');
                 if (maneviElem) {
                     maneviElem.value = selected.manevi_outcome || '';
@@ -152,6 +160,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const learningArea = document.getElementById('learningArea').value.trim();
         const topic = document.getElementById('topic').value.trim();
         const learningOutcome = document.getElementById('learningOutcome').value.trim();
+        const skill = document.getElementById('skill') ? document.getElementById('skill').value.trim() : '';
+        const processComponent = document.getElementById('processComponent') ? document.getElementById('processComponent').value.trim() : '';
         const maneviOutcomeElem = document.getElementById('maneviOutcome');
         const maneviOutcome = maneviOutcomeElem ? maneviOutcomeElem.value.trim() : '';
         const contentType = document.querySelector('input[name="contentType"]:checked').value;
@@ -194,6 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     learning_area: learningArea,
                     topic,
                     learning_outcome: learningOutcome,
+                    skill,
+                    process_component: processComponent,
                     manevi_outcome: maneviOutcome,
                     content_type: contentType,
                     question_count: questionCount,

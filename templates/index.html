@@ -48,23 +48,27 @@
                     <div class="form-group">
                         <label for="grade"><i class="fa-solid fa-school"></i> Sınıf Seviyesi *</label>
                         <select id="grade" required>
-                            <option value="5. Sınıf" selected>5. Sınıf</option>
-                            <option value="6. Sınıf">6. Sınıf</option>
-                            <option value="7. Sınıf">7. Sınıf</option>
-                            <option value="8. Sınıf">8. Sınıf</option>
-                            <option value="4. Sınıf">4. Sınıf</option>
-                            <option value="3. Sınıf">3. Sınıf</option>
+                            <option value="3. Sınıf">3. Sınıf (İlkokul)</option>
+                            <option value="4. Sınıf">4. Sınıf (İlkokul)</option>
+                            <option value="5. Sınıf" selected>5. Sınıf (Ortaokul)</option>
+                            <option value="6. Sınıf">6. Sınıf (Ortaokul)</option>
+                            <option value="7. Sınıf">7. Sınıf (Ortaokul)</option>
+                            <option value="8. Sınıf">8. Sınıf (Ortaokul / LGS)</option>
+                            <option value="9. Sınıf">9. Sınıf (Lise)</option>
+                            <option value="10. Sınıf">10. Sınıf (Lise)</option>
+                            <option value="11. Sınıf">11. Sınıf (Lise)</option>
+                            <option value="12. Sınıf">12. Sınıf (Lise / YKS)</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="subject"><i class="fa-solid fa-book"></i> Ders *</label>
-                        <input type="text" id="subject" value="Fen Bilimleri" required placeholder="Örn: Fen Bilimleri">
+                        <input type="text" id="subject" value="Fen Bilimleri" required placeholder="Örn: Fen Bilimleri, Matematik, Türkçe, Fizik, Biyoloji...">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="learningArea"><i class="fa-solid fa-compass"></i> Öğrenme Alanı *</label>
-                    <input type="text" id="learningArea" value="Dünya ve Evren" required placeholder="Örn: Dünya ve Evren">
+                    <label for="learningArea"><i class="fa-solid fa-compass"></i> Öğrenme Alanı / Ünite *</label>
+                    <input type="text" id="learningArea" value="Dünya ve Evren" required placeholder="Örn: Dünya ve Evren / Geometri / Okuma">
                 </div>
 
                 <div class="form-group">
@@ -75,6 +79,18 @@
                 <div class="form-group">
                     <label for="learningOutcome"><i class="fa-solid fa-bullseye"></i> Öğrenme Çıktısı (Kazanım) *</label>
                     <textarea id="learningOutcome" rows="2" required placeholder="Örn: F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.">F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.</textarea>
+                </div>
+
+                <!-- TYMM Becerisi ve Süreç Bileşeni -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="skill"><i class="fa-solid fa-brain"></i> Hedeflenen Beceri (TYMM Temel/Bütünleşik)</label>
+                        <input type="text" id="skill" value="KB2.4. Çözümleme / E1.1. Merak" placeholder="Örn: KB2.4. Çözümleme / KB2.14. Yorumlama">
+                    </div>
+                    <div class="form-group">
+                        <label for="processComponent"><i class="fa-solid fa-diagram-project"></i> Süreç Bileşeni (TYMM)</label>
+                        <input type="text" id="processComponent" value="Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma ve çıkarım yapma" placeholder="Örn: Parçalar arası ilişki kurma, çıkarım yapma">
+                    </div>
                 </div>
 
                 <div class="form-group">
