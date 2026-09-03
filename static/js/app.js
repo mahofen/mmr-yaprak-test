@@ -347,12 +347,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const SECTION_METADATA = {
-        1: { icon: 'fa-lightbulb', tag: 'Merak & Giriş', sub: 'Merak ve İkinci Düşünme Kapısı' },
-        2: { icon: 'fa-compass', tag: 'Bağlam & Hayat', sub: 'Mana Taşıyıcısı Olay (Olay → Bilgi → Anlam)' },
-        3: { icon: 'fa-wrench', tag: 'Akademik Merkez', sub: 'Fark Et ve Bilgiyi Kullan (Gözlem, Veri, Kavram & Uygulama)' },
-        4: { icon: 'fa-scale-balanced', tag: 'İlişki & Müzakere', sub: 'Bilimsel Gerçek → Düzen → Anlam → İnsan → Sorumluluk' },
-        5: { icon: 'fa-seedling', tag: 'Tefekkür & Değer', sub: '4 Aşamalı Kalp Mimarisi ve Erdem Zinciri' },
-        6: { icon: 'fa-star', tag: 'Eylem & Öz Değerlendirme', sub: 'Somut Davranış Taahhüdü ve 3 Düzeyli Öz Yansıtma' }
+        1: { icon: 'fa-id-card', tag: 'Kimlik Alanı', sub: 'Kazanım, Beceri ve Süreç Bileşeni Künyesi' },
+        2: { icon: 'fa-compass', tag: 'Bağlam', sub: 'Gerçek Yaşam Senaryosu ve Problem Durumu' },
+        3: { icon: 'fa-database', tag: 'Kanıt & Veri', sub: 'Tablo, Deney, Grafik ve Ölçüm Materyali' },
+        4: { icon: 'fa-brain', tag: 'TYMM Becerisi', sub: 'Bilişsel Çözümleme ve Beceri Görevi' },
+        5: { icon: 'fa-arrow-trend-up', tag: 'Akıl Yürütme', sub: 'Basitten Karmaşığa Muhakeme ve Karar' },
+        6: { icon: 'fa-window-maximize', tag: 'MMR Penceresi', sub: 'Nizam, Ölçü, Denge ve Anlamlandırma' },
+        7: { icon: 'fa-seedling', tag: 'Tefekkür', sub: 'Hayret, Hikmet ve Kalp Mimarisi' },
+        8: { icon: 'fa-comments', tag: 'Müzakere', sub: 'Gerekçeli Akran Müzakeresi ve Diyalog' },
+        9: { icon: 'fa-hand-holding-heart', tag: 'Hayata Yansıtma', sub: 'Somut Davranış ve Ahlaki Sorumluluk' },
+        10: { icon: 'fa-clipboard-check', tag: 'Öz Değerlendirme', sub: '6 Boyutlu Bilişsel ve Manevi Öz Yansıtma' }
     };
 
     function addNewModularSection(afterBlock = null) {
@@ -550,43 +554,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const match = text.match(/^(?:#+\s*)?(?:0?(\d+))\.\s*([^(:\n]+)(?:\((.*)\))?/i);
+            const match = text.match(/^(?:#+\s*)?(?:BÖLÜM\s*(\d+)\s*[\—\–\-:]\s*|0?(\d+)\.\s*)([^(:\n]+)(?:\((.*)\))?/i);
 
-            if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || (match && match[1]) || !currentCard) {
+            if (['h1', 'h2', 'h3', 'h4', 'hr'].includes(tag) || (match && (match[1] || match[2])) || !currentCard) {
                 let secNum = ++sectionCount;
                 let titleText = '';
 
-                if (match && match[1]) {
-                    secNum = parseInt(match[1]);
-                    titleText = match[2].trim();
+                if (match && (match[1] || match[2])) {
+                    secNum = parseInt(match[1] || match[2]);
+                    titleText = (match[3] || '').trim();
                 } else if (['h1', 'h2', 'h3'].includes(tag)) {
-                    titleText = text.replace(/^#+\s*/, '').replace(/^(?:0?\d+)\.\s*/, '');
+                    titleText = text.replace(/^#+\s*/, '').replace(/^(?:BÖLÜM\s*\d+\s*[\—\–\-:]\s*|0?\d+\.\s*)/i, '');
                 }
 
                 // Pedagojik etiketleri eylem odaklı modern başlıklara dönüştür
                 const PEDAGOGICAL_REPLACEMENTS = {
-                    'MERAK ET': 'Gözlemle ve Tahmin Et',
-                    'BAĞLAMI İNCELE': 'Durumu İncele ve Keşfet',
-                    'FARK ET VE BİLGİYİ KULLAN': 'Verileri İncele ve Bilgiyi Kullan',
-                    'FARK ET': 'Verileri İncele ve Bilgiyi Kullan',
-                    'BİLGİYİ KULLAN': 'Verileri İncele ve Bilgiyi Kullan',
-                    'DÜŞÜN VE İLİŞKİLENDİR': 'Neden-Sonuç İlişkisi Kur ve Tartış',
-                    'TEFEKKÜR ET – ERDEM VE DEĞER': 'Tefekkür Penceresi',
-                    'TEFEKKÜR ET': 'Tefekkür Penceresi',
-                    'TEFEKKÜR PENCERESİ': 'Tefekkür Penceresi',
-                    'ERDEM VE DEĞER': 'Erdem ve Değer',
-                    'EYLEME DÖNÜŞTÜR – KENDİMİ DEĞERLENDİR': 'Günlük Hayatında Uygula ve Değerlendir',
-                    'EYLEME DÖNÜŞTÜR': 'Günlük Hayatında Uygula ve Değerlendir',
+                    'MERAK ET': 'Gözlemle ve Merak Et',
+                    'BAĞLAMI İNCELE': 'Bağlam',
+                    'FARK ET VE BİLGİYİ KULLAN': 'Kanıt / Veri / Materyal',
+                    'DÜŞÜN VE İLİŞKİLENDİR': 'Akıl Yürütme',
+                    'TEFEKKÜR ET – ERDEM VE DEĞER': 'Tefekkür',
+                    'TEFEKKÜR ET': 'Tefekkür',
+                    'TEFEKKÜR PENCERESİ': 'Tefekkür',
+                    'MÜZAKERE EDELİM': 'Müzakere',
+                    'ERDEM VE DEĞER': 'Değer ve Hayata Yansıtma',
+                    'EYLEME DÖNÜŞTÜR – KENDİMİ DEĞERLENDİR': 'Değer ve Hayata Yansıtma',
+                    'EYLEME DÖNÜŞTÜR': 'Değer ve Hayata Yansıtma',
                     'KENDİMİ DEĞERLENDİRİYORUM': 'Öz Değerlendirme'
                 };
 
                 const DEFAULT_ACTION_TITLES = {
-                    1: 'Gözlemle ve Tahmin Et',
-                    2: 'Durumu İncele ve Keşfet',
-                    3: 'Verileri İncele ve Bilgiyi Kullan',
-                    4: 'Neden-Sonuç İlişkisi Kur ve Tartış',
-                    5: 'Tefekkür Penceresi',
-                    6: 'Günlük Hayatında Uygula ve Değerlendir'
+                    1: 'Kimlik Alanı',
+                    2: 'Bağlam',
+                    3: 'Kanıt / Veri / Materyal',
+                    4: 'TYMM Beceri Görevi',
+                    5: 'Akıl Yürütme',
+                    6: 'MMR Penceresi',
+                    7: 'Tefekkür',
+                    8: 'Müzakere',
+                    9: 'Değer ve Hayata Yansıtma',
+                    10: 'Öz Değerlendirme'
                 };
 
                 for (const [key, replacement] of Object.entries(PEDAGOGICAL_REPLACEMENTS)) {
@@ -596,7 +603,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (!titleText || titleText === 'BÖLÜM' || /^\d+$/.test(titleText)) {
-                    titleText = DEFAULT_ACTION_TITLES[secNum] || `Etkinlik ${String(secNum).padStart(2, '0')}`;
+                    titleText = DEFAULT_ACTION_TITLES[secNum] || `Bölüm ${String(secNum).padStart(2, '0')}`;
                 }
 
                 currentCard = document.createElement('div');
