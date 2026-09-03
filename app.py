@@ -277,76 +277,117 @@ def health():
         'has_api_key': has_key
     })
 
-@app.route('/api/sample-units')
-def sample_units():
-    units = [
+def load_mmr_unite_plani_units():
+    docx_path = os.path.join(os.path.dirname(__file__), 'Muallimin_Manevi_Rehberi_1_Unite_Plani.docx')
+    if os.path.exists(docx_path):
+        try:
+            import docx
+            doc = docx.Document(docx_path)
+            table = doc.tables[0]
+            units = []
+            
+            week_titles = [
+                "1. Hafta: Güneş'in Yapısı ve Canlılığın Devamı (F.M.5.1.1.1)",
+                "2. Hafta: Güneş'in Dönme Hareketi ve Gezegenlere Rahmet Olması (F.M.5.1.1.1)",
+                "3. Hafta: Ay'ın Özellikleri ve Hareketlerindeki Mükemmel Düzen (F.M.5.1.2.1)",
+                "4. Hafta: Ay'ın Evreleri ve Zaman Ölçüsündeki İlahi İntizam (F.M.5.1.2.2)",
+                "5. Hafta: Güneş, Dünya ve Ay'ın Muazzam Uyumu ve Vahdet (F.M.5.1.3.1)"
+            ]
+            
+            week_topics = [
+                "Güneş'in Yapısı ve Canlılığın Devamındaki Mükemmel Yaratılış",
+                "Güneş'in Dönme Hareketi ve Dünyamıza Rahmet Olması",
+                "Ay'ın Özellikleri, Dönme ve Dolanma Hareketlerindeki Mükemmel Düzen",
+                "Ay'ın Evreleri ve Zaman Ölçüsündeki İlahi İntizam",
+                "Güneş, Dünya ve Ay'ın Birbirine Göre Hareketleri ve Eşsiz Uyumu"
+            ]
+
+            for idx, row in enumerate(table.rows[1:]):
+                cells = [c.text.replace('\r', '').strip() for c in row.cells]
+                if len(cells) >= 5:
+                    outcome_raw = cells[1].replace('\n', ' ')
+                    proc_comp = cells[2].replace('\n', ' ')
+                    degerler = cells[3].replace('\n', ' ')
+                    manevi_outcome = cells[4].replace('\n', ' ')
+                    
+                    unit = {
+                        'title': week_titles[idx] if idx < len(week_titles) else f"{cells[0]}: {cells[1][:40]}...",
+                        'grade': '5. Sınıf',
+                        'subject': 'Fen Bilimleri',
+                        'learning_area': '1. Ünite: Güneş, Dünya ve Ay (Dünya ve Evren)',
+                        'topic': week_topics[idx] if idx < len(week_topics) else cells[1].split('\n')[-1],
+                        'learning_outcome': outcome_raw,
+                        'skill': f'TYMM Becerisi / Değerler: {degerler}',
+                        'process_component': proc_comp,
+                        'manevi_outcome': manevi_outcome
+                    }
+                    units.append(unit)
+            if units:
+                return units
+        except Exception as e:
+            print("Docx parse error, fallback to hardcoded MMR plan:", e)
+
+    return [
         {
-            'title': "5. Sınıf Fen: Güneş'in Yapısı ve Dönme Hareketi (Dünya ve Evren)",
+            'title': "1. Hafta: Güneş'in Yapısı ve Canlılığın Devamı (F.M.5.1.1.1)",
             'grade': '5. Sınıf',
             'subject': 'Fen Bilimleri',
-            'learning_area': 'Dünya ve Evren',
-            'topic': "Güneş'in Yapısı ve Dönme Hareketi",
-            'learning_outcome': "F.M.5.1.1.1. Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.",
-            'skill': 'KB2.4. Çözümleme / E1.1. Merak',
-            'process_component': 'Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma ve çıkarım yapma',
+            'learning_area': '1. Ünite: Güneş, Dünya ve Ay (Dünya ve Evren)',
+            'topic': "Güneş'in Yapısı ve Canlılığın Devamındaki Mükemmel Yaratılış",
+            'learning_outcome': "F.M.5.1.1.1 Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.",
+            'skill': 'Bilgi Toplama / Sorumluluk, Hikmet, Tefekkür, Şükür',
+            'process_component': 'a) Bilgiye ulaşmak için araçları belirler. b) Belirlediği araçları kullanarak bilgileri bulur. c) Doğrular. ç) Kaydeder.',
             'manevi_outcome': "Güneş'in yapısı ve hareketleri bakımından canlılığın devamına katkısındaki mükemmel yaratılışını fark edebilme."
         },
         {
-            'title': "6. Sınıf Matematik: Açılar ve Geometrik Desenlerdeki Ölçü (Geometri)",
-            'grade': '6. Sınıf',
-            'subject': 'Matematik',
-            'learning_area': 'Geometri ve Ölçme',
-            'topic': "Tümler, Bütünler ve Ters Açılardaki Simetri",
-            'learning_outcome': "M.6.3.1.1. Komşu, tümler, bütünler ve ters açıların özelliklerini keşfederek problem çözebilme.",
-            'skill': 'KB2.14. Yorumlama / M.6.1. Matematiksel Muhakeme',
-            'process_component': 'Açılar arası ilişkileri keşfetme, simetri ve ölçüyü modelleme, geometrik nizamı kavrama',
-            'manevi_outcome': "Geometrik şekiller ve doğadaki açılardaki kusursuz nizamı, simetriyi ve ölçüyü fark ederek Yaratıcı’nın ince sanatını kavrayabilme."
+            'title': "2. Hafta: Güneş'in Dönme Hareketi ve Gezegenlere Rahmet Olması (F.M.5.1.1.1)",
+            'grade': '5. Sınıf',
+            'subject': 'Fen Bilimleri',
+            'learning_area': '1. Ünite: Güneş, Dünya ve Ay (Dünya ve Evren)',
+            'topic': "Güneş'in Dönme Hareketi ve Dünyamıza Rahmet Olması",
+            'learning_outcome': "F.M.5.1.1.1 Güneş'in yapısı ve dönme hareketi ile ilgili bilgileri toplayabilme.",
+            'skill': 'Bilimsel Gözlem ve Kayıt / Merhamet, İntizam, Tevhid, İbret',
+            'process_component': 'a) Bilgiye ulaşmak için araçları belirler. b) Bilgileri bulur. c) Doğrular. ç) Ulaşılan bilgileri kaydeder.',
+            'manevi_outcome': "Güneş'in hareketli bir varlık olarak yaratılmasının etrafındaki gezegenlere, özellikle dünyamıza, bir rahmet olduğunu kavrayabilme."
         },
         {
-            'title': "7. Sınıf Türkçe: Metinde Anlam, Dil ve İnsani Hikmet (Okuma Becerisi)",
-            'grade': '7. Sınıf',
-            'subject': 'Türkçe',
-            'learning_area': 'Okuma ve Anlamlandırma',
-            'topic': "Metinde Örtük Anlam, Hikmet ve Ana Fikir",
-            'learning_outcome': "T.7.1.4. Metindeki örtülü anlamları ve yazarın vermek istediği ahlaki mesajı değerlendirebilme.",
-            'skill': 'KB2.17. Eleştirel Okuma / T.7.3. Metin Çözümleme',
-            'process_component': 'Metindeki ana fikri, derin anlam katmanlarını ve ahlaki erdemleri çözümleme',
-            'manevi_outcome': "Dilin insana bahşedilmiş yüce bir emanet ve iletişim nimeti olduğunu kavrayıp tatlı dil, doğruluk ve hikmet şuuruna varabilme."
+            'title': "3. Hafta: Ay'ın Özellikleri ve Hareketlerindeki Mükemmel Düzen (F.M.5.1.2.1)",
+            'grade': '5. Sınıf',
+            'subject': 'Fen Bilimleri',
+            'learning_area': '1. Ünite: Güneş, Dünya ve Ay (Dünya ve Evren)',
+            'topic': "Ay'ın Özellikleri, Dönme ve Dolanma Hareketlerindeki Mükemmel Düzen",
+            'learning_outcome': "F.M.5.1.2.1 Ay'ın özellikleri, dönme ve dolanma hareketleri ile ilgili bilimsel çıkarım yapabilme.",
+            'skill': 'Bilimsel Çıkarım / Adalet, Denge, Tevhid, Hayret ve Hayranlık',
+            'process_component': "a) Ay'ın özellikleri ve hareketleri ile ilgili nitelikleri tanımlar. b) Topladığı verileri kaydeder. c) Verileri değerlendirir.",
+            'manevi_outcome': "Ay'ın hareketlerindeki mükemmel düzeni fark ederek, bu düzenin sonsuz güç sahibi Allah tarafından sağlandığı hakkında çıkarım yapabilme."
         },
         {
-            'title': "8. Sınıf İnkılap Tarihi: Millî Mücadele ve Dayanışma Ruhu (Tarihsel Empati)",
-            'grade': '8. Sınıf',
-            'subject': 'T.C. İnkılap Tarihi ve Atatürkçülük',
-            'learning_area': 'Millî Uyanış: Bağımsızlık Yolunda Atılan Adımlar',
-            'topic': "Tekalif-i Milliye Emirleri ve Toplumsal Dayanışma",
-            'learning_outcome': "İTA.8.2.5. Millî Mücadele döneminde Türk milletinin yaptığı fedakârlıkları analiz edebilme.",
-            'skill': 'KB2.4. Çözümleme / SB.8.2. Tarihsel Muhakeme',
-            'process_component': 'Tarihî belgeleri inceleyerek vatan sevgisi ve dayanışma kanıtlarını ayırt etme',
-            'manevi_outcome': "Vatan, adalet, emanet ve millet sevgisinin ortak bir şuur ve fedakarlıkla savunulmasındaki yüksek ahlaki değeri içselleştirebilme."
+            'title': "4. Hafta: Ay'ın Evreleri ve Zaman Ölçüsündeki İlahi İntizam (F.M.5.1.2.2)",
+            'grade': '5. Sınıf',
+            'subject': 'Fen Bilimleri',
+            'learning_area': '1. Ünite: Güneş, Dünya ve Ay (Dünya ve Evren)',
+            'topic': "Ay'ın Evreleri ve Zaman Ölçüsündeki İlahi İntizam",
+            'learning_outcome': "F.M.5.1.2.2 Ay'ın evrelerini temsil eden bilimsel model oluşturabilme.",
+            'skill': 'Bilimsel Modelleme / Zaman Bilinci, Şükür, Hikmet, İntizam',
+            'process_component': "a) Ay'ın evrelerini temsil eden bir model önerir. b) Modelini yeni kanıtlara bağlı olarak geliştirir.",
+            'manevi_outcome': "Ay'ın hareketlerindeki ince hesap ve düzenden yola çıkarak Cenab-ı Hakkın her şeye gücünün yettiğini anlayabilme."
         },
         {
-            'title': "9. Sınıf Fizik: Doğadaki Temel Kuvvetler ve Hassas Denge (Kuvvet ve Hareket)",
-            'grade': '9. Sınıf',
-            'subject': 'Fizik',
-            'learning_area': 'Kuvvet ve Hareket',
-            'topic': "Evrendeki Dört Temel Kuvvet ve Denge",
-            'learning_outcome': "FİZ.9.3.1.1. Doğadaki dört temel kuvveti özellikleri ve evrendeki etkileri açısından karşılaştırabilme.",
-            'skill': 'KB2.10. Bilimsel Çıkarım / FİZ.9.3. Modelleme',
-            'process_component': 'Kuvvetlerin büyüklük ve menzillerini karşılaştırarak evrendeki hassas dengeyi analiz etme',
-            'manevi_outcome': "Kütle çekim, elektromanyetik ve nükleer kuvvetlerin milimetrik dengesindeki ilahi intizamı fark ederek kâinatı basiretle okuyabilme."
-        },
-        {
-            'title': "10. Sınıf Biyoloji: Hücre Bölünmesi ve Hayatın Sürekliliği (Canlılar Dünyası)",
-            'grade': '10. Sınıf',
-            'subject': 'Biyoloji',
-            'learning_area': 'Hücre Bölünmeleri ve Üreme',
-            'topic': "Mitoz Bölünme ve Genetik Bilginin Korunması",
-            'learning_outcome': "BİY.10.1.1.1. Mitozu ve sitokinezi açıklayarak hücre bölünmesinin canlılar için önemini analiz edebilme.",
-            'skill': 'KB2.4. Çözümleme / BİY.10.1. Yaşam Bilimlerini Analiz',
-            'process_component': 'Mitoz evrelerindeki kromozom hareketlerini inceleyerek bilginin kusursuz aktarımını çözümleme',
-            'manevi_outcome': "Mikroskobik bir hücredeki milyarlarca genetik kodun hatasız kopyalanmasındaki hayret verici düzeni ve hayatın kutsiyetini tefekkür edebilme."
+            'title': "5. Hafta: Güneş, Dünya ve Ay'ın Muazzam Uyumu ve Vahdet (F.M.5.1.3.1)",
+            'grade': '5. Sınıf',
+            'subject': 'Fen Bilimleri',
+            'learning_area': '1. Ünite: Güneş, Dünya ve Ay (Dünya ve Evren)',
+            'topic': "Güneş, Dünya ve Ay'ın Birbirine Göre Hareketleri ve Eşsiz Uyumu",
+            'learning_outcome': "F.M.5.1.3.1 Güneş, Dünya ve Ay'ın birbirlerine göre hareketlerini ve hacimsel büyüklüklerini temsil eden bilimsel model oluşturabilme.",
+            'skill': 'Sistemik Modelleme / Uyum, Birlik (Vahdet), İntizam, Sanat',
+            'process_component': "a) Güneş, Dünya ve Ay'ın birbirlerine göre hareketlerini ve büyüklüklerini temsil eden bir model önerir. b) Modelini geliştirir.",
+            'manevi_outcome': "Güneş, Dünya ve Ay arasındaki harika uyum ve hareketlerin Allah'ın varlığına işaret ettiği çıkarımında bulunabilme."
         }
     ]
+
+@app.route('/api/sample-units')
+def sample_units():
+    units = load_mmr_unite_plani_units()
     return jsonify({'units': units})
 
 @app.route('/api/generate', methods=['POST'])
