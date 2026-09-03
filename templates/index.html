@@ -110,7 +110,7 @@
                             <div class="toggle-content">
                                 <i class="fa-solid fa-pen-ruler"></i>
                                 <strong>ÇALIŞMA KAĞIDI</strong>
-                                <span>Keşfetme, düşünme, tefekkür ve eylem</span>
+                                <span>7 Bölümlü TYMM + MMR Mimarisi</span>
                             </div>
                         </label>
                         <label class="type-toggle-label" id="typeTestLabel">
@@ -118,7 +118,23 @@
                             <div class="toggle-content">
                                 <i class="fa-solid fa-list-check"></i>
                                 <strong>YAPRAK TEST</strong>
-                                <span>Ölçme-değerlendirme ve bilişsel düzeyler</span>
+                                <span>Bilişsel Düzeyler & Cevap Anahtarı</span>
+                            </div>
+                        </label>
+                        <label class="type-toggle-label" id="typeCaseStudyLabel">
+                            <input type="radio" name="contentType" value="case_study">
+                            <div class="toggle-content">
+                                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                                <strong>VAKA ANALİZİ</strong>
+                                <span>Durum Analizi, Çıkarım & Hikmet</span>
+                            </div>
+                        </label>
+                        <label class="type-toggle-label" id="typeMindMapLabel">
+                            <input type="radio" name="contentType" value="mind_map">
+                            <div class="toggle-content">
+                                <i class="fa-solid fa-sitemap"></i>
+                                <strong>ZİHİN HARİTASI</strong>
+                                <span>Örgütleme, Yapılandırma & Bütünlük</span>
                             </div>
                         </label>
                     </div>
@@ -248,6 +264,8 @@
                         <button type="button" class="modal-tab-btn active" data-filter="all">Tümü (<span id="countAll">0</span>)</button>
                         <button type="button" class="modal-tab-btn" data-filter="worksheet"><i class="fa-solid fa-pen-ruler"></i> Çalışma Kağıdı (<span id="countWorksheet">0</span>)</button>
                         <button type="button" class="modal-tab-btn" data-filter="test"><i class="fa-solid fa-list-check"></i> Yaprak Test (<span id="countTest">0</span>)</button>
+                        <button type="button" class="modal-tab-btn" data-filter="case_study"><i class="fa-solid fa-magnifying-glass-chart"></i> Vaka Analizi (<span id="countCaseStudy">0</span>)</button>
+                        <button type="button" class="modal-tab-btn" data-filter="mind_map"><i class="fa-solid fa-sitemap"></i> Zihin Haritası (<span id="countMindMap">0</span>)</button>
                     </div>
                     <div class="modal-storage-actions">
                         <button type="button" class="btn-tool-sm" id="exportSavedBtn" title="Tüm kayıtları JSON dosyası olarak indirip yedekleyin"><i class="fa-solid fa-download"></i> Yedekle</button>
@@ -389,6 +407,29 @@
                                 <strong>MÜZAKERE</strong>
                                 <p>Sınıf içinde akranların gerekçeleriyle ve farklı bakış açılarıyla tartışabileceği 1-2 derinlikli diyalog sorusu.</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Desteklenen 4 Farklı Materyal Türü -->
+                <div class="about-section-block">
+                    <h5 class="about-section-title"><i class="fa-solid fa-shapes"></i> Üretilebilen 4 Farklı Eğitim Materyali</h5>
+                    <div class="about-grid-2">
+                        <div class="about-card">
+                            <h6><i class="fa-solid fa-pen-ruler"></i> 1. ÇALIŞMA KÂĞIDI</h6>
+                            <p>Bağlam, Kanıt/Veri, Beceri Görevi, Akıl Yürütme, MMR Penceresi, Değer/Hayat ve Müzakere içeren 7 bölümlü tam öğrenme mizanpajı.</p>
+                        </div>
+                        <div class="about-card">
+                            <h6><i class="fa-solid fa-list-check"></i> 2. YAPRAK TEST</h6>
+                            <p>Bilişsel basamaklara göre derecelendirilmiş çoktan seçmeli sorular, güçlü çeldiriciler ve ayrıntılı kazanım cevap anahtarı matrisi.</p>
+                        </div>
+                        <div class="about-card">
+                            <h6><i class="fa-solid fa-magnifying-glass-chart"></i> 3. VAKA ANALİZİ</h6>
+                            <p><strong>Durumu Analiz Etme</strong> (Vaka senaryosu & veriler), <strong>Çıkarım/Değerlendirme</strong> (Karar noktaları & gerekçe), <strong>Hikmet/Değer</strong> (Nizam, ahlaki erdem & sorumluluk).</p>
+                        </div>
+                        <div class="about-card">
+                            <h6><i class="fa-solid fa-sitemap"></i> 4. ZİHİN HARİTASI</h6>
+                            <p><strong>Örgütleme</strong> (Temel ana dallar ve kategoriler), <strong>Yapılandırma</strong> (Alt kavramlar, ilişki ağaçları ve süreçler), <strong>Bütünlük</strong> (Kâinattaki ahenk, vahdet & MMR tefekkür sentezi).</p>
                         </div>
                     </div>
                 </div>

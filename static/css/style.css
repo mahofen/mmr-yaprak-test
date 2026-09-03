@@ -372,6 +372,69 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+.btn-case-study {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+}
+
+.btn-case-study:hover {
+    background: linear-gradient(135deg, #6d28d9 0%, #9333ea 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-mind-map {
+    background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
+}
+
+.btn-mind-map:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #0891b2 100%);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Active styles for case study and mind map toggle options */
+.type-toggle-label.active-case-study {
+    border-color: #7c3aed;
+    background: #faf5ff;
+}
+.type-toggle-label.active-case-study i,
+.type-toggle-label.active-case-study strong {
+    color: #7c3aed;
+}
+
+.type-toggle-label.active-mind-map {
+    border-color: #0284c7;
+    background: #f0f9ff;
+}
+.type-toggle-label.active-mind-map i,
+.type-toggle-label.active-mind-map strong {
+    color: #0284c7;
+}
+
+/* Badges for Case Study and Mind Map */
+.badge-case_study, .badge-case-study {
+    background: #ede9fe;
+    color: #6d28d9;
+}
+.badge-mind_map, .badge-mind-map {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+/* Mind Map visual tree styling */
+.mind-map-tree {
+    background: #0f172a;
+    color: #38bdf8;
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    border-left: 4px solid #0284c7;
+    margin: 1rem 0;
+}
+
 .btn-generate:disabled {
     opacity: 0.6;
     cursor: not-allowed;

@@ -246,6 +246,139 @@ def build_test_prompt(data: dict) -> tuple[str, str]:
 
     return system_instruction, user_prompt
 
+def build_case_study_prompt(data: dict) -> tuple[str, str]:
+    skill = data.get('skill', '').strip() or 'KB2.4. Çözümleme / KB2.14. Yorumlama / KB2.16. Karar Verme'
+    process_comp = data.get('process_component', '').strip() or 'Durum analizi yapma, kanıtları değerlendirme, gerekçeli karar alma ve etik/manevi boyutu yorumlama'
+
+    system_instruction = (
+        'Sen; eğitim teknolojileri ve vaka temelli öğretim uzmanı, problem çözme ve durum analizi tasarımcısı, '
+        'TYMM beceri temelli öğretim ve Muallimin Manevi Rehberi (MMR) felsefecisisin.\n\n'
+        'TEMEL GÖREVİN:\n'
+        'Verilen sınıf, ders, konu ve öğrenme çıktısına uygun; öğrencinin analitik düşünmesini, '
+        'durumu çok boyutlu kavramasını, kanıtlara dayalı çıkarım yapmasını ve olayın ardındaki nizam, '
+        'hikmet ve ahlaki erdemleri fark etmesini sağlayan yüksek standartta bir VAKA ANALİZİ MATERYALİ üretmektir.\n\n'
+        'VAKA ANALİZİ KESİN 3 BÖLÜMLÜ STANDART MİMARİSİ:\n'
+        'Materyal KESİNLİKLE VE SADECE aşağıdaki 3 ana başlık altında oluşturulacaktır:\n\n'
+        '1. DURUMU ANALİZ ETME\n'
+        '2. ÇIKARIM VE DEĞERLENDİRME\n'
+        '3. HİKMET VE DEĞER\n\n'
+        'BÖLÜMLERİN İÇERİK DETAYLARI:\n'
+        '- 1. DURUMU ANALİZ ETME:\n'
+        '  * Vaka Senaryosu: Gerçek yaşamdan, yaşantısal, öğrencinin ilgisini çeken, ders kazanımıyla doğrudan örtüşen '
+        '    somut bir olay, araştırma, problem durumu veya çevre/doğa vakası.\n'
+        '  * Olayın Aktörleri, Şartları ve Temel Verileri (Maddeler veya veri tablosu halinde somut olgular).\n'
+        '  * Durum Analizi Soruları: "Olayda ne oldu?", "Hangi unsurlar birbiriyle etkileşim halindedir?", "Sorunun / durumun kök sebebi nedir?".\n'
+        '  * Tespit ve Analiz Alanım: [ ............................................................................ ]\n\n'
+        '- 2. ÇIKARIM VE DEĞERLENDİRME:\n'
+        '  * Neden-Sonuç İlişkilerinin Çözümlenmesi.\n'
+        '  * Kritik Karar Noktaları ve Alternatif Çözüm Yolları.\n'
+        '  * Gerekçelendirme ve Çıkarım Soruları: "Hangi karar verilmelidir ve gerekçesi nedir?", "Bu sonucun doğuracağı etkiler nelerdir?".\n'
+        '  * Gerekçeli Değerlendirmem ve Nihai Kararım: [ ............................................................................ ]\n\n'
+        '- 3. HİKMET VE DEĞER:\n'
+        '  * MMR Boyutu: Olayın ve tabiatın arkasındaki şaşmaz düzen, ölçü (mizan), ahenk ve hikmet.\n'
+        '  * Ahlaki Erdem ve Değer Keşfi: Adalet, emanet, dürüstlük, merhamet, sorumluluk veya ölçülülük.\n'
+        '  * İnsani Sorumluluk ve Hayata Yansıtma: Öğrencinin bu vakadan kendi hayatına ve toplumuna çıkaracağı somut tutum.\n'
+        '  * İnsani Sorumluluğum ve Eylem Taahhüdüm: [ ............................................................................ ]\n'
+        '  * Akran Müzakeresi Sorusu: Sınıfta tartışılacak açık uçlu düşünce sorusu.\n\n'
+        'TASARIM KURALLARI:\n'
+        '- Öğrencinin elle rahatça yazabileceği geniş [ ......................................... ] çizgili alanları cömertçe bırak.\n'
+        '- KESİNLİKLE bu 3 başlık dışında harici bölüm ekleme.'
+    )
+
+    user_prompt = (
+        f'Aşağıda verilen eğitim bilgilerine göre eksiksiz, modern ve yazdırılabilir bir VAKA ANALİZİ MATERYALİ hazırla:\n\n'
+        f'Sınıf Seviyesi: {data.get("grade")}\n'
+        f'Ders: {data.get("subject")}\n'
+        f'Öğrenme Alanı / Ünite: {data.get("learning_area")}\n'
+        f'Konu: {data.get("topic")}\n'
+        f'Öğrenme Çıktısı (Kazanım): {data.get("learning_outcome")}\n'
+        f'Hedeflenen Beceri (TYMM): {skill}\n'
+        f'Süreç Bileşeni: {process_comp}\n'
+        f'Manevi Öğrenme Çıktısı (MMR): {data.get("manevi_outcome", "")}\n\n'
+        f'MATERYALDE SADECE VE SADECE ŞU 3 BAŞLIK OLACAKTIR:\n\n'
+        f'### DURUMU ANALİZ ETME\n'
+        f'[Gerçek yaşam vaka senaryosu, aktörler, somut veriler, şartlar ve durum tespiti soruları]:\n'
+        f'Tespit ve Analiz Alanım: [ ............................................................................ ]\n\n'
+        f'### ÇIKARIM VE DEĞERLENDİRME\n'
+        f'[Neden-sonuç ilişkileri, alternatif kararlar, kanıtlara dayalı analiz, gerekçelendirme soruları]:\n'
+        f'Gerekçeli Değerlendirmem ve Nihai Kararım: [ ............................................................................ ]\n\n'
+        f'### HİKMET VE DEĞER\n'
+        f'[Vakadaki ölçü, nizam ve ilahi hikmet, ahlaki erdem keşfi, insani sorumluluk ve müzakere]:\n'
+        f'- Vakadan Fark Ettiğim Değer ve Hikmet: [ ............................................................................ ]\n'
+        f'- Hayata Yansıtacağım İnsani Sorumluluk: [ ............................................................................ ]\n'
+        f'- Müzakere Sorusu ve Görüşüm: [ ............................................................................ ]'
+    )
+
+    return system_instruction, user_prompt
+
+def build_mind_map_prompt(data: dict) -> tuple[str, str]:
+    skill = data.get('skill', '').strip() or 'KB2.3. Örgütleme / KB2.4. Çözümleme / KB2.15. Yapılandırma'
+    process_comp = data.get('process_component', '').strip() or 'Kavramları yapılandırma, örüntüleri ve hiyerarşik bağları kurma, bütüncül anlam çıkarma'
+
+    system_instruction = (
+        'Sen; görsel düşünme ve kavramsal zihin haritalama mimarı, bilişsel örgütleme uzmanı, '
+        'TYMM bütüncül modelleme ve Muallimin Manevi Rehberi (MMR) şuur tasarımcısısın.\n\n'
+        'TEMEL GÖREVİN:\n'
+        'Verilen sınıf, ders, konu ve öğrenme çıktısına ait kavram ağını; parçadan bütüne, somuttan soyuta, '
+        'nedenden sonuca sistematik olarak örgütleyen ve kâinattaki muazzam nizamla (bütünlük) birleştiren '
+        'standart bir ZİHİN HARİTASI MATERYALİ üretmektir.\n\n'
+        'ZİHİN HARİTASI KESİN 3 BÖLÜMLÜ STANDART MİMARİSİ:\n'
+        'Materyal KESİNLİKLE VE SADECE aşağıdaki 3 ana başlık altında yapılandırılacaktır:\n\n'
+        '1. ÖRGÜTLEME\n'
+        '2. YAPILANDIRMA\n'
+        '3. BÜTÜNLÜK\n\n'
+        'BÖLÜMLERİN İÇERİK DETAYLARI:\n'
+        '- 1. ÖRGÜTLEME:\n'
+        '  * Merkezi Kavram ve Odak Tema: Konunun kalbindeki çekirdek ilke.\n'
+        '  * Ana Dallar (Birinci Düzey Kategoriler): Konuyu oluşturan 3-4 temel sütun / kavram öbeği.\n'
+        '  * Her ana dalın temel tanımı, kapsadığı alan ve ayırt edici nitelikleri.\n'
+        '  * Öğrencinin Örgütleme Çalışması: [ ............................................................................ ]\n\n'
+        '- 2. YAPILANDIRMA:\n'
+        '  * İkinci ve Üçüncü Düzey Alt Dallar: Alt kavramlar, özellikler, formüller, süreçler ve mekanizmalar.\n'
+        '  * Kavramlar Arası İlişki ve Akış Şeması (Hiyerarşik, girintili ve temiz sembollerle görselleştirilmiş kavram ağı haritası):\n'
+        '    Örnek yapı:\n'
+        '    └── [Merkez Kavram]\n'
+        '        ├── [Ana Dal 1] ──> [Alt Kavram A] ──> [Özellik/Süreç]\n'
+        '        ├── [Ana Dal 2] ──> [Alt Kavram B] ──> [İşleyiş/Denge]\n'
+        '        └── [Ana Dal 3] ──> [Alt Kavram C] ──> [Hikmet/Mizan]\n'
+        '  * Yapılandırma ve Çözümleme Sorusu: "Bu kavramlar birbirine nasıl bağlanır?", "Aralarındaki denge nasıl sağlanır?".\n'
+        '  * Öğrencinin Kavramsal Çıkarım Alanı: [ ............................................................................ ]\n\n'
+        '- 3. BÜTÜNLÜK:\n'
+        '  * Parçadan Bütüne Nizam: Bütün bu kavramların ve mekanizmaların kâinattaki kusursuz ahenk ve birlik (vahdet) ile bağı.\n'
+        '  * MMR Tefekkür ve Şuur Sentezi: Ayrışan parçaların arkasındaki tek ve eşsiz Yaratıcı sanatı, hikmeti ve ölçüsü.\n'
+        '  * İnsani Değer ve Anlamlandırma: Bu bütünsel bakış açısının öğrencinin düşünce dünyasına ve ahlakına kattığı değer.\n'
+        '  * Bütünsel Anlamlandırma ve Tefekkür Notum: [ ............................................................................ ]\n\n'
+        'TASARIM KURALLARI:\n'
+        '- Okunabilir, estetik, girintili hiyerarşik Markdown ve şematik ağaç düzeni kullan.\n'
+        '- Öğrencinin elle doldurabileceği çizgili alanlar [ ......................................... ] bırak.\n'
+        '- KESİNLİKLE bu 3 başlık dışında harici bölüm ekleme.'
+    )
+
+    user_prompt = (
+        f'Aşağıda verilen eğitim parametrelerine göre eksiksiz, estetik ve öğrenci dostu bir ZİHİN HARİTASI MATERYALİ üret:\n\n'
+        f'Sınıf Seviyesi: {data.get("grade")}\n'
+        f'Ders: {data.get("subject")}\n'
+        f'Öğrenme Alanı / Ünite: {data.get("learning_area")}\n'
+        f'Konu: {data.get("topic")}\n'
+        f'Öğrenme Çıktısı (Kazanım): {data.get("learning_outcome")}\n'
+        f'Hedeflenen Beceri (TYMM): {skill}\n'
+        f'Süreç Bileşeni: {process_comp}\n'
+        f'Manevi Öğrenme Çıktısı (MMR): {data.get("manevi_outcome", "")}\n\n'
+        f'MATERYALDE KESİNLİKLE VE SADECE ŞU 3 ANA BAŞLIK OLACAKTIR:\n\n'
+        f'### ÖRGÜTLEME\n'
+        f'[Merkezi kavram, 3-4 temel ana dal, kavramsal dayanaklar ve sınıflandırma şeması]:\n'
+        f'Kavramsal Odak ve Örgütleme Notum: [ ............................................................................ ]\n\n'
+        f'### YAPILANDIRMA\n'
+        f'[Alt dallar, kavramlar arası ilişkiler, süreçler, sebep-sonuç ağları ve hiyerarşik zihin haritası şeması]:\n'
+        f'Kavramlar Arası İlişki ve Çözümlemem: [ ............................................................................ ]\n\n'
+        f'### BÜTÜNLÜK\n'
+        f'[Parçalardan bütüne kâinattaki ahenk, nizam ve birlik (vahdet); MMR tefekkür sentezi ve ahlaki şuur]:\n'
+        f'- Bütünsel Nizam ve Hikmet Tefekkürüm: [ ............................................................................ ]\n'
+        f'- Bu Kavram Ağından Kazandığım Değer ve Şuur: [ ............................................................................ ]'
+    )
+
+    return system_instruction, user_prompt
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -415,8 +548,14 @@ def generate():
 
         if content_type == 'worksheet':
             sys_inst, user_prompt = build_worksheet_prompt(data)
-        else:
+        elif content_type == 'test':
             sys_inst, user_prompt = build_test_prompt(data)
+        elif content_type == 'case_study':
+            sys_inst, user_prompt = build_case_study_prompt(data)
+        elif content_type == 'mind_map':
+            sys_inst, user_prompt = build_mind_map_prompt(data)
+        else:
+            sys_inst, user_prompt = build_worksheet_prompt(data)
 
         client_key = request.headers.get('X-Gemini-Key') or data.get('api_key')
         content = call_gemini_api(sys_inst, user_prompt, client_key)

@@ -10,8 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const typeWorksheetLabel = document.getElementById('typeWorksheetLabel');
     const typeTestLabel = document.getElementById('typeTestLabel');
+    const typeCaseStudyLabel = document.getElementById('typeCaseStudyLabel');
+    const typeMindMapLabel = document.getElementById('typeMindMapLabel');
     const typeWorksheetRadio = document.querySelector('input[name="contentType"][value="worksheet"]');
     const typeTestRadio = document.querySelector('input[name="contentType"][value="test"]');
+    const typeCaseStudyRadio = document.querySelector('input[name="contentType"][value="case_study"]');
+    const typeMindMapRadio = document.querySelector('input[name="contentType"][value="mind_map"]');
 
     const emptyState = document.getElementById('emptyState');
     const loadingBox = document.getElementById('loadingBox');
@@ -132,23 +136,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Content Type Toggle
     function updateContentTypeUI() {
-        if (typeWorksheetRadio.checked) {
-            typeWorksheetLabel.classList.add('active');
-            typeTestLabel.classList.remove('active');
-            testExtraParams.classList.add('hidden');
-            submitBtn.className = 'btn-generate btn-worksheet';
-            btnText.textContent = 'ÇALIŞMA KAĞIDI OLUŞTUR';
-        } else {
-            typeTestLabel.classList.add('active');
-            typeWorksheetLabel.classList.remove('active');
-            testExtraParams.classList.remove('hidden');
-            submitBtn.className = 'btn-generate btn-test';
-            btnText.textContent = 'YAPRAK TEST OLUŞTUR';
+        const selectedType = document.querySelector('input[name="contentType"]:checked')?.value || 'worksheet';
+        
+        [typeWorksheetLabel, typeTestLabel, typeCaseStudyLabel, typeMindMapLabel].forEach(lbl => {
+            if (lbl) lbl.className = 'type-toggle-label';
+        });
+
+        if (testExtraParams) testExtraParams.classList.add('hidden');
+
+        if (selectedType === 'worksheet') {
+            if (typeWorksheetLabel) typeWorksheetLabel.classList.add('active');
+            if (submitBtn) submitBtn.className = 'btn-generate btn-worksheet';
+            if (btnText) btnText.textContent = 'ÇALIŞMA KAĞIDI OLUŞTUR';
+        } else if (selectedType === 'test') {
+            if (typeTestLabel) typeTestLabel.classList.add('active');
+            if (testExtraParams) testExtraParams.classList.remove('hidden');
+            if (submitBtn) submitBtn.className = 'btn-generate btn-test';
+            if (btnText) btnText.textContent = 'YAPRAK TEST OLUŞTUR';
+        } else if (selectedType === 'case_study') {
+            if (typeCaseStudyLabel) typeCaseStudyLabel.classList.add('active', 'active-case-study');
+            if (submitBtn) submitBtn.className = 'btn-generate btn-case-study';
+            if (btnText) btnText.textContent = 'VAKA ANALİZİ OLUŞTUR';
+        } else if (selectedType === 'mind_map') {
+            if (typeMindMapLabel) typeMindMapLabel.classList.add('active', 'active-mind-map');
+            if (submitBtn) submitBtn.className = 'btn-generate btn-mind-map';
+            if (btnText) btnText.textContent = 'ZİHİN HARİTASI OLUŞTUR';
         }
     }
 
-    typeWorksheetRadio.addEventListener('change', updateContentTypeUI);
-    typeTestRadio.addEventListener('change', updateContentTypeUI);
+    document.querySelectorAll('input[name="contentType"]').forEach(radio => {
+        radio.addEventListener('change', updateContentTypeUI);
+    });
 
     // 4. Form Submit & AI Generation
     form.addEventListener('submit', async (e) => {
@@ -173,7 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        currentTitle = `${grade}_${subject}_${contentType === 'worksheet' ? 'Calisma_Kagidi' : 'Yaprak_Test'}`;
+        let typeSuffix = 'Calisma_Kagidi';
+        if (contentType === 'test') typeSuffix = 'Yaprak_Test';
+        else if (contentType === 'case_study') typeSuffix = 'Vaka_Analizi';
+        else if (contentType === 'mind_map') typeSuffix = 'Zihin_Haritasi';
+
+        currentTitle = `${grade}_${subject}_${typeSuffix}`;
 
         // Set Loading State
         if (submitBtn) submitBtn.disabled = true;
@@ -183,9 +206,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loadingBox) loadingBox.classList.remove('hidden');
 
         if (contentType === 'worksheet') {
-            if (loadingTitle) loadingTitle.textContent = 'Yapay zekâ çalışma kağıdını hazırlıyor...';
-        } else {
-            if (loadingTitle) loadingTitle.textContent = 'Yapay zekâ yaprak testi hazırlıyor...';
+            if (loadingTitle) loadingTitle.textContent = '5 Motorlu TYMM + MMR Çalışma Kâğıdı Hazırlanıyor...';
+        } else if (contentType === 'test') {
+            if (loadingTitle) loadingTitle.textContent = 'Bilişsel Düzeylere Uygun Yaprak Test Hazırlanıyor...';
+        } else if (contentType === 'case_study') {
+            if (loadingTitle) loadingTitle.textContent = 'Durum, Çıkarım ve Hikmet Odaklı Vaka Analizi Üretiliyor...';
+        } else if (contentType === 'mind_map') {
+            if (loadingTitle) loadingTitle.textContent = 'Örgütleme, Yapılandırma ve Bütünlük Odaklı Zihin Haritası Çıkarılıyor...';
         }
 
         try {
@@ -483,9 +510,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add Modern MEB & Maarif Künye Anteti
         const formVals = getFormValues();
+        const selectedType = document.querySelector('input[name="contentType"]:checked')?.value || 'worksheet';
+        
+        let headerTitle = `${formVals.grade.toUpperCase()} ${formVals.subject.toUpperCase()} ÖĞRENCİ ÇALIŞMA KAĞIDI`;
+        let headerSub = `${formVals.topic ? formVals.topic + ' • ' : ''}Muallimin Manevi Rehberi (MMR) İlkeleriyle Derinleştirilmiş Öğrenme Kağıdı`;
+
+        if (selectedType === 'case_study') {
+            headerTitle = `${formVals.grade.toUpperCase()} ${formVals.subject.toUpperCase()} VAKA ANALİZİ MATERYALİ`;
+            headerSub = `${formVals.topic ? formVals.topic + ' • ' : ''}Durum Analizi, Çıkarım/Değerlendirme ve Hikmet/Değer Vakası`;
+        } else if (selectedType === 'mind_map') {
+            headerTitle = `${formVals.grade.toUpperCase()} ${formVals.subject.toUpperCase()} KAVRAMSAL ZİHİN HARİTASI`;
+            headerSub = `${formVals.topic ? formVals.topic + ' • ' : ''}Örgütleme, Yapılandırma ve Bütünlük Odaklı Kavram Ağı`;
+        }
+
         const examHeader = createExamHeader(
-            `${formVals.grade.toUpperCase()} ${formVals.subject.toUpperCase()} ÖĞRENCİ ÇALIŞMA KAĞIDI`,
-            `${formVals.topic ? formVals.topic + ' • ' : ''}Muallimin Manevi Rehberi (MMR) İlkeleriyle Derinleştirilmiş Öğrenme Kağıdı`,
+            headerTitle,
+            headerSub,
             `${formVals.grade} ${formVals.subject}`
         );
         renderedMarkdown.appendChild(examHeader);
@@ -613,7 +653,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 let themeClass = '';
                 let secMeta = { icon: 'fa-file-lines', tag: 'Bölüm' };
 
-                if (/bağlam/i.test(titleText)) {
+                if (/durumu\s*analiz|durum\s*analizi/i.test(titleText)) {
+                    themeClass = 'section-card-baglam';
+                    secMeta = { icon: 'fa-magnifying-glass-chart', tag: 'Durum Analizi' };
+                } else if (/çıkarım.*değerlendirme|değerlendirme.*çıkarım/i.test(titleText)) {
+                    themeClass = 'section-card-akil';
+                    secMeta = { icon: 'fa-scale-balanced', tag: 'Çıkarım & Değerlendirme' };
+                } else if (/hikmet.*değer|değer.*hikmet/i.test(titleText)) {
+                    themeClass = 'section-card-tefekkur';
+                    secMeta = { icon: 'fa-heart-circle-bolt', tag: 'Hikmet & Değer' };
+                } else if (/merkezi\s*kavram|çekirdek\s*tema/i.test(titleText)) {
+                    themeClass = 'section-card-kimlik';
+                    secMeta = { icon: 'fa-compass-drafting', tag: 'Merkezi Kavram' };
+                } else if (/örgütleme/i.test(titleText)) {
+                    themeClass = 'section-card-veri';
+                    secMeta = { icon: 'fa-folder-tree', tag: 'Örgütleme' };
+                } else if (/yapılandırma/i.test(titleText)) {
+                    themeClass = 'section-card-beceri';
+                    secMeta = { icon: 'fa-sitemap', tag: 'Yapılandırma' };
+                } else if (/bütünlük/i.test(titleText)) {
+                    themeClass = 'section-card-tefekkur';
+                    secMeta = { icon: 'fa-circle-nodes', tag: 'Bütünlük & Vahdet' };
+                } else if (/bağlam/i.test(titleText)) {
                     themeClass = 'section-card-baglam';
                     secMeta = { icon: 'fa-compass', tag: 'Gerçek Yaşam Bağlamı' };
                 } else if (/kanıt|veri|materyal/i.test(titleText)) {
@@ -731,6 +792,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
+
+            // E) Zihin Haritası Ağaç Şeması UX
+            body.querySelectorAll('pre, code').forEach(el => {
+                if (el.textContent.includes('├──') || el.textContent.includes('└──') || el.textContent.includes('│')) {
+                    el.classList.add('mind-map-tree');
+                }
+            });
         });
     }
 
@@ -1296,10 +1364,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const countAll = document.getElementById('countAll');
         const countWorksheet = document.getElementById('countWorksheet');
         const countTest = document.getElementById('countTest');
+        const countCaseStudy = document.getElementById('countCaseStudy');
+        const countMindMap = document.getElementById('countMindMap');
 
         if (countAll) countAll.textContent = total;
         if (countWorksheet) countWorksheet.textContent = materials.filter(m => m.contentType === 'worksheet').length;
         if (countTest) countTest.textContent = materials.filter(m => m.contentType === 'test').length;
+        if (countCaseStudy) countCaseStudy.textContent = materials.filter(m => m.contentType === 'case_study').length;
+        if (countMindMap) countMindMap.textContent = materials.filter(m => m.contentType === 'mind_map').length;
     }
 
     // İlk açılışta rozeti güncelle
@@ -1327,7 +1399,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 grade: formVals.grade,
                 subject: formVals.subject,
                 topic: topicName,
-                contentType: formVals.isTest ? 'test' : 'worksheet',
+                contentType: document.querySelector('input[name="contentType"]:checked')?.value || (formVals.isTest ? 'test' : 'worksheet'),
                 date: dateStr,
                 timestamp: now.getTime(),
                 markdown: content
@@ -1462,9 +1534,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'saved-card';
 
-            const isTest = item.contentType === 'test';
-            const badgeClass = isTest ? 'badge-test' : 'badge-worksheet';
-            const typeLabel = isTest ? '<i class="fa-solid fa-list-check"></i> Yaprak Test' : '<i class="fa-solid fa-pen-ruler"></i> Çalışma Kağıdı';
+            let badgeClass = 'badge-worksheet';
+            let typeLabel = '<i class="fa-solid fa-pen-ruler"></i> Çalışma Kağıdı';
+            if (item.contentType === 'test') {
+                badgeClass = 'badge-test';
+                typeLabel = '<i class="fa-solid fa-list-check"></i> Yaprak Test';
+            } else if (item.contentType === 'case_study') {
+                badgeClass = 'badge-case_study';
+                typeLabel = '<i class="fa-solid fa-magnifying-glass-chart"></i> Vaka Analizi';
+            } else if (item.contentType === 'mind_map') {
+                badgeClass = 'badge-mind_map';
+                typeLabel = '<i class="fa-solid fa-sitemap"></i> Zihin Haritası';
+            }
 
             card.innerHTML = `
                 <div>
@@ -1523,8 +1604,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Materyali Çalışma Alanına Yükleme
     function loadMaterialToWorkspace(item) {
         originalMarkdown = item.markdown;
-        currentMarkdown = item.markdown;
-        currentTitle = `${item.grade}_${item.subject}_${item.contentType === 'test' ? 'Yaprak_Test' : 'Calisma_Kagidi'}`;
+        let typeSuffix = 'Calisma_Kagidi';
+        if (item.contentType === 'test') typeSuffix = 'Yaprak_Test';
+        else if (item.contentType === 'case_study') typeSuffix = 'Vaka_Analizi';
+        else if (item.contentType === 'mind_map') typeSuffix = 'Zihin_Haritasi';
+
+        currentTitle = `${item.grade}_${item.subject}_${typeSuffix}`;
 
         const gradeEl = document.getElementById('grade');
         const subjectEl = document.getElementById('subject');
