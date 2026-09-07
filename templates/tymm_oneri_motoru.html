@@ -518,17 +518,6 @@
             margin-bottom: 16px;
         }
 
-        .output-content {
-            white-space: pre-wrap;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 14px;
-            line-height: 1.7;
-            color: #1E2A38;
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 8px;
-        }
-
         .spin {
             animation: spin 1s linear infinite;
         }
@@ -538,6 +527,553 @@
         }
 
         .hidden { display: none !important; }
+
+        /* ==========================================================================
+           MODERN MEB SINAV / TEST KİTAPÇIĞI & ÇALIŞMA KÂĞIDI TASARIMI
+           ========================================================================== */
+        .meb-paper-container {
+            background: #FFFFFF;
+            border: 1px solid #D1D5DB;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border-radius: 8px;
+            padding: 26px 30px;
+            margin-top: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #1F2937;
+            line-height: 1.6;
+        }
+
+        /* MEB Resmi Başlık Anteti */
+        .meb-official-header {
+            border: 2px solid #1E293B;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            background: #FAFAFA;
+        }
+
+        .meb-header-top {
+            text-align: center;
+            border-bottom: 1.5px solid #CBD5E1;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .meb-republic-text {
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #DC2626;
+            text-transform: uppercase;
+        }
+
+        .meb-ministry-title {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #0F172A;
+            margin: 2px 0;
+            text-transform: uppercase;
+        }
+
+        .meb-model-subtitle {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748B;
+            letter-spacing: 0.5px;
+        }
+
+        .meb-exam-main-title {
+            font-size: 16.5px;
+            font-weight: 800;
+            color: #1E3A8A;
+            margin-top: 6px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        /* Öğrenci Bilgi Tablosu */
+        .meb-student-info-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 8px;
+            font-size: 12px;
+            margin-top: 10px;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+
+        .meb-info-cell {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meb-info-label {
+            font-weight: 800;
+            color: #475569;
+            font-size: 10.5px;
+            text-transform: uppercase;
+        }
+
+        .meb-info-line {
+            border-bottom: 1px dotted #94A3B8;
+            height: 18px;
+            margin-top: 2px;
+        }
+
+        .meb-score-box {
+            background: #EFF6FF;
+            border: 1.5px solid #3B82F6;
+            border-radius: 4px;
+            text-align: center;
+            padding: 2px 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .meb-score-box .meb-info-label {
+            color: #1D4ED8;
+        }
+
+        .meb-score-box .score-val {
+            font-size: 13.5px;
+            font-weight: 900;
+            color: #1E3A8A;
+        }
+
+        /* Test Metadata Badges */
+        .meb-meta-tags-bar {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #E2E8F0;
+        }
+
+        .meb-tag-pill {
+            font-size: 11px;
+            font-weight: 700;
+            background: #F1F5F9;
+            color: #334155;
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1px solid #CBD5E1;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .meb-tag-pill.gold {
+            background: #FEF3C7;
+            color: #92400E;
+            border-color: #FCD34D;
+        }
+
+        .meb-tag-pill.blue {
+            background: #DBEAFE;
+            color: #1E40AF;
+            border-color: #93C5FD;
+        }
+
+        /* Soru Kartları */
+        .meb-questions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            margin-top: 18px;
+        }
+
+        .meb-q-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 18px 20px;
+            position: relative;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.2s;
+        }
+
+        .meb-q-card:hover {
+            border-color: #94A3B8;
+        }
+
+        .meb-q-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .meb-q-num-badge {
+            background: #0F172A;
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: 800;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.2);
+        }
+
+        .meb-q-level-pill {
+            font-size: 11px;
+            font-weight: 700;
+            color: #0284C7;
+            background: #F0F9FF;
+            border: 1px solid #BAE6FD;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        /* Uyarıcı / Bağlam / Metin Kutusu (Stimulus Box) */
+        .meb-stimulus-box {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-left: 4px solid #1E3A8A;
+            border-radius: 0 6px 6px 0;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #1E293B;
+        }
+
+        .meb-stimulus-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 800;
+            color: #1E3A8A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        /* Soru Kökü */
+        .meb-q-stem {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .meb-q-stem strong, .meb-q-stem b {
+            font-weight: 900;
+            color: #000000;
+            text-decoration: underline;
+            text-decoration-thickness: 1.5px;
+            text-underline-offset: 2px;
+        }
+
+        /* Seçenekler (A, B, C, D) */
+        .meb-options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .meb-option-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 7px 12px;
+            border-radius: 6px;
+            background: #FAFAF8;
+            border: 1px solid #EBE7DC;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .meb-option-row:hover {
+            background: #F1F5F9;
+            border-color: #CBD5E1;
+        }
+
+        .meb-option-row.active-selected {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+            font-weight: 600;
+        }
+
+        .meb-opt-badge {
+            background: #FFFFFF;
+            color: #1E293B;
+            border: 1.5px solid #94A3B8;
+            font-weight: 800;
+            font-size: 12px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .meb-option-row.active-selected .meb-opt-badge {
+            background: #1D4ED8;
+            color: #FFFFFF;
+            border-color: #1D4ED8;
+        }
+
+        .meb-opt-text {
+            flex: 1;
+            color: #1E293B;
+            line-height: 1.45;
+        }
+
+        /* Açık Uçlu / Vaka / Problem Çözme Yazma Çizgileri */
+        .meb-writing-box {
+            background: #FAF8F5;
+            border: 1px dashed #CBD5E1;
+            border-radius: 6px;
+            padding: 12px 14px;
+            margin-top: 10px;
+            min-height: 85px;
+            background-image: repeating-linear-gradient(transparent, transparent 25px, #E2E8F0 26px);
+            line-height: 26px;
+            font-size: 13.5px;
+            color: #475569;
+        }
+
+        .meb-writing-box-label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #64748B;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Doğru Yanlış Kutuları */
+        .meb-tf-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #F1F5F9;
+            font-size: 13.5px;
+        }
+
+        .meb-tf-bubbles {
+            display: flex;
+            gap: 4px;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .meb-tf-bubble {
+            border: 1.5px solid #64748B;
+            border-radius: 4px;
+            padding: 2px 6px;
+            color: #334155;
+            background: #FFFFFF;
+        }
+
+        /* TYMM 7 Bölümlü Çalışma Kâğıdı Kartı */
+        .meb-worksheet-section {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .meb-ws-sec-header {
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E2E8F0;
+            background: #F8FAFC;
+        }
+
+        .meb-ws-sec-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: #0F172A;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meb-ws-sec-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #E2E8F0;
+            color: #334155;
+        }
+
+        .meb-ws-sec-body {
+            padding: 14px 16px;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+
+        /* Öğretmen Rehberi & Rubrik Kartı */
+        .meb-teacher-card {
+            background: #F8FAFC;
+            border: 1.5px solid #0F172A;
+            border-radius: 8px;
+            margin-top: 30px;
+            overflow: hidden;
+            page-break-before: auto;
+        }
+
+        .meb-teacher-header {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: #FFFFFF;
+            padding: 12px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meb-teacher-title {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meb-teacher-body {
+            padding: 20px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Rubrik Tablosu */
+        .meb-rubric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 12.5px;
+        }
+
+        .meb-rubric-table th {
+            background: #0F172A;
+            color: #FFFFFF;
+            font-weight: 700;
+            padding: 8px 10px;
+            border: 1px solid #334155;
+            text-align: left;
+        }
+
+        .meb-rubric-table td {
+            padding: 8px 10px;
+            border: 1px solid #E2E8F0;
+            background: #FFFFFF;
+            vertical-align: top;
+        }
+
+        .meb-rubric-table tr:nth-child(even) td {
+            background: #F8FAFC;
+        }
+
+        /* 10 Maddeli Kalite Kontrol Tablosu */
+        .meb-qc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .meb-qc-item {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-left: 3px solid #16A34A;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+
+        .meb-qc-item strong {
+            color: #0F172A;
+        }
+
+        /* Görünüm Modu Switcher */
+        .view-mode-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            background: #F1F5F9;
+            padding: 4px;
+            border-radius: 6px;
+        }
+
+        .btn-view-mode {
+            flex: 1;
+            padding: 6px 12px;
+            font-size: 12.5px;
+            font-weight: 700;
+            border: none;
+            border-radius: 4px;
+            background: transparent;
+            color: #64748B;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-view-mode.active {
+            background: #FFFFFF;
+            color: #0F172A;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Print & PDF formatting */
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                padding: 0 !important;
+            }
+            .top-nav, .header-section, .pipeline-stepper, .card, #aiReportSection, #resultsSection, .output-toolbar, .view-mode-tabs, #openMatrixModalBtn {
+                display: none !important;
+            }
+            #documentSection {
+                display: block !important;
+            }
+            .output-box {
+                border: none !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+            .meb-paper-container {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .student-only-view .meb-teacher-card {
+                display: none !important;
+            }
+            .meb-q-card, .meb-worksheet-section {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                border: 1px solid #CBD5E1 !important;
+            }
+        }
 
         /* 3-Layer Visual Pipeline Stepper */
         .pipeline-stepper {
@@ -845,6 +1381,17 @@
                     <button type="button" class="btn-secondary" id="btnSaveLocal" style="background: #FAF8F2; border-color: var(--gold); color: var(--gold);"><i class="fa-solid fa-bookmark"></i> Kaydet</button>
                 </div>
             </div>
+
+            <!-- Görünüm Seçici Modlar -->
+            <div class="view-mode-tabs">
+                <button type="button" class="btn-view-mode active" id="btnModeStudent" onclick="setViewMode('student')">
+                    <i class="fa-solid fa-graduation-cap"></i> 👨‍🎓 MEB Sınav / Test Kitapçığı (Öğrenci Nüshası)
+                </button>
+                <button type="button" class="btn-view-mode" id="btnModeTeacher" onclick="setViewMode('teacher')">
+                    <i class="fa-solid fa-chalkboard-user"></i> 👨‍🏫 Öğretmen Rehberi &amp; Cevap Anahtarlı Tam Sürüm
+                </button>
+            </div>
+
             <div id="outputContent" class="output-content"></div>
         </div>
     </div>
@@ -1131,6 +1678,310 @@ function triggerAction(actionNum) {
 }
 
 let lastGeneratedParams = null;
+let currentGeneratedRawMarkdown = '';
+let currentViewMode = 'student'; // 'student' or 'teacher'
+
+function setViewMode(mode) {
+    currentViewMode = mode;
+    const btnS = document.getElementById('btnModeStudent');
+    const btnT = document.getElementById('btnModeTeacher');
+    const container = document.getElementById('mebPaperContainer');
+    
+    if (btnS && btnT) {
+        btnS.classList.toggle('active', mode === 'student');
+        btnT.classList.toggle('active', mode === 'teacher');
+    }
+    
+    if (container) {
+        if (mode === 'student') {
+            container.classList.add('student-only-view');
+        } else {
+            container.classList.remove('student-only-view');
+        }
+    }
+}
+
+// MEB Modern Soru & Materyal Formatlayıcı
+function renderMebDocument(rawMarkdown, meta) {
+    currentGeneratedRawMarkdown = rawMarkdown;
+    const outputContent = document.getElementById('outputContent');
+    if (!outputContent) return;
+
+    // 1. Metin Temizleme (LaTeX ve ok işaretleri)
+    let cleanText = rawMarkdown
+        .replace(/\\rightarrow/g, '→')
+        .replace(/\$\\rightarrow\$/g, '→')
+        .replace(/\\to/g, '→')
+        .replace(/\$\\to\$/g, '→')
+        .replace(/\$([^\$]+)\$/g, '$1');
+
+    // 2. MEB Ana Kağıt Kapsayıcısı
+    const paper = document.createElement('div');
+    paper.id = 'mebPaperContainer';
+    paper.className = `meb-paper-container ${currentViewMode === 'student' ? 'student-only-view' : ''}`;
+
+    // 3. MEB Resmi Başlık Anteti
+    const headerEl = document.createElement('div');
+    headerEl.className = 'meb-official-header';
+    
+    const subjectUpper = (meta.subject || 'DERS').toUpperCase();
+    const gradeUpper = (meta.grade || 'SINIF').toUpperCase();
+    const toolUpper = (meta.tool_name || 'ÖLÇME VE DEĞERLENDİRME ARACI').toUpperCase();
+    
+    headerEl.innerHTML = `
+        <div class="meb-header-top">
+            <div class="meb-republic-text"><i class="fa-solid fa-star-and-crescent"></i> T.C. MİLLÎ EĞİTİM BAKANLIĞI</div>
+            <div class="meb-ministry-title">TÜRKİYE YÜZYILI MAARİF MODELİ ÖLÇME VE DEĞERLENDİRME MERKEZİ</div>
+            <div class="meb-model-subtitle">Süreç, Beceri ve Bağlam Odaklı Biçimlendirici Değerlendirme Aracı</div>
+            <div class="meb-exam-main-title">${gradeUpper} ${subjectUpper} DERSİ · ${toolUpper}</div>
+        </div>
+        <div class="meb-student-info-grid">
+            <div class="meb-info-cell">
+                <span class="meb-info-label">ÖĞRENCİ ADI SOYADI:</span>
+                <div class="meb-info-line"></div>
+            </div>
+            <div class="meb-info-cell">
+                <span class="meb-info-label">SINIFI / ŞUBESİ:</span>
+                <div class="meb-info-line"></div>
+            </div>
+            <div class="meb-info-cell">
+                <span class="meb-info-label">OKUL NUMARASI:</span>
+                <div class="meb-info-line"></div>
+            </div>
+            <div class="meb-info-cell">
+                <span class="meb-info-label">UYGULAMA TARİHİ:</span>
+                <div class="meb-info-line"></div>
+            </div>
+            <div class="meb-score-box">
+                <span class="meb-info-label">DEĞERLENDİRME</span>
+                <span class="score-val">___ / 100</span>
+            </div>
+        </div>
+        <div class="meb-meta-tags-bar">
+            <span class="meb-tag-pill"><i class="fa-solid fa-compass"></i> <strong>Öğrenme Alanı:</strong> ${meta.learning_area || meta.subject}</span>
+            <span class="meb-tag-pill gold"><i class="fa-solid fa-bullseye"></i> <strong>Kazanım / Çıktı:</strong> ${(meta.topic || '').substring(0, 45)}...</span>
+            <span class="meb-tag-pill blue"><i class="fa-solid fa-layer-group"></i> <strong>Bilişsel Düzey:</strong> ${meta.cognitive_level || 'Uygulama / Analiz'}</span>
+            <span class="meb-tag-pill"><i class="fa-solid fa-clock"></i> <strong>Süre:</strong> ${meta.duration || '40 Dakika'}</span>
+            <span class="meb-tag-pill"><i class="fa-solid fa-file-signature"></i> <strong>Kitapçık Türü:</strong> [ A KİTAPÇIĞI ]</span>
+        </div>
+    `;
+    paper.appendChild(headerEl);
+
+    // 4. İçeriği Öğrenci Kısmı ve Öğretmen Rehberi/Rubrik/Kalite Kontrol olarak ayırma
+    let studentText = cleanText;
+    let teacherText = '';
+
+    const splitRegex = /(?:^|\n)(?:#+\s*)?(?:ÖĞRETMEN\s*REHBERİ|CEVAP\s*ANAHTARI|ÖĞRETMEN\s*BÖLÜMÜ|DEĞERLENDİRME\s*ÖLÇÜTLERİ\s*VE\s*RUBRİK|DERECELİ\s*PUANLAMA\s*ANAHTARI|10\s*MADDELİ\s*TYMM\s*KALİTE\s*KONTROL|10\s*BOYUTLU\s*İKİNCİ\s*YAPAY\s*ZEKÂ\s*KALİTE\s*KONTROL|KALİTE\s*KONTROL\s*RAPORU)/i;
+    const splitMatch = cleanText.match(splitRegex);
+
+    if (splitMatch && splitMatch.index !== undefined) {
+        studentText = cleanText.substring(0, splitMatch.index).trim();
+        teacherText = cleanText.substring(splitMatch.index).trim();
+    }
+
+    // 5. Öğrenci Soruları / Etkinlik Bölümleri Kapsayıcısı
+    const questionsContainer = document.createElement('div');
+    questionsContainer.className = 'meb-questions-container';
+
+    const isQuestionSet = /(?:Soru\s*\d+|\d+\.\s*Soru|\n\s*\d+[.):]\s*[A-ZÇĞİÖŞÜ])/i.test(studentText);
+
+    if (isQuestionSet) {
+        // Çoktan Seçmeli / Açık Uçlu Test Soruları Ayrıştırıcı
+        const qBlocks = studentText.split(/(?=(?:^|\n)(?:#+\s*)?(?:Soru\s*\d+|\d+\.\s*Soru|\d+\.\s*(?=[A-ZÇĞİÖŞÜ\n]))|(?=(?:^|\n)###\s*\d+))/i).filter(b => b.trim().length > 5);
+
+        let qIndex = 0;
+        qBlocks.forEach((block, bIdx) => {
+            const trimmed = block.trim();
+            if (!trimmed) return;
+
+            // Soru 1 öncesi giriş / bağlam metni
+            if (!/(?:Soru\s*\d+|\d+\.\s*Soru|\d+[.):])/i.test(trimmed) && bIdx === 0) {
+                const introEl = document.createElement('div');
+                introEl.className = 'meb-stimulus-box';
+                introEl.innerHTML = marked.parse(trimmed);
+                questionsContainer.appendChild(introEl);
+                return;
+            }
+
+            qIndex++;
+            const qCard = document.createElement('div');
+            qCard.className = 'meb-q-card';
+
+            const numMatch = trimmed.match(/(?:Soru\s*|SORU\s*)?(\d+)/i);
+            const qNum = numMatch ? numMatch[1] : qIndex;
+
+            const levelMatch = trimmed.match(/\(([^)]*(?:Bloom|Analiz|Uygulama|Değerlendirme|Anlama|Hatırlama|Puan|PISA|KB\d)[^)]*)\)/i);
+            const levelText = levelMatch ? levelMatch[1] : `Soru ${qNum} · TYMM`;
+
+            let bodyText = trimmed.replace(/^(?:#+\s*)?(?:Soru\s*\d+|\d+\.\s*Soru|\d+[.):])[^\n]*\n?/i, '').trim();
+
+            // Seçenekleri ayır (A, B, C, D, E)
+            const options = [];
+            const optionLines = bodyText.match(/(?:^|\n)\s*[-*]?\s*([A-E])\s*[).:]\s*([^\n]+)/g);
+            
+            let stemText = bodyText;
+            if (optionLines && optionLines.length >= 2) {
+                optionLines.forEach(ol => {
+                    stemText = stemText.replace(ol, '');
+                    const m = ol.trim().match(/[-*]?\s*([A-E])\s*[).:]\s*(.*)/i);
+                    if (m) {
+                        options.push({ letter: m[1].toUpperCase(), text: m[2].trim() });
+                    }
+                });
+            }
+
+            // Bağlam / Uyarıcı Metin ile Soru Kökü Ayrımı
+            let stimulusText = '';
+            const stimMatch = stemText.match(/(?:(?:Bağlam|Örnek Olay|Metin|Durum|Veri|Bilgi)\s*:\s*)([\s\S]+?)(?=\n\s*(?:Buna göre|Bu durumda|Yukarıdaki|Buna dayanarak|\*\*Buna göre|\n\s*Soru:|\n\s*\*\*))/i);
+            
+            if (stimMatch) {
+                stimulusText = stimMatch[1].trim();
+                stemText = stemText.replace(stimMatch[0], '').trim();
+            } else if (stemText.split('\n\n').length > 1) {
+                const parts = stemText.split('\n\n');
+                if (parts.length >= 2 && (parts[parts.length - 1].includes('Buna göre') || parts[parts.length - 1].includes('?') || parts[parts.length - 1].includes('hangisidir') || parts[parts.length - 1].includes('ulaşılabilir'))) {
+                    stimulusText = parts.slice(0, -1).join('\n\n').trim();
+                    stemText = parts[parts.length - 1].trim();
+                }
+            }
+
+            let cardHtml = `
+                <div class="meb-q-header">
+                    <span class="meb-q-num-badge">${qNum}</span>
+                    <span class="meb-q-level-pill"><i class="fa-solid fa-graduation-cap"></i> ${levelText}</span>
+                </div>
+            `;
+
+            if (stimulusText) {
+                cardHtml += `
+                    <div class="meb-stimulus-box">
+                        <span class="meb-stimulus-tag"><i class="fa-solid fa-book-open"></i> BAĞLAM &amp; ÖRNEK OLAY METNİ</span>
+                        <div>${marked.parse(stimulusText)}</div>
+                    </div>
+                `;
+            }
+
+            if (stemText) {
+                let highlightedStem = marked.parse(stemText)
+                    .replace(/(ulaşılamaz|değildir|yanlıştır|savunulamaz|beklenemez|en uygundur|doğrudur|sağlar)/gi, '<strong>$1</strong>');
+                cardHtml += `<div class="meb-q-stem">${highlightedStem}</div>`;
+            }
+
+            if (options.length > 0) {
+                cardHtml += `<div class="meb-options-grid">`;
+                options.forEach(opt => {
+                    cardHtml += `
+                        <div class="meb-option-row" onclick="this.classList.toggle('active-selected')">
+                            <span class="meb-opt-badge">${opt.letter}</span>
+                            <span class="meb-opt-text">${opt.text}</span>
+                        </div>
+                    `;
+                });
+                cardHtml += `</div>`;
+            } else if (/doğru\s*[\-\–]\s*yanlış/i.test(meta.tool_name || '') || meta.content_type === 'true_false') {
+                cardHtml += `
+                    <div style="display: flex; gap: 10px; align-items: center; margin-top: 10px;">
+                        <span class="meb-tf-bubble">[ D ]</span>
+                        <span class="meb-tf-bubble">[ Y ]</span>
+                        <span style="font-size: 13px; color: #64748B;">(Uygun seçeneği işaretleyiniz ve altına gerekçenizi yazınız)</span>
+                    </div>
+                    <div class="meb-writing-box" contenteditable="true">
+                        <div class="meb-writing-box-label"><i class="fa-solid fa-pen-nib"></i> DÜZELTME VE GEREKÇE ALANI</div>
+                    </div>
+                `;
+            } else {
+                cardHtml += `
+                    <div class="meb-writing-box" contenteditable="true">
+                        <div class="meb-writing-box-label"><i class="fa-solid fa-pen-nib"></i> ÖĞRENCİ ÇÖZÜM VE GEREKÇELENDİRME YAZMA ALANI</div>
+                    </div>
+                `;
+            }
+
+            qCard.innerHTML = cardHtml;
+            questionsContainer.appendChild(qCard);
+        });
+
+    } else {
+        // Modüler Bölümler (7 Bölümlü Çalışma Kâğıdı, Novak Kavram Haritası, Vaka Analizi Basamakları)
+        const parsedHtml = marked.parse(studentText);
+        const temp = document.createElement('div');
+        temp.innerHTML = parsedHtml;
+
+        const sections = [];
+        let curSec = null;
+
+        Array.from(temp.children).forEach(child => {
+            const text = child.textContent.trim();
+            const isHeading = ['h1', 'h2', 'h3', 'h4'].includes(child.tagName.toLowerCase()) || /^(?:BÖLÜM\s*\d+|[0-9]+\.\s*)/i.test(text);
+
+            if (isHeading || !curSec) {
+                curSec = {
+                    title: text.replace(/^#+\s*/, ''),
+                    nodes: []
+                };
+                sections.push(curSec);
+                if (isHeading) return;
+            }
+            curSec.nodes.push(child);
+        });
+
+        sections.forEach((sec, sIdx) => {
+            const secCard = document.createElement('div');
+            secCard.className = 'meb-worksheet-section';
+
+            const secHeader = document.createElement('div');
+            secHeader.className = 'meb-ws-sec-header';
+            secHeader.innerHTML = `
+                <div class="meb-ws-sec-title">
+                    <span class="meb-q-num-badge">${sIdx + 1}</span>
+                    <span>${sec.title || `Bölüm 0${sIdx + 1}`}</span>
+                </div>
+                <span class="meb-ws-sec-badge"><i class="fa-solid fa-compass-drafting"></i> TYMM Etkinlik Bölümü</span>
+            `;
+            secCard.appendChild(secHeader);
+
+            const secBody = document.createElement('div');
+            secBody.className = 'meb-ws-sec-body';
+            sec.nodes.forEach(n => secBody.appendChild(n));
+
+            if (sIdx > 0 && !secBody.innerHTML.includes('meb-writing-box') && !secBody.innerHTML.includes('<table>')) {
+                const writeBox = document.createElement('div');
+                writeBox.className = 'meb-writing-box';
+                writeBox.contentEditable = 'true';
+                writeBox.innerHTML = '<div class="meb-writing-box-label"><i class="fa-solid fa-pen-nib"></i> ÖĞRENCİ ÇALIŞMA VE YANIT ALANI</div>';
+                secBody.appendChild(writeBox);
+            }
+
+            secCard.appendChild(secBody);
+            questionsContainer.appendChild(secCard);
+        });
+    }
+
+    paper.appendChild(questionsContainer);
+
+    // 6. Öğretmen Rehberi, Rubrik ve Kalite Kontrol Raporu Kartı
+    if (teacherText) {
+        const teacherCard = document.createElement('div');
+        teacherCard.className = 'meb-teacher-card';
+        
+        teacherCard.innerHTML = `
+            <div class="meb-teacher-header">
+                <div class="meb-teacher-title">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <span>MEB ÖĞRETMEN REHBERİ, ANALİTİK RUBRİK &amp; 10 BOYUTLU KALİTE KONTROL RAPORU</span>
+                </div>
+                <span style="font-size: 11px; background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 12px;"><i class="fa-solid fa-lock"></i> Öğretmen Özel Nüshası</span>
+            </div>
+            <div class="meb-teacher-body">
+                ${marked.parse(teacherText)}
+            </div>
+        `;
+        paper.appendChild(teacherCard);
+    }
+
+    outputContent.innerHTML = '';
+    outputContent.appendChild(paper);
+}
 
 // Tek Tıkla Materyal Üretme (3. Katman)
 async function generateToolDoc(toolName, kategori, explicitContentType = null) {
@@ -1152,7 +2003,7 @@ async function generateToolDoc(toolName, kategori, explicitContentType = null) {
 
     docTitle.innerHTML = `<i class="fa-solid fa-spinner spin"></i> Yapay Zekâ "${toolName}" Materyalini Hazırlıyor...`;
     outputHeader.textContent = `${toolName} Hazırlanıyor...`;
-    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> TYMM ve Maarif ilkeleri doğrultusunda öğrenci çalışma dokümanı, analitik rubrik ve kalite kontrol raporu yazılıyor, lütfen bekleyiniz...</div>';
+    outputContent.innerHTML = '<div style="color: #64748b; padding: 25px; text-align: center;"><i class="fa-solid fa-spinner spin" style="font-size: 24px; color: var(--gold);"></i><br><br><strong>MEB Soru Kitapçığı &amp; TYMM Değerlendirme Materyali Hazırlanıyor...</strong><br><span style="font-size:12px; color:#64748b;">Otantik bağlam, çeldirici analizleri, analitik rubrik ve 10 boyutlu kalite kontrol denetimi yapılıyor.</span></div>';
     
     docSection.classList.remove('hidden');
     docSection.scrollIntoView({ behavior: 'smooth' });
@@ -1210,10 +2061,12 @@ async function generateToolDoc(toolName, kategori, explicitContentType = null) {
 
         docTitle.innerHTML = `<i class="fa-solid fa-file-circle-check" style="color:var(--teal);"></i> ${toolName} Dokümanı Hazır`;
         outputHeader.textContent = `${ders} (${sinif}) · ${toolName}`;
-        outputContent.textContent = result.content;
+        
+        // Render with Modern MEB Layout
+        renderMebDocument(result.content, payload);
 
     } catch (err) {
-        outputContent.innerHTML = `<div style="color: #b91c1c; padding: 12px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
+        outputContent.innerHTML = `<div style="color: #b91c1c; padding: 14px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
         docTitle.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#b91c1c;"></i> Üretim Başarısız`;
     }
 }
@@ -1237,7 +2090,7 @@ async function generateDualTools() {
 
     docTitle.innerHTML = `<i class="fa-solid fa-spinner spin"></i> İkili Hibrit Ölçme Paketi (Birincil + İkincil Araç) Hazırlanıyor...`;
     outputHeader.textContent = `İkili Ölçme Paketi Hazırlanıyor...`;
-    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> Birincil derinleşme etkinliği, ikincil kazanım kontrol testi, analitik rubrik ve kalite kontrol raporu yazılıyor...</div>';
+    outputContent.innerHTML = '<div style="color: #64748b; padding: 25px; text-align: center;"><i class="fa-solid fa-spinner spin" style="font-size: 24px; color: var(--gold);"></i><br><br><strong>İkili Hibrit Ölçme Paketi Hazırlanıyor...</strong><br><span style="font-size:12px; color:#64748b;">Birincil derinleşme etkinliği, ikincil kontrol testi, rubrik ve MEB kalite kontrol raporu yazılıyor.</span></div>';
     
     docSection.classList.remove('hidden');
     docSection.scrollIntoView({ behavior: 'smooth' });
@@ -1256,6 +2109,7 @@ async function generateDualTools() {
             cognitive_level: selectedBilissel,
             difficulty: zorluk,
             duration: sure,
+            tool_name: 'İkili Hibrit Ölçme Paketi',
             content_type: 'dual'
         };
 
@@ -1274,10 +2128,11 @@ async function generateDualTools() {
 
         docTitle.innerHTML = `<i class="fa-solid fa-boxes-stacked" style="color:var(--teal);"></i> İkili Hibrit Ölçme Paketi Hazır`;
         outputHeader.textContent = `${ders} (${sinif}) · İkili Hibrit Ölçme Paketi (Vaka + Test/Harita + Rubrik)`;
-        outputContent.textContent = result.content;
+        
+        renderMebDocument(result.content, payload);
 
     } catch (err) {
-        outputContent.innerHTML = `<div style="color: #b91c1c; padding: 12px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
+        outputContent.innerHTML = `<div style="color: #b91c1c; padding: 14px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
     }
 }
 
@@ -1297,22 +2152,24 @@ let isEditing = false;
 const btnToggleEdit = document.getElementById('btnToggleEdit');
 if (btnToggleEdit) {
     btnToggleEdit.addEventListener('click', () => {
-        const outputContent = document.getElementById('outputContent');
+        const paper = document.getElementById('mebPaperContainer') || document.getElementById('outputContent');
         isEditing = !isEditing;
-        outputContent.contentEditable = isEditing;
+        
+        // Editable alanları ayarla
+        const editableElements = paper.querySelectorAll('.meb-q-card, .meb-stimulus-box, .meb-q-stem, .meb-opt-text, .meb-ws-sec-body, .meb-teacher-body');
+        editableElements.forEach(el => {
+            el.contentEditable = isEditing;
+        });
+
         if (isEditing) {
-            outputContent.style.outline = '2px dashed var(--gold)';
-            outputContent.style.background = '#FFFFFA';
-            outputContent.style.padding = '12px';
-            outputContent.style.borderRadius = '6px';
+            paper.style.outline = '2px dashed var(--gold)';
+            paper.style.background = '#FFFFFA';
             btnToggleEdit.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Düzenlemeyi Bitir';
             btnToggleEdit.style.background = '#FEF3C7';
             btnToggleEdit.style.color = '#92400E';
-            outputContent.focus();
         } else {
-            outputContent.style.outline = 'none';
-            outputContent.style.background = 'transparent';
-            outputContent.style.padding = '0';
+            paper.style.outline = 'none';
+            paper.style.background = '#FFFFFF';
             btnToggleEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Düzenle';
             btnToggleEdit.style.background = '';
             btnToggleEdit.style.color = '';
@@ -1337,8 +2194,8 @@ if (btnRefreshDoc) {
 const btnSaveLocal = document.getElementById('btnSaveLocal');
 if (btnSaveLocal) {
     btnSaveLocal.addEventListener('click', () => {
-        const content = document.getElementById('outputContent').textContent;
-        if (!content || content.includes('Hazırlanıyor')) {
+        const paper = document.getElementById('mebPaperContainer');
+        if (!paper || !currentGeneratedRawMarkdown) {
             alert("Henüz kaydedilecek bir materyal üretilmedi.");
             return;
         }
@@ -1347,7 +2204,7 @@ if (btnSaveLocal) {
             id: 'tymm_' + Date.now(),
             title: title,
             date: new Date().toLocaleString('tr-TR'),
-            content: content
+            content: currentGeneratedRawMarkdown
         };
         try {
             const saved = JSON.parse(localStorage.getItem('tymm_saved_materials') || '[]');
@@ -1363,7 +2220,7 @@ if (btnSaveLocal) {
 
 // Kopyala
 document.getElementById('btnCopyDoc').addEventListener('click', () => {
-    const text = document.getElementById('outputContent').textContent;
+    const text = currentGeneratedRawMarkdown || document.getElementById('outputContent').innerText;
     if (text) {
         navigator.clipboard.writeText(text);
         const btn = document.getElementById('btnCopyDoc');
