@@ -539,10 +539,82 @@
 
         .hidden { display: none !important; }
 
+        /* 3-Layer Visual Pipeline Stepper */
+        .pipeline-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .pipeline-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1.5px solid transparent;
+            background: #FAFAF8;
+        }
+
+        .pipeline-step.active {
+            background: #FDFBF7;
+            border-color: var(--gold);
+            box-shadow: 0 2px 8px rgba(138, 109, 59, 0.12);
+        }
+
+        .pipeline-step.completed {
+            background: #F0FDF4;
+            border-color: #86efac;
+        }
+
+        .step-badge {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pipeline-step.completed .step-badge {
+            color: #16a34a;
+        }
+
+        .step-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .step-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .pipeline-arrow {
+            padding: 0 8px;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
         @media (max-width: 650px) {
             .form-row { grid-template-columns: 1fr; }
             .action-buttons-grid { grid-template-columns: 1fr; }
             .teacher-options-grid { grid-template-columns: 1fr; }
+            .pipeline-stepper { flex-direction: column; gap: 8px; align-items: stretch; }
+            .pipeline-arrow { display: none; }
         }
     </style>
 </head>
@@ -562,15 +634,38 @@
 
     <!-- Başlık Bölümü -->
     <div class="header-section">
-        <div class="tagline"><i class="fa-solid fa-compass-drafting"></i> TYMM · Yapay Zekâ Destekli Ölçme ve Değerlendirme Uzmanı</div>
-        <h1>Ölçme Aracı Öneri ve Analiz Motoru</h1>
+        <div class="tagline"><i class="fa-solid fa-compass-drafting"></i> 3 KATMANLI TYMM SİSTEMİ · ÖLÇME &amp; DEĞERLENDİRME</div>
+        <h1>TYMM 3 Katmanlı Ölçme-Değerlendirme ve Üretim Motoru</h1>
         <p class="desc">
-            Öğrenme çıktısının eylem fiillerini, bilişsel düzeyini, hedeflenen becerisini, süreç bileşenini ve beklenen öğrenme kanıtını birlikte analiz eder; en uygun araçları gerekçeleriyle önerir ve doğrudan kullanıma hazır materyal üretir.
+            Öğrenme çıktısını derinlemesine pedagojik analize tabi tutar, 9 temel ölçme aracını puanlayarak en uygun 3 aracı önerir; öğretmen onayladığında analitik rubrik ve TYMM kalite kontrol raporuyla birlikte eksiksiz materyal üretir.
         </p>
     </div>
 
-    <!-- Form Kartı -->
+    <!-- 3 Katmanlı Boru Hattı Göstergesi (Pipeline Stepper) -->
+    <div class="pipeline-stepper">
+        <div class="pipeline-step active" id="step1Indicator">
+            <div class="step-badge"><i class="fa-solid fa-circle-dot"></i> 1. Katman</div>
+            <div class="step-title">Analiz Motoru</div>
+            <div class="step-desc">Fiil, Bilişsel Düzey, Beceri, Süreç ve Kanıt Çıkarımı</div>
+        </div>
+        <div class="pipeline-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        <div class="pipeline-step" id="step2Indicator">
+            <div class="step-badge"><i class="fa-regular fa-circle"></i> 2. Katman</div>
+            <div class="step-title">Öneri Motoru</div>
+            <div class="step-desc">9 Araç Karşılaştırma &amp; En Uygun 3 Araç Puanlaması</div>
+        </div>
+        <div class="pipeline-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+        <div class="pipeline-step" id="step3Indicator">
+            <div class="step-badge"><i class="fa-regular fa-circle"></i> 3. Katman</div>
+            <div class="step-title">Üretim Motoru</div>
+            <div class="step-desc">Ölçme Materyali + Analitik Rubrik + Kalite Kontrol</div>
+        </div>
+    </div>
+
+    <!-- 1. Katman Form Kartı -->
     <div class="card">
+        <div class="section-title"><i class="fa-solid fa-microscope"></i> 1. Katman — Analiz Motoru: Kazanım &amp; Pedagojik Girdiler</div>
+        
         <!-- Hızlı Şablonlar -->
         <div class="samples-bar">
             <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--gold);"></i>
@@ -627,52 +722,52 @@
         <div class="action-buttons-grid">
             <button type="button" class="btn-ai-analyze" id="btnAiAnaliz">
                 <i class="fa-solid fa-brain"></i>
-                <span id="btnAiText">🧠 Yapay Zekâ TYMM Uzman Analizi</span>
+                <span id="btnAiText">🧠 2. Katmana İlerle: Yapay Zekâ Analiz &amp; Öneri</span>
             </button>
             <button type="button" class="btn-fast-analyze" id="btnFastAnaliz">
                 <i class="fa-solid fa-bolt"></i>
-                <span id="btnFastText">⚡ Hızlı Araç Eşleştirme</span>
+                <span id="btnFastText">⚡ Hızlı Araç Eşleştirme (Algoritmik)</span>
             </button>
         </div>
     </div>
 
-    <!-- Yapay Zekâ Derin Rapor Alanı -->
+    <!-- 2. Katman Yapay Zekâ Derin Rapor Alanı -->
     <div id="aiReportSection" class="hidden">
-        <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> TYMM Ölçme ve Değerlendirme Uzman Raporu</div>
+        <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> 2. Katman — Öneri Motoru: TYMM Pedagojik Analiz &amp; 9 Araç Karşılaştırma Raporu</div>
         <div class="ai-report-box" id="aiReportContent"></div>
         
-        <!-- 4 Seçenek Butonları -->
-        <div class="section-title"><i class="fa-solid fa-sliders"></i> Öğretmen Eylem Seçenekleri</div>
+        <!-- 3. Katmana Geçiş Butonları -->
+        <div class="section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> 3. Katman — Üretim Motoru: Ölçme Aracını Seç ve Üret</div>
         <div class="teacher-options-grid">
             <button type="button" class="btn-teacher-opt primary-opt" onclick="triggerAction(1)">
-                <span>[1]</span> 🛠️ 1. Önerilen Ölçme Aracını Oluştur
+                <span>[1]</span> 🛠️ 1. Önerilen Ölçme Aracını Üret (Rubrik + Kalite Kontrol)
             </button>
             <button type="button" class="btn-teacher-opt" onclick="triggerAction(2)">
-                <span>[2]</span> 🔄 2. veya 3. Alternatif Aracı Oluştur
+                <span>[2]</span> 🔄 2. veya 3. Alternatif Aracı Üret
             </button>
             <button type="button" class="btn-teacher-opt" onclick="triggerAction(3)">
-                <span>[3]</span> 📊 Tüm 9 Ölçme Aracını Karşılaştır
+                <span>[3]</span> 📊 Tüm 9 Ölçme Aracını Puan Matrisinde İncele
             </button>
             <button type="button" class="btn-teacher-opt" onclick="triggerAction(4)">
-                <span>[4]</span> 📦 İkili Hibrit Paket Oluştur (Birincil + İkincil)
+                <span>[4]</span> 📦 İkili Hibrit Paket Oluştur (Birincil + İkincil Araç + Rubrik)
             </button>
         </div>
     </div>
 
-    <!-- Hızlı Eşleştirme Sonuçları Bölümü -->
+    <!-- 2. Katman Hızlı Eşleştirme Sonuçları Bölümü -->
     <div id="resultsSection" class="hidden">
-        <div class="section-title"><i class="fa-solid fa-list-check"></i> Öğrenme Çıktısı Analiz Özeti</div>
+        <div class="section-title"><i class="fa-solid fa-list-check"></i> 2. Katman — Öneri Motoru: Öğrenme Çıktısı Analiz Özeti</div>
         <div id="summaryBadge" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: #3C4652; margin-bottom: 20px;"></div>
 
-        <div class="section-title"><i class="fa-solid fa-trophy"></i> Önerilen En Uygun 5 Ölçme Aracı</div>
+        <div class="section-title"><i class="fa-solid fa-trophy"></i> 2. Katman — Önerilen En Uygun 5 Ölçme Aracı</div>
         <div id="matchesContainer"></div>
 
         <div class="general-reason-box" id="genelNedenBox"></div>
     </div>
 
-    <!-- Üretilen Doküman Bölümü -->
+    <!-- 3. Katman Üretilen Doküman Bölümü -->
     <div id="documentSection" class="hidden">
-        <div class="section-title" id="docSectionTitle"><i class="fa-solid fa-file-lines"></i> Oluşturulan Doküman</div>
+        <div class="section-title" id="docSectionTitle"><i class="fa-solid fa-file-circle-check"></i> 3. Katman — Üretim Motoru: Hazır Materyal, Rubrik &amp; Kalite Kontrol Raporu</div>
         <div class="output-box">
             <div class="output-toolbar">
                 <div style="font-weight: 700; color: var(--primary); font-size: 14px;" id="outputToolHeader">
@@ -738,6 +833,37 @@ let selectedBilissel = "Uygulama";
 let lastTopRecommended = "Vaka Analizi";
 let lastSecondaryRecommended = "Bağlam Temelli Çoktan Seçmeli Test";
 
+// 3 Katmanlı Boru Hattı Durum Güncelleyici
+function setPipelineStep(step) {
+    const s1 = document.getElementById('step1Indicator');
+    const s2 = document.getElementById('step2Indicator');
+    const s3 = document.getElementById('step3Indicator');
+    if (!s1 || !s2 || !s3) return;
+
+    [s1, s2, s3].forEach(s => {
+        s.classList.remove('active', 'completed');
+        const b = s.querySelector('.step-badge i');
+        if (b) b.className = 'fa-regular fa-circle';
+    });
+
+    if (step === 1) {
+        s1.classList.add('active');
+        s1.querySelector('.step-badge i').className = 'fa-solid fa-circle-dot';
+    } else if (step === 2) {
+        s1.classList.add('completed');
+        s1.querySelector('.step-badge i').className = 'fa-solid fa-circle-check';
+        s2.classList.add('active');
+        s2.querySelector('.step-badge i').className = 'fa-solid fa-circle-dot';
+    } else if (step === 3) {
+        s1.classList.add('completed');
+        s1.querySelector('.step-badge i').className = 'fa-solid fa-circle-check';
+        s2.classList.add('completed');
+        s2.querySelector('.step-badge i').className = 'fa-solid fa-circle-check';
+        s3.classList.add('active');
+        s3.querySelector('.step-badge i').className = 'fa-solid fa-circle-dot';
+    }
+}
+
 // Bilişsel Düzey Çipleri
 document.querySelectorAll('#bilisselChips .chip-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -762,10 +888,11 @@ document.getElementById('quickSampleSelect').addEventListener('change', (e) => {
         document.querySelectorAll('#bilisselChips .chip-btn').forEach(b => {
             b.classList.toggle('active', b.getAttribute('data-val') === s.bilissel);
         });
+        setPipelineStep(1);
     }
 });
 
-// 1. YAPAY ZEKÂ TYMM UZMAN ANALİZİ (GEMINI)
+// 1. & 2. KATMAN: YAPAY ZEKÂ TYMM UZMAN ANALİZİ (GEMINI)
 document.getElementById('btnAiAnaliz').addEventListener('click', async () => {
     const ders = document.getElementById('inputDers').value.trim();
     const sinif = document.getElementById('inputSinif').value.trim();
@@ -778,14 +905,16 @@ document.getElementById('btnAiAnaliz').addEventListener('click', async () => {
         return;
     }
 
+    setPipelineStep(2);
+
     const btn = document.getElementById('btnAiAnaliz');
     const btnText = document.getElementById('btnAiText');
     btn.disabled = true;
-    btnText.innerHTML = '<i class="fa-solid fa-spinner spin"></i> TYMM Uzmanı Analiz Ediyor...';
+    btnText.innerHTML = '<i class="fa-solid fa-spinner spin"></i> 1. Katman Analiz Ediliyor &amp; 2. Katman Önerileri Hazırlanıyor...';
 
     const aiReportSec = document.getElementById('aiReportSection');
     const aiReportContent = document.getElementById('aiReportContent');
-    aiReportContent.innerHTML = '<div style="color: #64748b; padding: 20px;"><i class="fa-solid fa-spinner spin"></i> Öğrenme çıktısı, eylem fiilleri, bilişsel basamak ve 9 ölçme aracı yapay zekâ tarafından derinlemesine değerlendiriliyor...</div>';
+    aiReportContent.innerHTML = '<div style="color: #64748b; padding: 20px;"><i class="fa-solid fa-spinner spin"></i> Öğrenme çıktısı, eylem fiilleri, bilişsel basamak, süreç bileşeni ve 9 ölçme aracı 3 katmanlı algoritmada derinlemesine değerlendiriliyor...</div>';
     aiReportSec.classList.remove('hidden');
     aiReportSec.scrollIntoView({ behavior: 'smooth' });
 
@@ -833,11 +962,11 @@ document.getElementById('btnAiAnaliz').addEventListener('click', async () => {
         aiReportContent.innerHTML = `<div style="color: #b91c1c; padding: 14px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
     } finally {
         btn.disabled = false;
-        btnText.innerHTML = '🧠 Yapay Zekâ TYMM Uzman Analizi';
+        btnText.innerHTML = '🧠 2. Katmana İlerle: Yapay Zekâ Analiz &amp; Öneri';
     }
 });
 
-// 2. HIZLI ARAÇ EŞLEŞTİRME
+// 2. KATMAN HIZLI ARAÇ EŞLEŞTİRME
 document.getElementById('btnFastAnaliz').addEventListener('click', () => {
     const ders = document.getElementById('inputDers').value.trim();
     const sinif = document.getElementById('inputSinif').value.trim();
@@ -850,6 +979,7 @@ document.getElementById('btnFastAnaliz').addEventListener('click', () => {
         return;
     }
 
+    setPipelineStep(2);
     const inputData = { ders, sinif, kazanim, bilissel: selectedBilissel, beceri, surec };
     
     // Skorla
@@ -933,8 +1063,9 @@ function triggerAction(actionNum) {
     }
 }
 
-// Tek Tıkla Materyal Üretme
+// Tek Tıkla Materyal Üretme (3. Katman)
 async function generateToolDoc(toolName, kategori) {
+    setPipelineStep(3);
     const ders = document.getElementById('inputDers').value.trim();
     const sinif = document.getElementById('inputSinif').value.trim();
     const kazanim = document.getElementById('inputKazanim').value.trim();
@@ -948,7 +1079,7 @@ async function generateToolDoc(toolName, kategori) {
 
     docTitle.innerHTML = `<i class="fa-solid fa-spinner spin"></i> Yapay Zekâ "${toolName}" Materyalini Hazırlıyor...`;
     outputHeader.textContent = `${toolName} Hazırlanıyor...`;
-    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> TYMM ve Maarif ilkeleri doğrultusunda öğrenci çalışma dokümanı ve öğretmen rubriği yazılıyor, lütfen bekleyiniz...</div>';
+    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> TYMM ve Maarif ilkeleri doğrultusunda öğrenci çalışma dokümanı, analitik rubrik ve kalite kontrol raporu yazılıyor, lütfen bekleyiniz...</div>';
     
     docSection.classList.remove('hidden');
     docSection.scrollIntoView({ behavior: 'smooth' });
@@ -998,8 +1129,9 @@ async function generateToolDoc(toolName, kategori) {
     }
 }
 
-// İkili Hibrit Paket Üretimi
+// İkili Hibrit Paket Üretimi (3. Katman)
 async function generateDualTools() {
+    setPipelineStep(3);
     const ders = document.getElementById('inputDers').value.trim();
     const sinif = document.getElementById('inputSinif').value.trim();
     const kazanim = document.getElementById('inputKazanim').value.trim();
@@ -1013,7 +1145,7 @@ async function generateDualTools() {
 
     docTitle.innerHTML = `<i class="fa-solid fa-spinner spin"></i> İkili Hibrit Ölçme Paketi (Birincil + İkincil Araç) Hazırlanıyor...`;
     outputHeader.textContent = `İkili Ölçme Paketi Hazırlanıyor...`;
-    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> Birincil derinleşme etkinliği, ikincil kazanım kontrol testi ve öğretmen rubriği yazılıyor...</div>';
+    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> Birincil derinleşme etkinliği, ikincil kazanım kontrol testi, analitik rubrik ve kalite kontrol raporu yazılıyor...</div>';
     
     docSection.classList.remove('hidden');
     docSection.scrollIntoView({ behavior: 'smooth' });
