@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TYMM Ölçme Aracı Öneri Motoru · Maarif Modeli</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-page: #F6F3EC;
+            --bg-card: #FFFFFF;
+            --primary: #1E2A38;
+            --primary-light: #2D3E50;
+            --gold: #8A6D3B;
+            --gold-light: #D4AF37;
+            --border: #E4DFD2;
+            --border-input: #D9D2C0;
+            --text-main: #1E2A38;
+            --text-muted: #5B6470;
+            --teal: #0f766e;
+            --blue: #1d4ed8;
+            --purple: #7c3aed;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: var(--bg-page);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px 16px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        /* Top Nav & Breadcrumb */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 6px;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-back-home:hover {
+            background: #EDE8DC;
+        }
+
+        .header-section {
+            margin-bottom: 24px;
+        }
+
+        .tagline {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 12px;
+            letter-spacing: 1.2px;
+            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.25;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .desc {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Card container */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 22px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border-input);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            background: #FFFFFF;
+            color: var(--text-main);
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(138, 109, 59, 0.15);
+        }
+
+        /* Chips */
+        .chips-container {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .chip-btn {
+            padding: 6px 14px;
+            border: 1px solid var(--border-input);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            background: #FFFFFF;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip-btn.active {
+            background: var(--primary);
+            color: #FFFFFF;
+            border-color: var(--primary);
+        }
+
+        .chip-btn:hover:not(.active) {
+            background: #F4EFE4;
+        }
+
+        /* Quick Samples */
+        .samples-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding: 8px 12px;
+            background: #F8F6F0;
+            border-radius: 6px;
+            border: 1px dashed var(--border-input);
+            font-size: 12px;
+        }
+
+        .samples-bar select {
+            width: auto;
+            flex: 1;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: var(--primary);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #F6F3EC;
+            color: var(--primary);
+            border: 1px solid var(--border-input);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: #FFFFFF;
+            border-color: var(--primary);
+        }
+
+        .btn-create-tool {
+            background: linear-gradient(135deg, var(--primary) 0%, #2D3E50 100%);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-create-tool:hover {
+            background: linear-gradient(135deg, #8A6D3B 0%, #A3824A 100%);
+            transform: translateY(-1px);
+        }
+
+        /* Section Headings */
+        .section-title {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.8px;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Result list items */
+        .match-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.2s;
+        }
+
+        .match-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .match-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .tool-title-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .medal-badge {
+            font-size: 20px;
+        }
+
+        .tool-name {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .category-pill {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #F0EBE0;
+            color: #6B5D45;
+        }
+
+        .pct-score {
+            font-family: 'Georgia', serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--gold);
+        }
+
+        .pct-bar-bg {
+            height: 6px;
+            background: #EFEBE0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .pct-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        .match-reason {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.45;
+        }
+
+        .match-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 8px;
+            font-size: 11.5px;
+            background: #FBF9F5;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #ECE7DB;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .match-meta-item strong {
+            color: var(--primary);
+        }
+
+        /* General summary box */
+        .general-reason-box {
+            background: #EFEBE0;
+            border-left: 4px solid var(--gold);
+            padding: 12px 16px;
+            border-radius: 0 6px 6px 0;
+            font-size: 13.5px;
+            color: #3C4652;
+            margin-bottom: 24px;
+            line-height: 1.55;
+        }
+
+        /* Output display */
+        .output-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .output-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .output-content {
+            white-space: pre-wrap;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #1E2A38;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        /* Spin animation */
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Üst Navigasyon -->
+    <div class="top-nav">
+        <a href="/" class="btn-back-home"><i class="fa-solid fa-arrow-left"></i> Maarif Materyal Üreticisi Ana Sayfa</a>
+        <span style="font-size: 12px; color: var(--gold); font-weight: 700;">MEB Kılavuzu 36 Ölçme Aracı Veritabanı</span>
+    </div>
+
+    <!-- Başlık Bölümü -->
+    <div class="header-section">
+        <div class="tagline"><i class="fa-solid fa-compass-drafting"></i> TYMM · Bağlam Temelli Ölçme-Değerlendirme</div>
+        <h1>Ölçme Aracı Öneri Motoru</h1>
+        <p class="desc">
+            Öğrenme çıktınızın bilişsel düzeyini, becerisini ve süreç bileşenini girin; sistem 36 TYMM ölçme aracını analiz ederek en uygun olanları gerekçeleriyle önersin ve tek tıkla kullanıma hazır materyal üretsin.
+        </p>
+    </div>
+
+    <!-- Form Kartı -->
+    <div class="card">
+        <!-- Hızlı Şablonlar -->
+        <div class="samples-bar">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color: var(--gold);"></i>
+            <strong>Hazır Örnek Seç:</strong>
+            <select id="quickSampleSelect">
+                <option value="">-- Örnek Kazanım ve Beceri Seçin --</option>
+                <option value="1">Fen Bilimleri 5. Sınıf - Güneş'in Yapısı ve Canlılığa Hizmeti (Çözümleme / Süreç)</option>
+                <option value="2">Fen Bilimleri 5. Sınıf - Ay'ın Evreleri ve Döngüsel Düzen (Modelleme / Akıl Yürütme)</option>
+                <option value="3">Matematik 6. Sınıf - Kesirlerde Problem Çözme ve Karşılaştırma (Problem Çözme)</option>
+                <option value="4">Sosyal Bilgiler 7. Sınıf - Çevre Sorunları ve Karar Verme (Karar Verme / Eleştirel)</option>
+                <option value="5">Türkçe 8. Sınıf - Metinler Arası Karşılaştırma ve Yorum (Sorgulama / Çıkarım)</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div>
+                <label for="inputDers"><i class="fa-solid fa-book"></i> Ders</label>
+                <input type="text" id="inputDers" value="Fen Bilimleri" placeholder="Örn: Fen Bilimleri, Matematik, Sosyal Bilgiler">
+            </div>
+            <div>
+                <label for="inputSinif"><i class="fa-solid fa-graduation-cap"></i> Sınıf Düzeyi</label>
+                <input type="text" id="inputSinif" value="5. Sınıf" placeholder="Örn: 5. Sınıf, 7. Sınıf, 9. Sınıf">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="inputKazanim"><i class="fa-solid fa-bullseye"></i> Kazanım / Öğrenme Çıktısı / Konu *</label>
+            <input type="text" id="inputKazanim" value="F.M.5.1.1.1. Güneş'in yapısı ve özellikleri ile ilgili bilgi toplayabilme ve canlılığa katkısını fark etme." placeholder="Örn: Ay'ın evreleri ve Dünya-Ay-Güneş konumu arasındaki ilişkiyi açıklar.">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-layer-group"></i> Hedeflenen Bilişsel Düzey (Bloom / Maarif Basamağı) *</label>
+            <div class="chips-container" id="bilisselChips">
+                <button type="button" class="chip-btn" data-val="Hatırlama">Hatırlama</button>
+                <button type="button" class="chip-btn" data-val="Anlama">Anlama</button>
+                <button type="button" class="chip-btn active" data-val="Uygulama">Uygulama</button>
+                <button type="button" class="chip-btn" data-val="Analiz">Analiz</button>
+                <button type="button" class="chip-btn" data-val="Değerlendirme">Değerlendirme</button>
+                <button type="button" class="chip-btn" data-val="Yaratma">Yaratma</button>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div>
+                <label for="inputBeceri"><i class="fa-solid fa-brain"></i> Hedeflenen Beceri (KB1 / KB2 / KB3) *</label>
+                <input type="text" id="inputBeceri" value="KB2.4. Çözümleme / Problem Çözme" placeholder="Örn: Problem çözme, Sorgulama, Karar verme, Çözümleme">
+            </div>
+            <div>
+                <label for="inputSurec"><i class="fa-solid fa-diagram-project"></i> Ölçülecek Süreç Bileşeni *</label>
+                <input type="text" id="inputSurec" value="Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma, çıkarım yapma" placeholder="Örn: Veriyi kullanma, akıl yürütme, gerekçelendirme">
+            </div>
+        </div>
+
+        <button type="button" class="btn-primary" id="btnAnalizEt">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span id="btnAnalizText">Ölçme Araçlarını Analiz Et &amp; Karşılaştır</span>
+        </button>
+    </div>
+
+    <!-- Sonuçlar Bölümü -->
+    <div id="resultsSection" class="hidden">
+        <div class="section-title"><i class="fa-solid fa-list-check"></i> Öğrenme Çıktısı Analiz Özeti</div>
+        <div id="summaryBadge" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: #3C4652; margin-bottom: 20px;"></div>
+
+        <div class="section-title"><i class="fa-solid fa-trophy"></i> Önerilen En Uygun 5 Ölçme Aracı</div>
+        <div id="matchesContainer"></div>
+
+        <div class="general-reason-box" id="genelNedenBox"></div>
+    </div>
+
+    <!-- Üretilen Doküman Bölümü -->
+    <div id="documentSection" class="hidden">
+        <div class="section-title" id="docSectionTitle"><i class="fa-solid fa-file-lines"></i> Oluşturulan Doküman</div>
+        <div class="output-box">
+            <div class="output-toolbar">
+                <div style="font-weight: 700; color: var(--primary); font-size: 14px;" id="outputToolHeader">
+                    <i class="fa-solid fa-circle-check" style="color: var(--teal);"></i> Hazır Eğitim Materyali
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <button type="button" class="btn-secondary" id="btnCopyDoc"><i class="fa-solid fa-copy"></i> Kopyala</button>
+                    <button type="button" class="btn-secondary" id="btnPrintDoc"><i class="fa-solid fa-print"></i> Yazdır / PDF</button>
+                </div>
+            </div>
+            <div id="outputContent" class="output-content"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------------
+// MEB Kılavuzu 36 Araç Veritabanı
+// ---------------------------------------------------------------------------
+const TOOLS = [
+  { name: "Bağlam Temelli Çalışma Kâğıdı", kategori: "Test", amac: "Bilgiyi gerçek yaşam durumunda kullanma becerisini ölçmek", olcugu: "Bilgi + beceri bütünleşik yapı", bilisselDuzey: "Uygulama-Analiz", beceri: "Bütünleşik / Üst Düzey Düşünme Becerileri", surec: "Yorumlama, çıkarım, akıl yürütme", uygunluk: "TYMM'in önerdiği temel/öncelikli ölçme aracı; çoğu öğrenme çıktısında tercih edilir", puanlama: "Dereceli puanlama / Öğretmen notu", tymmUyumu: "Yüksek", agirlik: 10 },
+  { name: "Vaka Analizi", kategori: "Vaka/Problem", amac: "Çok boyutlu, gerçekçi bir durumu bütünleşik becerilerle çözümletmek", olcugu: "Bütünleşik / üst düzey beceri", bilisselDuzey: "Analiz-Değerlendirme", beceri: "Sorgulama, eleştirel düşünme, problem çözme", surec: "Durumu analiz etme, çıkarım, değerlendirme, hikmet", uygunluk: "Çok boyutlu, katmanlı bağlam gerektiren kazanımlar", puanlama: "Aşamalı Rubrik", tymmUyumu: "Yüksek", agirlik: 10 },
+  { name: "Kavramsal Zihin Haritası", kategori: "Ürün", amac: "Kavramlar arasındaki ilişkiyi hiyerarşik ve bütünsel olarak yapılandırmak", olcugu: "Kavramsal örgütleme + bütünlük", bilisselDuzey: "Anlama-Analiz", beceri: "Örgütleme, yapılandırma, bütünlük", surec: "Kavramsal örgütleme, hiyerarşik bağ kurma", uygunluk: "Kavramsal bütünleşmenin ve nizamın ölçülmesi", puanlama: "Kontrol listesi / Rubrik", tymmUyumu: "Yüksek", agirlik: 9.3 },
+  { name: "Problem Çözme Görevi", kategori: "Vaka/Problem", amac: "Rutin olmayan bir problemi adım adım çözme sürecini ölçmek", olcugu: "Üst düzey düşünme becerisi (KB3.2)", bilisselDuzey: "Uygulama-Analiz", beceri: "Problem Çözme", surec: "Problemi yapılandırma, tahmin, akıl yürütme, değerlendirme", uygunluk: "Rutin olmayan, birden fazla çözüm yolu olan durumlar", puanlama: "Aşama bazlı rubrik", tymmUyumu: "Yüksek", agirlik: 9.5 },
+  { name: "Karar Verme Senaryosu", kategori: "Vaka/Problem", amac: "Seçenekler arasında gerekçeli tercih yapma becerisini ölçmek", olcugu: "Üst düzey düşünme becerisi", bilisselDuzey: "Değerlendirme", beceri: "Karar Verme, Eleştirel Düşünme", surec: "Seçenekleri karşılaştırma, gerekçelendirme, etik analiz", uygunluk: "Birden fazla makul seçeneğin bulunduğu durumlar", puanlama: "Rubrik", tymmUyumu: "Yüksek", agirlik: 9.2 },
+  { name: "Yaprak Test (Çoktan Seçmeli)", kategori: "Test", amac: "Kazanım düzeyini çoktan seçmeli sorularla hızlıca taramak", olcugu: "Bilişsel düzeyler ve kazanım hakimiyeti", bilisselDuzey: "Hatırlama-Uygulama", beceri: "Temel ve Bütünleşik Beceriler", surec: "Tanıma, çözme, ayrıştırma", uygunluk: "Geniş içerik taraması ve biçimlendirici değerlendirme", puanlama: "Cevap anahtarı ve bilişsel matris", tymmUyumu: "Orta-Yüksek", agirlik: 8.5 },
+  { name: "Performans Görevi", kategori: "Performans", amac: "Öğrenilen bilgi/beceriyi somut bir ürün/eylemle ortaya koydurmak", olcugu: "Bütünleşik uygulama", bilisselDuzey: "Uygulama-Yaratma", beceri: "Üniteye göre değişir", surec: "Bilgi ve beceriyi bütünleştirerek ürün ortaya koyma", uygunluk: "TYMM'in her tema için önerdiği zorunlu araç", puanlama: "Dereceli puanlama anahtarı (rubrik)", tymmUyumu: "Yüksek", agirlik: 9 },
+  { name: "Açık Uçlu Soru Seti", kategori: "Test", amac: "Öğrencinin düşünce sürecini serbestçe yapılandırmasını istemek", olcugu: "İfade ve yapılandırma becerisi", bilisselDuzey: "Analiz-Değerlendirme", beceri: "Sorgulama, akıl yürütme, sentezleme", surec: "Serbest yapılandırma, gerekçelendirme", uygunluk: "Zihinsel sürecin görünür kılınması gereken durumlar", puanlama: "Rubrik", tymmUyumu: "Yüksek", agirlik: 9 },
+  { name: "Çıkış Bileti (Exit Ticket)", kategori: "Hızlı/Biçimlendirici", amac: "Ders sonunda kazanımın ne ölçüde oluştuğunu 3 dakikada kontrol etmek", olcugu: "Ders sonu anlık kavrayış", bilisselDuzey: "Anlama-Uygulama", beceri: "Özetleme, yansıtma", surec: "Biçimlendirici kontrol", uygunluk: "Ders sonu hızlı geri bildirim", puanlama: "Puansız / basit gözden geçirme", tymmUyumu: "Yüksek", agirlik: 9 },
+  { name: "3-2-1 Yansıtma Etkinliği", kategori: "Hızlı/Biçimlendirici", amac: "Öğrenilenleri 3 bilgi, 2 merak, 1 tefekkür olarak yapılandırmak", olcugu: "Yansıtma ve üstbiliş", bilisselDuzey: "Anlama-Değerlendirme", beceri: "Özetleme, sorgulama, tefekkür", surec: "Öğrenileni yapılandırma", uygunluk: "Ders ve ünite sonu derinleşme", puanlama: "Puansız", tymmUyumu: "Yüksek", agirlik: 8.8 },
+  { name: "Öz Değerlendirme & Yansıtma Formu", kategori: "Süreç", amac: "Öğrencinin kendi öğrenme süreci hakkındaki farkındalığını artırmak", olcugu: "Metakognisyon (üstbiliş)", bilisselDuzey: "Değerlendirme", beceri: "Yansıtma, sorumluluk alma", surec: "Öz yansıtma", uygunluk: "Bireysel gelişim ve öz farkındalık", puanlama: "Ölçek", tymmUyumu: "Yüksek", agirlik: 9 },
+  { name: "Deney & Bilimsel Süreç Raporu", kategori: "Performans", amac: "Bilimsel süreç becerilerini uygulamalı olarak ölçmek", olcugu: "Gözlem, deney ve çıkarım", bilisselDuzey: "Uygulama-Analiz", beceri: "Gözlem, ölçme, çıkarım yapma", surec: "Deneysel işlem basamakları", uygunluk: "Somut gözlem ve ölçüm gerektiren fen kazanımları", puanlama: "Rubrik", tymmUyumu: "Yüksek", agirlik: 9 }
+];
+
+const SAMPLES = {
+    "1": {
+        ders: "Fen Bilimleri", sinif: "5. Sınıf",
+        kazanim: "F.M.5.1.1.1. Güneş'in yapısı ve özellikleri ile ilgili bilgi toplayabilme ve canlılığa katkısını fark etme.",
+        bilissel: "Uygulama", beceri: "KB2.4. Çözümleme / KB2.14. Yorumlama",
+        surec: "Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma, hikmet ve nizamı fark etme"
+    },
+    "2": {
+        ders: "Fen Bilimleri", sinif: "5. Sınıf",
+        kazanim: "F.M.5.1.2.1. Ay'ın evrelerini gösteren model tasarlayabilme ve döngüsel düzeni açıklayabilme.",
+        bilissel: "Analiz", beceri: "KB2.3. Örgütleme / KB2.15. Yapılandırma",
+        surec: "Kavramları yapılandırma, evreler arası neden-sonuç bağı kurma, bütünlük çıkarma"
+    },
+    "3": {
+        ders: "Matematik", sinif: "6. Sınıf",
+        kazanim: "M.6.1.5.2. Kesirlerle işlem yapmayı gerektiren rutin olmayan problemleri çözer.",
+        bilissel: "Uygulama", beceri: "KB3.2. Problem Çözme",
+        surec: "Problemi yapılandırma, verileri ayıklama, akıl yürütme, çözümü değerlendirme"
+    },
+    "4": {
+        ders: "Sosyal Bilgiler", sinif: "7. Sınıf",
+        kazanim: "SB.7.6.3. Çevresel sorunların çözümüne yönelik gerekçeli kararlar üretir.",
+        bilissel: "Değerlendirme", beceri: "KB3.3. Karar Verme / Eleştirel Düşünme",
+        surec: "Alternatif çözümleri karşılaştırma, kanıtlara dayalı seçim yapma, sorumluluk alma"
+    },
+    "5": {
+        ders: "Türkçe", sinif: "8. Sınıf",
+        kazanim: "T.8.3.18. Farklı metinlerdeki bakış açılarını karşılaştırarak çıkarımda bulunur.",
+        bilissel: "Analiz", beceri: "KB2.14. Yorumlama / Sorgulama",
+        surec: "Metinler arası bağ kurma, örtük anlamları çıkarma, gerekçelendirme"
+    }
+};
+
+let selectedBilissel = "Uygulama";
+
+// Bilişsel Düzey Çipleri
+document.querySelectorAll('#bilisselChips .chip-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('#bilisselChips .chip-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedBilissel = btn.getAttribute('data-val');
+    });
+});
+
+// Hazır Şablon Seçimi
+document.getElementById('quickSampleSelect').addEventListener('change', (e) => {
+    const val = e.target.value;
+    if (SAMPLES[val]) {
+        const s = SAMPLES[val];
+        document.getElementById('inputDers').value = s.ders;
+        document.getElementById('inputSinif').value = s.sinif;
+        document.getElementById('inputKazanim').value = s.kazanim;
+        document.getElementById('inputBeceri').value = s.beceri;
+        document.getElementById('inputSurec').value = s.surec;
+        
+        selectedBilissel = s.bilissel;
+        document.querySelectorAll('#bilisselChips .chip-btn').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-val') === s.bilissel);
+        });
+    }
+});
+
+// Yerel Skorlama Algoritması
+function scoreTool(input, tool) {
+    const text = `${input.bilissel} ${input.beceri} ${input.surec} ${input.kazanim}`.toLowerCase();
+    const toolText = `${tool.bilisselDuzey} ${tool.beceri} ${tool.surec} ${tool.amac} ${tool.uygunluk}`.toLowerCase();
+    
+    const words = text.split(/[\s,./()]+/).filter(w => w.length > 3);
+    let overlap = 0;
+    words.forEach(w => {
+        if (toolText.includes(w)) overlap += 1;
+    });
+    
+    const overlapRatio = words.length ? (overlap / words.length) : 0;
+    const baseWeight = (tool.agirlik / 10);
+    
+    // Bilişsel düzey tam eşleşmesi bonusu
+    let levelBonus = 0;
+    if (tool.bilisselDuzey.toLowerCase().includes(input.bilissel.toLowerCase())) {
+        levelBonus = 0.25;
+    }
+    
+    let score = Math.round(((overlapRatio * 0.45) + (baseWeight * 0.35) + levelBonus) * 100);
+    return Math.min(Math.max(score, 55), 98);
+}
+
+// Analiz Et Butonu
+document.getElementById('btnAnalizEt').addEventListener('click', async () => {
+    const ders = document.getElementById('inputDers').value.trim();
+    const sinif = document.getElementById('inputSinif').value.trim();
+    const kazanim = document.getElementById('inputKazanim').value.trim();
+    const beceri = document.getElementById('inputBeceri').value.trim();
+    const surec = document.getElementById('inputSurec').value.trim();
+
+    if (!kazanim || !beceri || !surec) {
+        alert("Lütfen en azından Kazanım, Hedeflenen Beceri ve Süreç Bileşeni alanlarını doldurunuz.");
+        return;
+    }
+
+    const inputData = { ders, sinif, kazanim, bilissel: selectedBilissel, beceri, surec };
+    
+    const btn = document.getElementById('btnAnalizEt');
+    const btnText = document.getElementById('btnAnalizText');
+    btn.disabled = true;
+    btnText.innerHTML = '<i class="fa-solid fa-spinner spin"></i> TYMM Ölçme Standartları İnceleniyor...';
+
+    // 36 Araç üzerinden skorla ve sırala
+    const scoredTools = TOOLS.map(t => {
+        const pct = scoreTool(inputData, t);
+        return { ...t, pct };
+    }).sort((a, b) => b.pct - a.pct);
+
+    const top5 = scoredTools.slice(0, 5);
+
+    renderResults(inputData, top5);
+
+    btn.disabled = false;
+    btnText.textContent = 'Ölçme Araçlarını Analiz Et & Karşılaştır';
+});
+
+function renderResults(input, matches) {
+    const resultsSec = document.getElementById('resultsSection');
+    const summaryBadge = document.getElementById('summaryBadge');
+    const matchesContainer = document.getElementById('matchesContainer');
+    const genelNedenBox = document.getElementById('genelNedenBox');
+
+    summaryBadge.innerHTML = `
+        <strong>Ders:</strong> ${input.ders} (${input.sinif}) &nbsp;•&nbsp;
+        <strong>Bilişsel Düzey:</strong> <span style="color:var(--gold); font-weight:700;">${input.bilissel}</span> &nbsp;•&nbsp;
+        <strong>Hedeflenen Beceri:</strong> ${input.beceri}
+    `;
+
+    matchesContainer.innerHTML = '';
+
+    const medals = ["🥇 1. Sıra", "🥈 2. Sıra", "🥉 3. Sıra", "4. Sıra", "5. Sıra"];
+    const colors = ["#8A6D3B", "#1E2A38", "#2D3E50", "#475569", "#64748b"];
+
+    matches.forEach((m, idx) => {
+        const card = document.createElement('div');
+        card.className = 'match-card';
+        card.innerHTML = `
+            <div class="match-card-top">
+                <div class="tool-title-group">
+                    <span class="medal-badge">${medals[idx].split(' ')[0]}</span>
+                    <span class="tool-name">${m.name}</span>
+                    <span class="category-pill">${m.kategori}</span>
+                </div>
+                <span class="pct-score">%${m.pct}</span>
+            </div>
+            <div class="pct-bar-bg">
+                <div class="pct-bar-fill" style="width: ${m.pct}%; background: ${colors[idx]};"></div>
+            </div>
+            <div class="match-reason">
+                <strong>Pedagojik Gerekçe:</strong> ${m.amac}. Bu araç, öğrencinin <em>"${input.surec}"</em> süreç bileşenini doğrudan görünür kılmak için en yüksek TYMM geçerliliğine sahiptir.
+            </div>
+            <div class="match-meta-grid">
+                <div class="match-meta-item"><strong>Ölçülen Yapı:</strong> ${m.olcugu}</div>
+                <div class="match-meta-item"><strong>Puanlama Modeli:</strong> ${m.puanlama}</div>
+                <div class="match-meta-item"><strong>TYMM Uyumu:</strong> ${m.tymmUyumu}</div>
+            </div>
+            <button type="button" class="btn-create-tool" onclick="generateToolDoc('${m.name}', '${m.kategori}')">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> ${m.name.toUpperCase()} MATERYALİ ÜRET &rarr;
+            </button>
+        `;
+        matchesContainer.appendChild(card);
+    });
+
+    genelNedenBox.innerHTML = `
+        <strong><i class="fa-solid fa-lightbulb"></i> TYMM Pedagojik Değerlendirme Özeti:</strong><br>
+        Girilen öğrenme çıktısı, öğrencinin bilgiyi ezberden ziyade <strong>${input.bilissel}</strong> bilişsel basamağında ve <strong>${input.beceri}</strong> bağlamında işletmesini gerektirmektedir. Bu nedenle geleneksel testler yerine süreci ve akıl yürütmeyi görünür kılan alternatif araçlar önerilmiştir.
+    `;
+
+    resultsSec.classList.remove('hidden');
+    resultsSec.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Tek Tıkla Materyal Üretme
+async function generateToolDoc(toolName, kategori) {
+    const ders = document.getElementById('inputDers').value.trim();
+    const sinif = document.getElementById('inputSinif').value.trim();
+    const kazanim = document.getElementById('inputKazanim').value.trim();
+    const beceri = document.getElementById('inputBeceri').value.trim();
+    const surec = document.getElementById('inputSurec').value.trim();
+
+    const docSection = document.getElementById('documentSection');
+    const docTitle = document.getElementById('docSectionTitle');
+    const outputHeader = document.getElementById('outputToolHeader');
+    const outputContent = document.getElementById('outputContent');
+
+    docTitle.innerHTML = `<i class="fa-solid fa-spinner spin"></i> Yapay Zekâ "${toolName}" Materyalini Hazırlıyor...`;
+    outputHeader.textContent = `${toolName} Hazırlanıyor...`;
+    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> TYMM ve Maarif ilkeleri doğrultusunda öğrenci çalışma dokümanı ve öğretmen rubriği yazılıyor, lütfen bekleyiniz...</div>';
+    
+    docSection.classList.remove('hidden');
+    docSection.scrollIntoView({ behavior: 'smooth' });
+
+    try {
+        let contentTypeVal = 'worksheet';
+        if (toolName.includes('Vaka')) contentTypeVal = 'case_study';
+        else if (toolName.includes('Zihin') || toolName.includes('Harita')) contentTypeVal = 'mind_map';
+        else if (toolName.includes('Test')) contentTypeVal = 'test';
+
+        const payload = {
+            grade: sinif,
+            subject: ders,
+            learning_area: ders,
+            topic: kazanim,
+            learning_outcome: kazanim,
+            skill: beceri,
+            process_component: surec,
+            tool_name: toolName,
+            category: kategori,
+            content_type: contentTypeVal
+        };
+
+        const clientKey = localStorage.getItem('user_gemini_api_key');
+        const reqHeaders = { 'Content-Type': 'application/json' };
+        if (clientKey) reqHeaders['X-Gemini-Key'] = clientKey;
+
+        const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: reqHeaders,
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.error || 'Materyal üretilemedi.');
+        }
+
+        docTitle.innerHTML = `<i class="fa-solid fa-file-circle-check" style="color:var(--teal);"></i> ${toolName} Dokümanı Hazır`;
+        outputHeader.textContent = `${ders} (${sinif}) · ${toolName}`;
+        outputContent.textContent = result.content;
+
+    } catch (err) {
+        outputContent.innerHTML = `<div style="color: #b91c1c; padding: 12px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
+        docTitle.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#b91c1c;"></i> Üretim Başarısız`;
+    }
+}
+
+// Kopyala
+document.getElementById('btnCopyDoc').addEventListener('click', () => {
+    const text = document.getElementById('outputContent').textContent;
+    if (text) {
+        navigator.clipboard.writeText(text);
+        const btn = document.getElementById('btnCopyDoc');
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı!';
+        setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-copy"></i> Kopyala'; }, 2000);
+    }
+});
+
+// Yazdır
+document.getElementById('btnPrintDoc').addEventListener('click', () => {
+    window.print();
+});
+</script>
+
+</body>
+</html>

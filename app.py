@@ -389,6 +389,11 @@ def build_mind_map_prompt(data: dict) -> tuple[str, str]:
 def index():
     return render_template('index.html')
 
+@app.route('/tymm_oneri_motoru.html')
+@app.route('/oneri-motoru')
+def oneri_motoru_view():
+    return render_template('tymm_oneri_motoru.html')
+
 @app.route('/calisma_kagidi_bankasi.html')
 def bankasi_view():
     base_dir = os.path.dirname(os.path.abspath(__file__))
