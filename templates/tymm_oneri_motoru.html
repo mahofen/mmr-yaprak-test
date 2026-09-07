@@ -692,6 +692,11 @@
         </div>
 
         <div class="form-group">
+            <label for="inputUnite"><i class="fa-solid fa-compass"></i> Ünite / Öğrenme Alanı *</label>
+            <input type="text" id="inputUnite" value="1. Ünite: Güneş, Dünya ve Ay (Dünya ve Evren)" placeholder="Örn: Güneş, Dünya ve Ay / Geometri / Çevre Sorunları">
+        </div>
+
+        <div class="form-group">
             <label for="inputKazanim"><i class="fa-solid fa-bullseye"></i> Kazanım / Öğrenme Çıktısı / Konu *</label>
             <input type="text" id="inputKazanim" value="F.M.5.1.1.1. Güneş'in yapısı ve özellikleri ile ilgili bilgi toplayabilme ve canlılığa katkısını fark etme." placeholder="Örn: Ay'ın evreleri ve Dünya-Ay-Güneş konumu arasındaki ilişkiyi açıklar.">
         </div>
@@ -710,12 +715,71 @@
 
         <div class="form-row">
             <div>
-                <label for="inputBeceri"><i class="fa-solid fa-brain"></i> Hedeflenen Beceri (KB1 / KB2 / KB3) *</label>
-                <input type="text" id="inputBeceri" value="KB2.4. Çözümleme / Problem Çözme" placeholder="Örn: Problem çözme, Sorgulama, Karar verme, Çözümleme">
+                <label for="inputBeceri"><i class="fa-solid fa-brain"></i> Hedeflenen Beceri (KB1 / KB2 / KB3)</label>
+                <input type="text" id="inputBeceri" value="KB2.4. Çözümleme / Problem Çözme" placeholder="Boş bırakılırsa yapay zekâ otomatik tahmin eder">
             </div>
             <div>
-                <label for="inputSurec"><i class="fa-solid fa-diagram-project"></i> Ölçülecek Süreç Bileşeni *</label>
-                <input type="text" id="inputSurec" value="Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma, çıkarım yapma" placeholder="Örn: Veriyi kullanma, akıl yürütme, gerekçelendirme">
+                <label for="inputSurec"><i class="fa-solid fa-diagram-project"></i> Ölçülecek Süreç Bileşeni</label>
+                <input type="text" id="inputSurec" value="Bilimsel verileri ayrıştırma, parçalar arası mantıksal ilişki kurma, çıkarım yapma" placeholder="Boş bırakılırsa yapay zekâ otomatik tahmin eder">
+            </div>
+        </div>
+
+        <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+            <div>
+                <label for="inputSoruSayisi"><i class="fa-solid fa-list-ol"></i> Soru / Görev Sayısı</label>
+                <select id="inputSoruSayisi">
+                    <option value="1">1 Kapsamlı Görev (Vaka/Zihin Haritası/Çalışma Kâğıdı)</option>
+                    <option value="3">3 Açık Uçlu Soru / Görev</option>
+                    <option value="4" selected>4 Soru (Bağlam Temelli / PISA)</option>
+                    <option value="6">6 Soru (Eşleştirme / Test)</option>
+                    <option value="8">8 Soru (Yaprak Test / D-Y)</option>
+                </select>
+            </div>
+            <div>
+                <label for="inputZorluk"><i class="fa-solid fa-gauge-high"></i> Zorluk Seviyesi</label>
+                <select id="inputZorluk">
+                    <option value="Kolay">Kolay (Temel Kavrama)</option>
+                    <option value="Orta" selected>Orta (TYMM Standart)</option>
+                    <option value="Zor / PISA-TIMSS İleri">Zor (PISA &amp; TIMSS İleri Düzey)</option>
+                </select>
+            </div>
+            <div>
+                <label for="inputSure"><i class="fa-solid fa-clock"></i> Tahmini Süre</label>
+                <select id="inputSure">
+                    <option value="15 Dakika">15 Dakika (Hızlı Kontrol)</option>
+                    <option value="20 Dakika">20 Dakika (Biçimlendirici)</option>
+                    <option value="30 Dakika">30 Dakika (Orta Ölçekli)</option>
+                    <option value="40 Dakika" selected>40 Dakika (1 Ders Saati)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 10px; background: #FAF8F2; padding: 10px 14px; border-radius: 6px; border: 1px dashed var(--gold);">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <div>
+                    <label style="margin: 0; color: var(--primary); font-size: 13px; font-weight: 700;">
+                        <i class="fa-solid fa-bolt" style="color: var(--gold);"></i> Doğrudan Ölçme Aracı Seç ve Üret:
+                    </label>
+                    <span style="font-size: 11.5px; color: var(--text-muted);">İsterseniz 8 temel araçtan birini doğrudan seçip 3. Katmanda üretebilirsiniz.</span>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                    <select id="selectDirektArac" style="width: auto; padding: 6px 10px; font-size: 12.5px; font-weight: 600;">
+                        <option value="worksheet">📄 TYMM 7 Bölümlü Çalışma Kâğıdı</option>
+                        <option value="context_test">🎯 Bağlam Temelli Çoktan Seçmeli Test (PISA)</option>
+                        <option value="case_study">🔬 Vaka Analizi &amp; Durum Çözümleme</option>
+                        <option value="problem_solving">🧩 Rutin Olmayan Problem Çözme Görevi</option>
+                        <option value="open_ended">✍️ Açık Uçlu Soru Seti &amp; Rubrik</option>
+                        <option value="concept_map">🌿 Kavram Haritası (Önerme Bağları)</option>
+                        <option value="mind_map">🧠 Kavramsal Zihin Haritası (Vahdet/Bütünlük)</option>
+                        <option value="test">📋 Yaprak Test (Klasik Çoktan Seçmeli)</option>
+                        <option value="true_false">⚖️ Doğru - Yanlış Testi</option>
+                        <option value="matching">🔗 İlişkisel Eşleştirme Testi</option>
+                        <option value="dual">📦 İkili Hibrit Ölçme Paketi</option>
+                    </select>
+                    <button type="button" class="btn-secondary" id="btnDirektUret" style="background: var(--primary); color: #fff; border-color: var(--primary); font-size: 12.5px; white-space: nowrap;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Doğrudan Üret
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -769,13 +833,16 @@
     <div id="documentSection" class="hidden">
         <div class="section-title" id="docSectionTitle"><i class="fa-solid fa-file-circle-check"></i> 3. Katman — Üretim Motoru: Hazır Materyal, Rubrik &amp; Kalite Kontrol Raporu</div>
         <div class="output-box">
-            <div class="output-toolbar">
-                <div style="font-weight: 700; color: var(--primary); font-size: 14px;" id="outputToolHeader">
+            <div class="output-toolbar" style="flex-wrap: wrap; gap: 8px;">
+                <div style="font-weight: 700; color: var(--primary); font-size: 14px; display: flex; align-items: center; gap: 6px;" id="outputToolHeader">
                     <i class="fa-solid fa-circle-check" style="color: var(--teal);"></i> Hazır Eğitim Materyali
                 </div>
-                <div style="display: flex; gap: 8px;">
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button type="button" class="btn-secondary" id="btnToggleEdit"><i class="fa-solid fa-pen-to-square"></i> Düzenle</button>
+                    <button type="button" class="btn-secondary" id="btnRefreshDoc" title="Aynı parametrelerle yeniden üret"><i class="fa-solid fa-rotate-right"></i> Yenile</button>
                     <button type="button" class="btn-secondary" id="btnCopyDoc"><i class="fa-solid fa-copy"></i> Kopyala</button>
                     <button type="button" class="btn-secondary" id="btnPrintDoc"><i class="fa-solid fa-print"></i> Yazdır / PDF</button>
+                    <button type="button" class="btn-secondary" id="btnSaveLocal" style="background: #FAF8F2; border-color: var(--gold); color: var(--gold);"><i class="fa-solid fa-bookmark"></i> Kaydet</button>
                 </div>
             </div>
             <div id="outputContent" class="output-content"></div>
@@ -1063,14 +1130,20 @@ function triggerAction(actionNum) {
     }
 }
 
+let lastGeneratedParams = null;
+
 // Tek Tıkla Materyal Üretme (3. Katman)
-async function generateToolDoc(toolName, kategori) {
+async function generateToolDoc(toolName, kategori, explicitContentType = null) {
     setPipelineStep(3);
     const ders = document.getElementById('inputDers').value.trim();
     const sinif = document.getElementById('inputSinif').value.trim();
+    const unite = document.getElementById('inputUnite') ? document.getElementById('inputUnite').value.trim() : ders;
     const kazanim = document.getElementById('inputKazanim').value.trim();
     const beceri = document.getElementById('inputBeceri').value.trim();
     const surec = document.getElementById('inputSurec').value.trim();
+    const soruSayisi = document.getElementById('inputSoruSayisi') ? document.getElementById('inputSoruSayisi').value : '4';
+    const zorluk = document.getElementById('inputZorluk') ? document.getElementById('inputZorluk').value : 'Orta';
+    const sure = document.getElementById('inputSure') ? document.getElementById('inputSure').value : '40 Dakika';
 
     const docSection = document.getElementById('documentSection');
     const docTitle = document.getElementById('docSectionTitle');
@@ -1085,19 +1158,35 @@ async function generateToolDoc(toolName, kategori) {
     docSection.scrollIntoView({ behavior: 'smooth' });
 
     try {
-        let contentTypeVal = 'worksheet';
-        if (toolName.includes('Vaka')) contentTypeVal = 'case_study';
-        else if (toolName.includes('Zihin') || toolName.includes('Harita')) contentTypeVal = 'mind_map';
-        else if (toolName.includes('Test')) contentTypeVal = 'test';
+        let contentTypeVal = explicitContentType || 'worksheet';
+        if (!explicitContentType) {
+            const lower = toolName.toLowerCase();
+            if (lower.includes('vaka')) contentTypeVal = 'case_study';
+            else if (lower.includes('problem')) contentTypeVal = 'problem_solving';
+            else if (lower.includes('bağlam') || lower.includes('pisa')) contentTypeVal = 'context_test';
+            else if (lower.includes('açık uçlu') || lower.includes('acik uclu')) contentTypeVal = 'open_ended';
+            else if (lower.includes('doğru') || lower.includes('dogru')) contentTypeVal = 'true_false';
+            else if (lower.includes('eşleştirme') || lower.includes('eslestirme')) contentTypeVal = 'matching';
+            else if (lower.includes('kavram haritası')) contentTypeVal = 'concept_map';
+            else if (lower.includes('zihin')) contentTypeVal = 'mind_map';
+            else if (lower.includes('yaprak') || lower.includes('test')) contentTypeVal = 'test';
+            else if (lower.includes('hibrit') || lower.includes('paket') || lower.includes('dual')) contentTypeVal = 'dual';
+        }
+
+        lastGeneratedParams = { toolName, kategori, contentTypeVal };
 
         const payload = {
             grade: sinif,
             subject: ders,
-            learning_area: ders,
+            learning_area: unite || ders,
             topic: kazanim,
             learning_outcome: kazanim,
             skill: beceri,
             process_component: surec,
+            cognitive_level: selectedBilissel,
+            question_count: soruSayisi,
+            difficulty: zorluk,
+            duration: sure,
             tool_name: toolName,
             category: kategori,
             content_type: contentTypeVal
@@ -1134,9 +1223,12 @@ async function generateDualTools() {
     setPipelineStep(3);
     const ders = document.getElementById('inputDers').value.trim();
     const sinif = document.getElementById('inputSinif').value.trim();
+    const unite = document.getElementById('inputUnite') ? document.getElementById('inputUnite').value.trim() : ders;
     const kazanim = document.getElementById('inputKazanim').value.trim();
     const beceri = document.getElementById('inputBeceri').value.trim();
     const surec = document.getElementById('inputSurec').value.trim();
+    const zorluk = document.getElementById('inputZorluk') ? document.getElementById('inputZorluk').value : 'Orta';
+    const sure = document.getElementById('inputSure') ? document.getElementById('inputSure').value : '40 Dakika';
 
     const docSection = document.getElementById('documentSection');
     const docTitle = document.getElementById('docSectionTitle');
@@ -1151,14 +1243,19 @@ async function generateDualTools() {
     docSection.scrollIntoView({ behavior: 'smooth' });
 
     try {
+        lastGeneratedParams = { toolName: 'İkili Hibrit Ölçme Paketi', kategori: 'Hibrit', contentTypeVal: 'dual' };
+
         const payload = {
             grade: sinif,
             subject: ders,
-            learning_area: ders,
+            learning_area: unite || ders,
             topic: kazanim,
             learning_outcome: kazanim,
             skill: beceri,
             process_component: surec,
+            cognitive_level: selectedBilissel,
+            difficulty: zorluk,
+            duration: sure,
             content_type: 'dual'
         };
 
@@ -1182,6 +1279,86 @@ async function generateDualTools() {
     } catch (err) {
         outputContent.innerHTML = `<div style="color: #b91c1c; padding: 12px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
     }
+}
+
+// Doğrudan Araç Seçip Üretme Butonu
+const btnDirektUret = document.getElementById('btnDirektUret');
+if (btnDirektUret) {
+    btnDirektUret.addEventListener('click', () => {
+        const selectEl = document.getElementById('selectDirektArac');
+        const toolType = selectEl.value;
+        const toolLabel = selectEl.options[selectEl.selectedIndex].text.replace(/^[^\s]+\s/, '');
+        generateToolDoc(toolLabel, 'Doğrudan Seçim', toolType);
+    });
+}
+
+// Düzenle Modu Değiştirici
+let isEditing = false;
+const btnToggleEdit = document.getElementById('btnToggleEdit');
+if (btnToggleEdit) {
+    btnToggleEdit.addEventListener('click', () => {
+        const outputContent = document.getElementById('outputContent');
+        isEditing = !isEditing;
+        outputContent.contentEditable = isEditing;
+        if (isEditing) {
+            outputContent.style.outline = '2px dashed var(--gold)';
+            outputContent.style.background = '#FFFFFA';
+            outputContent.style.padding = '12px';
+            outputContent.style.borderRadius = '6px';
+            btnToggleEdit.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Düzenlemeyi Bitir';
+            btnToggleEdit.style.background = '#FEF3C7';
+            btnToggleEdit.style.color = '#92400E';
+            outputContent.focus();
+        } else {
+            outputContent.style.outline = 'none';
+            outputContent.style.background = 'transparent';
+            outputContent.style.padding = '0';
+            btnToggleEdit.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Düzenle';
+            btnToggleEdit.style.background = '';
+            btnToggleEdit.style.color = '';
+        }
+    });
+}
+
+// Yeniden Üret Butonu
+const btnRefreshDoc = document.getElementById('btnRefreshDoc');
+if (btnRefreshDoc) {
+    btnRefreshDoc.addEventListener('click', () => {
+        if (lastGeneratedParams) {
+            generateToolDoc(lastGeneratedParams.toolName, lastGeneratedParams.kategori, lastGeneratedParams.contentTypeVal);
+        } else {
+            const selectEl = document.getElementById('selectDirektArac');
+            generateToolDoc(selectEl.options[selectEl.selectedIndex].text, 'Yenileme', selectEl.value);
+        }
+    });
+}
+
+// Yerel Tarayıcıya Kaydet Butonu
+const btnSaveLocal = document.getElementById('btnSaveLocal');
+if (btnSaveLocal) {
+    btnSaveLocal.addEventListener('click', () => {
+        const content = document.getElementById('outputContent').textContent;
+        if (!content || content.includes('Hazırlanıyor')) {
+            alert("Henüz kaydedilecek bir materyal üretilmedi.");
+            return;
+        }
+        const title = document.getElementById('outputToolHeader').textContent;
+        const item = {
+            id: 'tymm_' + Date.now(),
+            title: title,
+            date: new Date().toLocaleString('tr-TR'),
+            content: content
+        };
+        try {
+            const saved = JSON.parse(localStorage.getItem('tymm_saved_materials') || '[]');
+            saved.unshift(item);
+            localStorage.setItem('tymm_saved_materials', JSON.stringify(saved.slice(0, 30)));
+            btnSaveLocal.innerHTML = '<i class="fa-solid fa-check"></i> Kaydedildi!';
+            setTimeout(() => { btnSaveLocal.innerHTML = '<i class="fa-solid fa-bookmark"></i> Kaydet'; }, 2000);
+        } catch (e) {
+            alert("Kaydedilirken bir hata oluştu: " + e.message);
+        }
+    });
 }
 
 // Kopyala
