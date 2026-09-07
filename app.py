@@ -385,6 +385,129 @@ def build_mind_map_prompt(data: dict) -> tuple[str, str]:
 
     return system_instruction, user_prompt
 
+def build_ai_outcome_analysis_prompt(data):
+    grade = data.get('grade', '').strip() or '5. Sınıf'
+    subject = data.get('subject', '').strip() or 'Fen Bilimleri'
+    topic = data.get('topic', '').strip() or data.get('learning_outcome', '').strip()
+    learning_outcome = data.get('learning_outcome', '').strip() or topic
+    skill = data.get('skill', '').strip() or 'KB2.4. Çözümleme / Problem Çözme'
+    process_comp = data.get('process_component', '').strip() or 'Verileri ayrıştırma, akıl yürütme, çıkarım yapma ve nizamı fark etme'
+    cognitive_level = data.get('cognitive_level', '').strip() or 'Uygulama'
+
+    system_instruction = (
+        'Sen, Türkiye Yüzyılı Maarif Modeli (TYMM) yaklaşımına göre çalışan kıdemli bir Ölçme ve Değerlendirme Uzmanısın.\n'
+        'Görevin, öğretmenin girdiği öğrenme çıktısını derinlemesine analiz ederek bu öğrenme çıktısına en uygun ölçme ve değerlendirme araçlarını önermektir.\n\n'
+        'Öğrenme çıktısını yalnızca konu bilgisine göre değerlendirme. Öğrenme çıktısındaki eylem fiillerini, bilişsel düzeyi, beceriyi, süreç bileşenini, '
+        'beklenen öğrenme kanıtını ve öğrenciden beklenen performansı birlikte analiz et.\n\n'
+        'Aşağıdaki 9 ölçme aracını 0-100 puan üzerinden değerlendir:\n'
+        '* Yaprak Test\n'
+        '* Bağlam Temelli Çoktan Seçmeli Test\n'
+        '* Açık Uçlu Soru\n'
+        '* Doğru-Yanlış\n'
+        '* Eşleştirme\n'
+        '* Vaka Analizi\n'
+        '* Problem Çözme Görevi\n'
+        '* Kavram Haritası\n'
+        '* Zihin Haritası\n\n'
+        'ÇIKTIYI KESİNLİKLE ŞU BÖLÜM VE FORMATTA VER:\n'
+        '### 1. ÖĞRENME ÇIKTISI PEDAGOJİK ANALİZİ\n'
+        '1. Öğrenme çıktısı: ...\n'
+        '2. Ana eylem fiili: ...\n'
+        '3. Bilişsel düzey: ...\n'
+        '4. İçerik alanı: ...\n'
+        '5. Beceri: ...\n'
+        '6. Süreç bileşeni: ...\n'
+        '7. Öğrenciden beklenen davranış: ...\n'
+        '8. Oluşması beklenen öğrenme kanıtı: ...\n'
+        '9. Uygun ölçme yaklaşımı: ...\n'
+        '10. Ölçme aracının öğrencinin öğrenmesini ne ölçüde görünür kılabileceği: ...\n\n'
+        '### 2. TÜM ÖLÇME ARAÇLARI UYGUNLUK MATRİSİ (0–100)\n'
+        '| Ölçme Aracı | Uygunluk Puanı | TYMM Gerekçesi / Sınırlılığı |\n'
+        '| :--- | :---: | :--- |\n'
+        '(9 aracın hepsi için satırlar)\n\n'
+        '### 3. EN YÜKSEK PUANLI ÜÇ ÖLÇME ARACI ÖNERİSİ\n'
+        '#### 1. ARAÇ ADI: [Araç 1]\n'
+        '- UYGUNLUK PUANI: %[Puan]\n'
+        '- NEDEN ÖNERİLİYOR: ...\n'
+        '- ÖLÇEBİLECEĞİ KANIT: ...\n'
+        '- BİLİŞSEL DÜZEY UYUMU: ...\n'
+        '- BECERİ UYUMU: ...\n'
+        '- SÜREÇ BİLEŞENİ UYUMU: ...\n'
+        '- AVANTAJI: ...\n'
+        '- SINIRLILIĞI: ...\n\n'
+        '#### 2. ARAÇ ADI: [Araç 2]\n'
+        '- UYGUNLUK PUANI: %[Puan]\n'
+        '- NEDEN ÖNERİLİYOR: ...\n'
+        '- ÖLÇEBİLECEĞİ KANIT: ...\n'
+        '- BİLİŞSEL DÜZEY UYUMU: ...\n'
+        '- BECERİ UYUMU: ...\n'
+        '- SÜREÇ BİLEŞENİ UYUMU: ...\n'
+        '- AVANTAJI: ...\n'
+        '- SINIRLILIĞI: ...\n\n'
+        '#### 3. ARAÇ ADI: [Araç 3]\n'
+        '- UYGUNLUK PUANI: %[Puan]\n'
+        '- NEDEN ÖNERİLİYOR: ...\n'
+        '- ÖLÇEBİLECEĞİ KANIT: ...\n'
+        '- BİLİŞSEL DÜZEY UYUMU: ...\n'
+        '- BECERİ UYUMU: ...\n'
+        '- SÜREÇ BİLEŞENİ UYUMU: ...\n'
+        '- AVANTAJI: ...\n'
+        '- SINIRLILIĞI: ...\n\n'
+        '### 4. BİRİNCİL VE İKİNCİL ÖLÇME STRATEJİSİ\n'
+        'Birincil Araç ve İkincil Araç entegrasyonu ve pedagojik gerekçesi.\n\n'
+        '### 5. ÖĞRETMEN EYLEM SEÇENEKLERİ\n'
+        '[1] Bu ölçme aracını oluştur\n'
+        '[2] Başka bir ölçme aracı öner\n'
+        '[3] Tüm uygun araçları karşılaştır\n'
+        '[4] Aynı öğrenme çıktısı için iki farklı ölçme aracı oluştur'
+    )
+
+    user_prompt = (
+        f'Aşağıda verilen parametrelere göre öğrenme çıktısını derinlemesine analiz et ve TYMM ölçme araçları raporunu hazırla:\n\n'
+        f'Ders: {subject}\n'
+        f'Sınıf: {grade}\n'
+        f'Konu / Tema: {topic}\n'
+        f'Öğrenme Çıktısı (Kazanım): {learning_outcome}\n'
+        f'Hedeflenen Beceri: {skill}\n'
+        f'Süreç Bileşeni: {process_comp}\n'
+        f'Bilişsel Düzey: {cognitive_level}\n'
+    )
+
+    return system_instruction, user_prompt
+
+def build_dual_tools_prompt(data):
+    grade = data.get('grade', '').strip() or '5. Sınıf'
+    subject = data.get('subject', '').strip() or 'Fen Bilimleri'
+    topic = data.get('topic', '').strip()
+    learning_outcome = data.get('learning_outcome', '').strip()
+    skill = data.get('skill', '').strip() or 'KB2.4. Çözümleme / KB2.14. Yorumlama'
+    process_comp = data.get('process_component', '').strip() or 'Verileri ayrıştırma, akıl yürütme, nizam ve dengeyi fark etme'
+
+    system_instruction = (
+        'Sen, Türkiye Yüzyılı Maarif Modeli (TYMM) ve Muallimin Manevi Rehberi (MMR) yaklaşımında uzman bir öğretim tasarımcısısın.\n'
+        'GÖREVİN:\n'
+        'Aynı öğrenme çıktısı için birbirini tamamlayan İKİLİ ÖLÇME-DEĞERLENDİRME PAKETİ (Birincil + İkincil Araç) hazırlamaktır:\n\n'
+        '1. BÖLÜM: BİRİNCİL ÖLÇME ARACI (Vaka Analizi / Akıl Yürütme Çalışma Kâğıdı)\n'
+        '   - Gerçek yaşam bağlamı, veri tablosu, süreç analizi ve tefekkür/hikmet boyutunu içeren derinlemesine etkinlik.\n\n'
+        '2. BÖLÜM: İKİNCİL ÖLÇME ARACI (Bağlam Temelli 4 Soru veya Kavramsal Zihin Haritası)\n'
+        '   - Kazanım kontrolünü pekiştiren, hızlı biçimlendirici değerlendirme sağlayan bölüm.\n\n'
+        '3. BÖLÜM: ÖĞRETMEN DEĞERLENDİRME VE DERECELİ PUANLAMA RUBRİĞİ (3 Seviyeli: Başlangıç/Gelişmekte/Yeterli).\n'
+    )
+
+    user_prompt = (
+        f'Aşağıda verilen parametrelere göre eksiksiz bir İKİLİ ÖLÇME ARACI PAKETİ üret:\n\n'
+        f'Sınıf Seviyesi: {grade}\n'
+        f'Ders: {subject}\n'
+        f'Öğrenme Alanı / Ünite: {data.get("learning_area", subject)}\n'
+        f'Konu: {topic}\n'
+        f'Öğrenme Çıktısı (Kazanım): {learning_outcome}\n'
+        f'Hedeflenen Beceri: {skill}\n'
+        f'Süreç Bileşeni: {process_comp}\n'
+        f'Manevi Öğrenme Çıktısı (MMR): {data.get("manevi_outcome", "")}\n'
+    )
+
+    return system_instruction, user_prompt
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -540,6 +663,29 @@ def sample_units():
     units = load_mmr_unite_plani_units()
     return jsonify({'units': units})
 
+@app.route('/api/ai-analyze-outcome', methods=['POST'])
+def ai_analyze_outcome():
+    try:
+        data = request.get_json() or {}
+        learning_outcome = data.get('learning_outcome', '').strip() or data.get('topic', '').strip()
+        if not learning_outcome:
+            return jsonify({'success': False, 'error': 'Lütfen en az bir Öğrenme Çıktısı veya Konu giriniz.'}), 400
+
+        sys_inst, user_prompt = build_ai_outcome_analysis_prompt(data)
+        client_key = request.headers.get('X-Gemini-Key') or data.get('api_key')
+        analysis_text = call_gemini_api(sys_inst, user_prompt, client_key)
+
+        return jsonify({
+            'success': True,
+            'analysis': analysis_text
+        })
+    except ValueError as e:
+        logger.error(f'Validation/Key error in analysis: {str(e)}')
+        return jsonify({'success': False, 'error': str(e)}), 400
+    except Exception as e:
+        logger.error(f'AI Outcome Analysis error: {str(e)}')
+        return jsonify({'success': False, 'error': 'Yapay zekâ analizi sırasında bir sorun oluştu: ' + str(e)}), 500
+
 @app.route('/api/generate', methods=['POST'])
 def generate():
     try:
@@ -565,6 +711,8 @@ def generate():
             sys_inst, user_prompt = build_case_study_prompt(data)
         elif content_type == 'mind_map':
             sys_inst, user_prompt = build_mind_map_prompt(data)
+        elif content_type == 'dual':
+            sys_inst, user_prompt = build_dual_tools_prompt(data)
         else:
             sys_inst, user_prompt = build_worksheet_prompt(data)
 

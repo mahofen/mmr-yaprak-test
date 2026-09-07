@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TYMM Ölçme Aracı Öneri Motoru · Maarif Modeli</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
             --bg-page: #F6F3EC;
@@ -38,11 +39,11 @@
         }
 
         .container {
-            max-width: 860px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        /* Top Nav & Breadcrumb */
+        /* Top Nav */
         .top-nav {
             display: flex;
             justify-content: space-between;
@@ -199,33 +200,53 @@
             font-size: 12px;
         }
 
-        /* Buttons */
-        .btn-primary {
+        /* Buttons Grid */
+        .action-buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .btn-ai-analyze {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            width: 100%;
-            background: var(--primary);
+            background: linear-gradient(135deg, #1E2A38 0%, #0f172a 100%);
+            border: 1.5px solid #38bdf8;
             color: #FFFFFF;
-            border: none;
             border-radius: 6px;
-            padding: 12px 20px;
+            padding: 12px 18px;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .btn-primary:hover {
-            background: var(--primary-light);
+        .btn-ai-analyze:hover {
             transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25);
         }
 
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .btn-fast-analyze {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #FFFFFF;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+            border-radius: 6px;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-fast-analyze:hover {
+            background: #F0ECE1;
         }
 
         .btn-secondary {
@@ -267,6 +288,48 @@
         .btn-create-tool:hover {
             background: linear-gradient(135deg, #8A6D3B 0%, #A3824A 100%);
             transform: translateY(-1px);
+        }
+
+        /* Teacher Action Options Grid */
+        .teacher-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .btn-teacher-opt {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: #FFFFFF;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .btn-teacher-opt:hover {
+            background: #F8F5EE;
+            border-color: var(--gold);
+            transform: translateY(-1px);
+        }
+
+        .btn-teacher-opt.primary-opt {
+            background: linear-gradient(135deg, #1E2A38, #2D3E50);
+            color: #FFFFFF;
+            border-color: var(--primary);
+        }
+
+        .btn-teacher-opt.primary-opt:hover {
+            background: linear-gradient(135deg, #8A6D3B, #A3824A);
         }
 
         /* Section Headings */
@@ -375,6 +438,56 @@
             color: var(--primary);
         }
 
+        /* AI Markdown Report Box */
+        .ai-report-box {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #1E2A38;
+            margin-bottom: 24px;
+        }
+
+        .ai-report-box h3 {
+            font-size: 16px;
+            color: var(--primary);
+            margin: 18px 0 10px 0;
+            border-bottom: 1.5px solid #F0EBE0;
+            padding-bottom: 6px;
+        }
+
+        .ai-report-box h4 {
+            font-size: 14.5px;
+            color: var(--gold);
+            margin: 12px 0 6px 0;
+        }
+
+        .ai-report-box table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+
+        .ai-report-box th, .ai-report-box td {
+            border: 1px solid #E4DFD2;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .ai-report-box th {
+            background: #F8F5EE;
+            font-weight: 700;
+        }
+
+        .ai-report-box ul, .ai-report-box ol {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+
         /* General summary box */
         .general-reason-box {
             background: #EFEBE0;
@@ -416,7 +529,6 @@
             padding-right: 8px;
         }
 
-        /* Spin animation */
         .spin {
             animation: spin 1s linear infinite;
         }
@@ -427,8 +539,10 @@
 
         .hidden { display: none !important; }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             .form-row { grid-template-columns: 1fr; }
+            .action-buttons-grid { grid-template-columns: 1fr; }
+            .teacher-options-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -438,15 +552,15 @@
     <!-- Üst Navigasyon -->
     <div class="top-nav">
         <a href="/" class="btn-back-home"><i class="fa-solid fa-arrow-left"></i> Maarif Materyal Üreticisi Ana Sayfa</a>
-        <span style="font-size: 12px; color: var(--gold); font-weight: 700;">MEB Kılavuzu 36 Ölçme Aracı Veritabanı</span>
+        <span style="font-size: 12px; color: var(--gold); font-weight: 700;">MEB Kılavuzu &amp; TYMM Ölçme Uzmanı</span>
     </div>
 
     <!-- Başlık Bölümü -->
     <div class="header-section">
-        <div class="tagline"><i class="fa-solid fa-compass-drafting"></i> TYMM · Bağlam Temelli Ölçme-Değerlendirme</div>
-        <h1>Ölçme Aracı Öneri Motoru</h1>
+        <div class="tagline"><i class="fa-solid fa-compass-drafting"></i> TYMM · Yapay Zekâ Destekli Ölçme ve Değerlendirme Uzmanı</div>
+        <h1>Ölçme Aracı Öneri ve Analiz Motoru</h1>
         <p class="desc">
-            Öğrenme çıktınızın bilişsel düzeyini, becerisini ve süreç bileşenini girin; sistem 36 TYMM ölçme aracını analiz ederek en uygun olanları gerekçeleriyle önersin ve tek tıkla kullanıma hazır materyal üretsin.
+            Öğrenme çıktısının eylem fiillerini, bilişsel düzeyini, hedeflenen becerisini, süreç bileşenini ve beklenen öğrenme kanıtını birlikte analiz eder; en uygun araçları gerekçeleriyle önerir ve doğrudan kullanıma hazır materyal üretir.
         </p>
     </div>
 
@@ -459,7 +573,7 @@
             <select id="quickSampleSelect">
                 <option value="">-- Örnek Kazanım ve Beceri Seçin --</option>
                 <option value="1">Fen Bilimleri 5. Sınıf - Güneş'in Yapısı ve Canlılığa Hizmeti (Çözümleme / Süreç)</option>
-                <option value="2">Fen Bilimleri 5. Sınıf - Ay'ın Evreleri ve Döngüsel Düzen (Modelleme / Akıl Yürütme)</option>
+                <option value="2">Fen Bilimleri 5. Sınıf - Ay'ın Evreleri ve Döngüsel Düzen (Örgütleme / Yapılandırma)</option>
                 <option value="3">Matematik 6. Sınıf - Kesirlerde Problem Çözme ve Karşılaştırma (Problem Çözme)</option>
                 <option value="4">Sosyal Bilgiler 7. Sınıf - Çevre Sorunları ve Karar Verme (Karar Verme / Eleştirel)</option>
                 <option value="5">Türkçe 8. Sınıf - Metinler Arası Karşılaştırma ve Yorum (Sorgulama / Çıkarım)</option>
@@ -505,13 +619,42 @@
             </div>
         </div>
 
-        <button type="button" class="btn-primary" id="btnAnalizEt">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span id="btnAnalizText">Ölçme Araçlarını Analiz Et &amp; Karşılaştır</span>
-        </button>
+        <div class="action-buttons-grid">
+            <button type="button" class="btn-ai-analyze" id="btnAiAnaliz">
+                <i class="fa-solid fa-brain"></i>
+                <span id="btnAiText">🧠 Yapay Zekâ TYMM Uzman Analizi</span>
+            </button>
+            <button type="button" class="btn-fast-analyze" id="btnFastAnaliz">
+                <i class="fa-solid fa-bolt"></i>
+                <span id="btnFastText">⚡ Hızlı Araç Eşleştirme</span>
+            </button>
+        </div>
     </div>
 
-    <!-- Sonuçlar Bölümü -->
+    <!-- Yapay Zekâ Derin Rapor Alanı -->
+    <div id="aiReportSection" class="hidden">
+        <div class="section-title"><i class="fa-solid fa-graduation-cap"></i> TYMM Ölçme ve Değerlendirme Uzman Raporu</div>
+        <div class="ai-report-box" id="aiReportContent"></div>
+        
+        <!-- 4 Seçenek Butonları -->
+        <div class="section-title"><i class="fa-solid fa-sliders"></i> Öğretmen Eylem Seçenekleri</div>
+        <div class="teacher-options-grid">
+            <button type="button" class="btn-teacher-opt primary-opt" onclick="triggerAction(1)">
+                <span>[1]</span> 🛠️ 1. Önerilen Ölçme Aracını Oluştur
+            </button>
+            <button type="button" class="btn-teacher-opt" onclick="triggerAction(2)">
+                <span>[2]</span> 🔄 2. veya 3. Alternatif Aracı Oluştur
+            </button>
+            <button type="button" class="btn-teacher-opt" onclick="triggerAction(3)">
+                <span>[3]</span> 📊 Tüm 9 Ölçme Aracını Karşılaştır
+            </button>
+            <button type="button" class="btn-teacher-opt" onclick="triggerAction(4)">
+                <span>[4]</span> 📦 İkili Hibrit Paket Oluştur (Birincil + İkincil)
+            </button>
+        </div>
+    </div>
+
+    <!-- Hızlı Eşleştirme Sonuçları Bölümü -->
     <div id="resultsSection" class="hidden">
         <div class="section-title"><i class="fa-solid fa-list-check"></i> Öğrenme Çıktısı Analiz Özeti</div>
         <div id="summaryBadge" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; color: #3C4652; margin-bottom: 20px;"></div>
@@ -541,22 +684,16 @@
 </div>
 
 <script>
-// ---------------------------------------------------------------------------
-// MEB Kılavuzu 36 Araç Veritabanı
-// ---------------------------------------------------------------------------
 const TOOLS = [
-  { name: "Bağlam Temelli Çalışma Kâğıdı", kategori: "Test", amac: "Bilgiyi gerçek yaşam durumunda kullanma becerisini ölçmek", olcugu: "Bilgi + beceri bütünleşik yapı", bilisselDuzey: "Uygulama-Analiz", beceri: "Bütünleşik / Üst Düzey Düşünme Becerileri", surec: "Yorumlama, çıkarım, akıl yürütme", uygunluk: "TYMM'in önerdiği temel/öncelikli ölçme aracı; çoğu öğrenme çıktısında tercih edilir", puanlama: "Dereceli puanlama / Öğretmen notu", tymmUyumu: "Yüksek", agirlik: 10 },
+  { name: "Bağlam Temelli Çoktan Seçmeli Test", kategori: "Test", amac: "Bilgiyi gerçek yaşam durumunda kullanma becerisini ölçmek", olcugu: "Bilgi + beceri bütünleşik yapı", bilisselDuzey: "Uygulama-Analiz", beceri: "Bütünleşik / Üst Düzey Düşünme Becerileri", surec: "Yorumlama, çıkarım, akıl yürütme", uygunluk: "TYMM'in önerdiği temel/öncelikli ölçme aracı; çoğu öğrenme çıktısında tercih edilir", puanlama: "Dereceli puanlama / Cevap anahtarı", tymmUyumu: "Yüksek", agirlik: 10 },
   { name: "Vaka Analizi", kategori: "Vaka/Problem", amac: "Çok boyutlu, gerçekçi bir durumu bütünleşik becerilerle çözümletmek", olcugu: "Bütünleşik / üst düzey beceri", bilisselDuzey: "Analiz-Değerlendirme", beceri: "Sorgulama, eleştirel düşünme, problem çözme", surec: "Durumu analiz etme, çıkarım, değerlendirme, hikmet", uygunluk: "Çok boyutlu, katmanlı bağlam gerektiren kazanımlar", puanlama: "Aşamalı Rubrik", tymmUyumu: "Yüksek", agirlik: 10 },
   { name: "Kavramsal Zihin Haritası", kategori: "Ürün", amac: "Kavramlar arasındaki ilişkiyi hiyerarşik ve bütünsel olarak yapılandırmak", olcugu: "Kavramsal örgütleme + bütünlük", bilisselDuzey: "Anlama-Analiz", beceri: "Örgütleme, yapılandırma, bütünlük", surec: "Kavramsal örgütleme, hiyerarşik bağ kurma", uygunluk: "Kavramsal bütünleşmenin ve nizamın ölçülmesi", puanlama: "Kontrol listesi / Rubrik", tymmUyumu: "Yüksek", agirlik: 9.3 },
   { name: "Problem Çözme Görevi", kategori: "Vaka/Problem", amac: "Rutin olmayan bir problemi adım adım çözme sürecini ölçmek", olcugu: "Üst düzey düşünme becerisi (KB3.2)", bilisselDuzey: "Uygulama-Analiz", beceri: "Problem Çözme", surec: "Problemi yapılandırma, tahmin, akıl yürütme, değerlendirme", uygunluk: "Rutin olmayan, birden fazla çözüm yolu olan durumlar", puanlama: "Aşama bazlı rubrik", tymmUyumu: "Yüksek", agirlik: 9.5 },
-  { name: "Karar Verme Senaryosu", kategori: "Vaka/Problem", amac: "Seçenekler arasında gerekçeli tercih yapma becerisini ölçmek", olcugu: "Üst düzey düşünme becerisi", bilisselDuzey: "Değerlendirme", beceri: "Karar Verme, Eleştirel Düşünme", surec: "Seçenekleri karşılaştırma, gerekçelendirme, etik analiz", uygunluk: "Birden fazla makul seçeneğin bulunduğu durumlar", puanlama: "Rubrik", tymmUyumu: "Yüksek", agirlik: 9.2 },
-  { name: "Yaprak Test (Çoktan Seçmeli)", kategori: "Test", amac: "Kazanım düzeyini çoktan seçmeli sorularla hızlıca taramak", olcugu: "Bilişsel düzeyler ve kazanım hakimiyeti", bilisselDuzey: "Hatırlama-Uygulama", beceri: "Temel ve Bütünleşik Beceriler", surec: "Tanıma, çözme, ayrıştırma", uygunluk: "Geniş içerik taraması ve biçimlendirici değerlendirme", puanlama: "Cevap anahtarı ve bilişsel matris", tymmUyumu: "Orta-Yüksek", agirlik: 8.5 },
-  { name: "Performans Görevi", kategori: "Performans", amac: "Öğrenilen bilgi/beceriyi somut bir ürün/eylemle ortaya koydurmak", olcugu: "Bütünleşik uygulama", bilisselDuzey: "Uygulama-Yaratma", beceri: "Üniteye göre değişir", surec: "Bilgi ve beceriyi bütünleştirerek ürün ortaya koyma", uygunluk: "TYMM'in her tema için önerdiği zorunlu araç", puanlama: "Dereceli puanlama anahtarı (rubrik)", tymmUyumu: "Yüksek", agirlik: 9 },
   { name: "Açık Uçlu Soru Seti", kategori: "Test", amac: "Öğrencinin düşünce sürecini serbestçe yapılandırmasını istemek", olcugu: "İfade ve yapılandırma becerisi", bilisselDuzey: "Analiz-Değerlendirme", beceri: "Sorgulama, akıl yürütme, sentezleme", surec: "Serbest yapılandırma, gerekçelendirme", uygunluk: "Zihinsel sürecin görünür kılınması gereken durumlar", puanlama: "Rubrik", tymmUyumu: "Yüksek", agirlik: 9 },
-  { name: "Çıkış Bileti (Exit Ticket)", kategori: "Hızlı/Biçimlendirici", amac: "Ders sonunda kazanımın ne ölçüde oluştuğunu 3 dakikada kontrol etmek", olcugu: "Ders sonu anlık kavrayış", bilisselDuzey: "Anlama-Uygulama", beceri: "Özetleme, yansıtma", surec: "Biçimlendirici kontrol", uygunluk: "Ders sonu hızlı geri bildirim", puanlama: "Puansız / basit gözden geçirme", tymmUyumu: "Yüksek", agirlik: 9 },
-  { name: "3-2-1 Yansıtma Etkinliği", kategori: "Hızlı/Biçimlendirici", amac: "Öğrenilenleri 3 bilgi, 2 merak, 1 tefekkür olarak yapılandırmak", olcugu: "Yansıtma ve üstbiliş", bilisselDuzey: "Anlama-Değerlendirme", beceri: "Özetleme, sorgulama, tefekkür", surec: "Öğrenileni yapılandırma", uygunluk: "Ders ve ünite sonu derinleşme", puanlama: "Puansız", tymmUyumu: "Yüksek", agirlik: 8.8 },
-  { name: "Öz Değerlendirme & Yansıtma Formu", kategori: "Süreç", amac: "Öğrencinin kendi öğrenme süreci hakkındaki farkındalığını artırmak", olcugu: "Metakognisyon (üstbiliş)", bilisselDuzey: "Değerlendirme", beceri: "Yansıtma, sorumluluk alma", surec: "Öz yansıtma", uygunluk: "Bireysel gelişim ve öz farkındalık", puanlama: "Ölçek", tymmUyumu: "Yüksek", agirlik: 9 },
-  { name: "Deney & Bilimsel Süreç Raporu", kategori: "Performans", amac: "Bilimsel süreç becerilerini uygulamalı olarak ölçmek", olcugu: "Gözlem, deney ve çıkarım", bilisselDuzey: "Uygulama-Analiz", beceri: "Gözlem, ölçme, çıkarım yapma", surec: "Deneysel işlem basamakları", uygunluk: "Somut gözlem ve ölçüm gerektiren fen kazanımları", puanlama: "Rubrik", tymmUyumu: "Yüksek", agirlik: 9 }
+  { name: "Kavram Haritası", kategori: "Ürün", amac: "Kavramlar arasındaki önerme bağlarını doğrulamak", olcugu: "Kavramsal bağ kurma", bilisselDuzey: "Anlama-Analiz", beceri: "Sınıflandırma, ilişkilendirme", surec: "Kavramsal örgütleme", uygunluk: "Ön bilgileri ve kavram yanılgılarını belirleme", puanlama: "Rubrik", tymmUyumu: "Orta-Yüksek", agirlik: 8.8 },
+  { name: "Yaprak Test (Klasik)", kategori: "Test", amac: "Kazanım düzeyini hızlıca taramak", olcugu: "Temel bilgi hatırlama", bilisselDuzey: "Hatırlama-Anlama", beceri: "Temel Beceriler", surec: "Tanıma, hatırlama", uygunluk: "Ünite başı/sonu hızlı tarama", puanlama: "Cevap anahtarı", tymmUyumu: "Düşük-Orta", agirlik: 5 },
+  { name: "Eşleştirme", kategori: "Test", amac: "Kavram ve tanımları eşleştirmek", olcugu: "İlişkisel bilgi", bilisselDuzey: "Anlama", beceri: "Sınıflandırma", surec: "İlişkilendirme", uygunluk: "Kavram-tanım kontrolü", puanlama: "Cevap anahtarı", tymmUyumu: "Düşük", agirlik: 4.5 },
+  { name: "Doğru-Yanlış", kategori: "Test", amac: "Önermenin doğruluğunu kontrol etmek", olcugu: "Bilgi kontrolü", bilisselDuzey: "Hatırlama", beceri: "Temel Beceriler", surec: "Tanıma", uygunluk: "Hızlı ön kontrol", puanlama: "Cevap anahtarı", tymmUyumu: "Düşük", agirlik: 3 }
 ];
 
 const SAMPLES = {
@@ -593,6 +730,8 @@ const SAMPLES = {
 };
 
 let selectedBilissel = "Uygulama";
+let lastTopRecommended = "Vaka Analizi";
+let lastSecondaryRecommended = "Bağlam Temelli Çoktan Seçmeli Test";
 
 // Bilişsel Düzey Çipleri
 document.querySelectorAll('#bilisselChips .chip-btn').forEach(btn => {
@@ -621,65 +760,107 @@ document.getElementById('quickSampleSelect').addEventListener('change', (e) => {
     }
 });
 
-// Yerel Skorlama Algoritması
-function scoreTool(input, tool) {
-    const text = `${input.bilissel} ${input.beceri} ${input.surec} ${input.kazanim}`.toLowerCase();
-    const toolText = `${tool.bilisselDuzey} ${tool.beceri} ${tool.surec} ${tool.amac} ${tool.uygunluk}`.toLowerCase();
-    
-    const words = text.split(/[\s,./()]+/).filter(w => w.length > 3);
-    let overlap = 0;
-    words.forEach(w => {
-        if (toolText.includes(w)) overlap += 1;
-    });
-    
-    const overlapRatio = words.length ? (overlap / words.length) : 0;
-    const baseWeight = (tool.agirlik / 10);
-    
-    // Bilişsel düzey tam eşleşmesi bonusu
-    let levelBonus = 0;
-    if (tool.bilisselDuzey.toLowerCase().includes(input.bilissel.toLowerCase())) {
-        levelBonus = 0.25;
-    }
-    
-    let score = Math.round(((overlapRatio * 0.45) + (baseWeight * 0.35) + levelBonus) * 100);
-    return Math.min(Math.max(score, 55), 98);
-}
-
-// Analiz Et Butonu
-document.getElementById('btnAnalizEt').addEventListener('click', async () => {
+// 1. YAPAY ZEKÂ TYMM UZMAN ANALİZİ (GEMINI)
+document.getElementById('btnAiAnaliz').addEventListener('click', async () => {
     const ders = document.getElementById('inputDers').value.trim();
     const sinif = document.getElementById('inputSinif').value.trim();
     const kazanim = document.getElementById('inputKazanim').value.trim();
     const beceri = document.getElementById('inputBeceri').value.trim();
     const surec = document.getElementById('inputSurec').value.trim();
 
-    if (!kazanim || !beceri || !surec) {
-        alert("Lütfen en azından Kazanım, Hedeflenen Beceri ve Süreç Bileşeni alanlarını doldurunuz.");
+    if (!kazanim) {
+        alert("Lütfen en azından Kazanım / Öğrenme Çıktısı alanını doldurunuz.");
+        return;
+    }
+
+    const btn = document.getElementById('btnAiAnaliz');
+    const btnText = document.getElementById('btnAiText');
+    btn.disabled = true;
+    btnText.innerHTML = '<i class="fa-solid fa-spinner spin"></i> TYMM Uzmanı Analiz Ediyor...';
+
+    const aiReportSec = document.getElementById('aiReportSection');
+    const aiReportContent = document.getElementById('aiReportContent');
+    aiReportContent.innerHTML = '<div style="color: #64748b; padding: 20px;"><i class="fa-solid fa-spinner spin"></i> Öğrenme çıktısı, eylem fiilleri, bilişsel basamak ve 9 ölçme aracı yapay zekâ tarafından derinlemesine değerlendiriliyor...</div>';
+    aiReportSec.classList.remove('hidden');
+    aiReportSec.scrollIntoView({ behavior: 'smooth' });
+
+    try {
+        const payload = {
+            grade: sinif,
+            subject: ders,
+            topic: kazanim,
+            learning_outcome: kazanim,
+            skill: beceri,
+            process_component: surec,
+            cognitive_level: selectedBilissel
+        };
+
+        const clientKey = localStorage.getItem('user_gemini_api_key');
+        const reqHeaders = { 'Content-Type': 'application/json' };
+        if (clientKey) reqHeaders['X-Gemini-Key'] = clientKey;
+
+        const response = await fetch('/api/ai-analyze-outcome', {
+            method: 'POST',
+            headers: reqHeaders,
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+            throw new Error(result.error || 'Analiz raporu alınamadı.');
+        }
+
+        aiReportContent.innerHTML = marked.parse(result.analysis);
+
+        // Parse top recommendations from text
+        if (result.analysis.includes('Vaka Analizi')) {
+            lastTopRecommended = 'Vaka Analizi';
+            lastSecondaryRecommended = 'Bağlam Temelli Çoktan Seçmeli Test';
+        } else if (result.analysis.includes('Zihin Haritası')) {
+            lastTopRecommended = 'Kavramsal Zihin Haritası';
+            lastSecondaryRecommended = 'Bağlam Temelli Çoktan Seçmeli Test';
+        } else {
+            lastTopRecommended = 'Bağlam Temelli Çoktan Seçmeli Test';
+            lastSecondaryRecommended = 'Vaka Analizi';
+        }
+
+    } catch (err) {
+        aiReportContent.innerHTML = `<div style="color: #b91c1c; padding: 14px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
+    } finally {
+        btn.disabled = false;
+        btnText.innerHTML = '🧠 Yapay Zekâ TYMM Uzman Analizi';
+    }
+});
+
+// 2. HIZLI ARAÇ EŞLEŞTİRME
+document.getElementById('btnFastAnaliz').addEventListener('click', () => {
+    const ders = document.getElementById('inputDers').value.trim();
+    const sinif = document.getElementById('inputSinif').value.trim();
+    const kazanim = document.getElementById('inputKazanim').value.trim();
+    const beceri = document.getElementById('inputBeceri').value.trim();
+    const surec = document.getElementById('inputSurec').value.trim();
+
+    if (!kazanim) {
+        alert("Lütfen Kazanım alanını doldurunuz.");
         return;
     }
 
     const inputData = { ders, sinif, kazanim, bilissel: selectedBilissel, beceri, surec };
     
-    const btn = document.getElementById('btnAnalizEt');
-    const btnText = document.getElementById('btnAnalizText');
-    btn.disabled = true;
-    btnText.innerHTML = '<i class="fa-solid fa-spinner spin"></i> TYMM Ölçme Standartları İnceleniyor...';
-
-    // 36 Araç üzerinden skorla ve sırala
+    // Skorla
     const scoredTools = TOOLS.map(t => {
-        const pct = scoreTool(inputData, t);
-        return { ...t, pct };
+        let score = 70;
+        if (t.bilisselDuzey.includes(selectedBilissel)) score += 15;
+        if (beceri && t.beceri.toLowerCase().includes(beceri.toLowerCase())) score += 10;
+        score += Math.round(t.agirlik);
+        score = Math.min(Math.max(score, 50), 97);
+        return { ...t, pct: score };
     }).sort((a, b) => b.pct - a.pct);
 
-    const top5 = scoredTools.slice(0, 5);
-
-    renderResults(inputData, top5);
-
-    btn.disabled = false;
-    btnText.textContent = 'Ölçme Araçlarını Analiz Et & Karşılaştır';
+    renderFastResults(inputData, scoredTools.slice(0, 5));
 });
 
-function renderResults(input, matches) {
+function renderFastResults(input, matches) {
     const resultsSec = document.getElementById('resultsSection');
     const summaryBadge = document.getElementById('summaryBadge');
     const matchesContainer = document.getElementById('matchesContainer');
@@ -692,7 +873,6 @@ function renderResults(input, matches) {
     `;
 
     matchesContainer.innerHTML = '';
-
     const medals = ["🥇 1. Sıra", "🥈 2. Sıra", "🥉 3. Sıra", "4. Sıra", "5. Sıra"];
     const colors = ["#8A6D3B", "#1E2A38", "#2D3E50", "#475569", "#64748b"];
 
@@ -728,11 +908,24 @@ function renderResults(input, matches) {
 
     genelNedenBox.innerHTML = `
         <strong><i class="fa-solid fa-lightbulb"></i> TYMM Pedagojik Değerlendirme Özeti:</strong><br>
-        Girilen öğrenme çıktısı, öğrencinin bilgiyi ezberden ziyade <strong>${input.bilissel}</strong> bilişsel basamağında ve <strong>${input.beceri}</strong> bağlamında işletmesini gerektirmektedir. Bu nedenle geleneksel testler yerine süreci ve akıl yürütmeyi görünür kılan alternatif araçlar önerilmiştir.
+        Girilen öğrenme çıktısı, bilgiyi ezberden ziyade <strong>${input.bilissel}</strong> bilişsel basamağında ve <strong>${input.beceri}</strong> bağlamında işletmeyi gerektirir.
     `;
 
     resultsSec.classList.remove('hidden');
     resultsSec.scrollIntoView({ behavior: 'smooth' });
+}
+
+// 3. EYLEM SEÇENEKLERİ TETİKLEYİCİSİ [1], [2], [3], [4]
+function triggerAction(actionNum) {
+    if (actionNum === 1) {
+        generateToolDoc(lastTopRecommended, 'Vaka/Problem');
+    } else if (actionNum === 2) {
+        generateToolDoc(lastSecondaryRecommended, 'Test');
+    } else if (actionNum === 3) {
+        document.getElementById('btnFastAnaliz').click();
+    } else if (actionNum === 4) {
+        generateDualTools();
+    }
 }
 
 // Tek Tıkla Materyal Üretme
@@ -797,6 +990,60 @@ async function generateToolDoc(toolName, kategori) {
     } catch (err) {
         outputContent.innerHTML = `<div style="color: #b91c1c; padding: 12px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
         docTitle.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#b91c1c;"></i> Üretim Başarısız`;
+    }
+}
+
+// İkili Hibrit Paket Üretimi
+async function generateDualTools() {
+    const ders = document.getElementById('inputDers').value.trim();
+    const sinif = document.getElementById('inputSinif').value.trim();
+    const kazanim = document.getElementById('inputKazanim').value.trim();
+    const beceri = document.getElementById('inputBeceri').value.trim();
+    const surec = document.getElementById('inputSurec').value.trim();
+
+    const docSection = document.getElementById('documentSection');
+    const docTitle = document.getElementById('docSectionTitle');
+    const outputHeader = document.getElementById('outputToolHeader');
+    const outputContent = document.getElementById('outputContent');
+
+    docTitle.innerHTML = `<i class="fa-solid fa-spinner spin"></i> İkili Hibrit Ölçme Paketi (Birincil + İkincil Araç) Hazırlanıyor...`;
+    outputHeader.textContent = `İkili Ölçme Paketi Hazırlanıyor...`;
+    outputContent.innerHTML = '<div style="color: #64748b; padding: 20px 0;"><i class="fa-solid fa-spinner spin"></i> Birincil derinleşme etkinliği, ikincil kazanım kontrol testi ve öğretmen rubriği yazılıyor...</div>';
+    
+    docSection.classList.remove('hidden');
+    docSection.scrollIntoView({ behavior: 'smooth' });
+
+    try {
+        const payload = {
+            grade: sinif,
+            subject: ders,
+            learning_area: ders,
+            topic: kazanim,
+            learning_outcome: kazanim,
+            skill: beceri,
+            process_component: surec,
+            content_type: 'dual'
+        };
+
+        const clientKey = localStorage.getItem('user_gemini_api_key');
+        const reqHeaders = { 'Content-Type': 'application/json' };
+        if (clientKey) reqHeaders['X-Gemini-Key'] = clientKey;
+
+        const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: reqHeaders,
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.error || 'Paket üretilemedi.');
+
+        docTitle.innerHTML = `<i class="fa-solid fa-boxes-stacked" style="color:var(--teal);"></i> İkili Hibrit Ölçme Paketi Hazır`;
+        outputHeader.textContent = `${ders} (${sinif}) · İkili Hibrit Ölçme Paketi (Vaka + Test/Harita + Rubrik)`;
+        outputContent.textContent = result.content;
+
+    } catch (err) {
+        outputContent.innerHTML = `<div style="color: #b91c1c; padding: 12px; background: #fef2f2; border-radius: 6px;"><strong>Hata:</strong> ${err.message}</div>`;
     }
 }
 
